@@ -1,0 +1,12 @@
+.side-nav-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5;
+    cursor: pointer;
+}
+
+.side-nav-button:hover {
+    background-color: darkgoldenrod;
+    border-radius: 30%;
+}

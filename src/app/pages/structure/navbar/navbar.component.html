@@ -1,0 +1,142 @@
+<body class="sb-nav-fixed">
+<main>
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+        <a class="navbar-brand" href="index.html"><img src="assets/Logo.png" width="80%" height="120%" style="padding-top:10px"></a>
+        <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebar-toggle" href='#'><i class="fasfa-bars"></i></button>
+
+        <!-- Navbar Search -->
+        <form class="d-none md-inline-block form-inline  ml-auto mr-0 mr-md-3 my-2 my-md-0">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder='search for' aria-label="Search" area-describedby="basic-addon2">
+                <div class="input-group-append"><button class="btn btn-primary"><i class="fas fa-search"></i></button></div>
+            </div>
+        </form>
+
+        <!-- Navbar Start -->
+        <ul class="navbar-nav ml-auto ml-md-0">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="assets/id.jpg" style="border-radius: 50%;" width="50px"></a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labeledby="userDropdown">
+
+                        <a class="dropdown-item" href="#">Settings</a>
+                        <a class="dropdown-item" href="#">Activity log</a>
+
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#" routerLink="/login" routerLinkActive="active">Logout</a>
+                    </div>
+            </li>
+        </ul>
+        <!-- Navber End -->
+    </nav>
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordian sb-sidenav-dark" id="sidenavAccordian">
+                <div class="sb-sidenav-menu">
+                    <div class="nav">
+                        <div class="sb-sidenav-menu-heading">Core</div>
+                        <a class="nav-link" href="index.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i>dashboard</div>
+                        </a>
+
+                        <div class="sb-sidenav-menu-heading">Interface</div>
+                        <a class="nav-link collapsed" href="#" data-toggle='collapse' data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                            <div class="sb-nav-link-icon"><i class="fas fa-angle-down"></i></div>
+                        Home</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div col="col-xl-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-chart-area mr-1"></i>Weekly analysis
+                </div>
+                <div class="card-body">
+                    <img src="assets/Areachart.png" width="100%" height="280">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-chart-area mr-1"></i>Monthly report
+                </div>
+                <div class="card-body">
+                    <img src="assets/Barchart.png" width="100%" height="280">
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-chart-area mr-1"></i>Employee data
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-boardered" id="datatable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Position</th>
+                                <th>Office</th>
+                                <th>Age</th>
+                                <th>Start Date</th>
+                                <th>Salary</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Piyush</td>
+                                <td>Softare</td>
+                                <td>Gurgaon</td>
+                                <td>43</td>
+                                <td>2022-01-01</td>
+                                <td>232323</td>
+                            </tr>
+                            <tr>
+                                <td>Amit</td>
+                                <td>Data Analysis</td>
+                                <td>Gurgaon</td>
+                                <td>53</td>
+                                <td>2022-01-01</td>
+                                <td>132323</td>
+                            </tr>
+                            <tr>
+                                <td>Kim</td>
+                                <td>Softare</td>
+                                <td>Delhi</td>
+                                <td>63</td>
+                                <td>2022-01-01</td>
+                                <td>202323</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="py-4 bg-light mt-auto">
+    <div class="container-fluid">
+        <div class="d-flex align-items-center justify-content-between small">
+            <div class="text-muted">Copyright &copy; Bioxcel 2023
+            </div>
+            <a href="#">Privacy Policy</a> &middot;
+            <a href="#">Terms &amp; Conditions</a>
+        </div>
+    </div>
+</footer>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script src="js/scripts.js"></script>
+
+</body>

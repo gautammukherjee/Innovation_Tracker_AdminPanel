@@ -1,0 +1,54 @@
+.body-wrapper {
+    padding: 0px 40px 30px;
+    min-height: calc(100vh - 226px);
+    height: 100%;
+
+    @media (max-width:480px) {
+        padding: 0px 15px 15px;
+    }
+}
+
+app-header {
+    position: fixed;
+    width: 100%;
+    top: 0px;
+    height: 4rem;
+    z-index: 2;
+}
+
+main {
+    position: absolute;
+    width: 100%;
+    top: 3.5rem;
+    z-index: 1;
+}
+
+app-side-nav {
+    position: absolute;
+    left: 0rem;
+    width: 60px;
+    height: calc(100vh - 4rem);
+    box-shadow: 0px 0px 10px black;
+    background-color: black;
+    border-top: 1px solid white;
+    overflow-x: hidden;
+    white-space: nowrap;
+    transition: width 250ms ease-in;
+}
+
+.app-side-nav-open {
+    width: 250px;
+
+}
+
+.display-area {
+    position: absolute;
+    left: 50px;
+    width: calc(100% - 50px);
+    transition: left 250ms ease-in, width 250ms ease-in;
+}
+
+.display-area-shrink {
+    left: 250px;
+    width: calc(100% - 250px);
+}

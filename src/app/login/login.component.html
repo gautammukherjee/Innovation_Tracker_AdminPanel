@@ -1,0 +1,56 @@
+<div class="login-wrapper">
+    <div class="login-panel">
+        <div class="login-box"> 
+
+          
+          <div class="alert alert-danger" *ngIf="error=='true'">
+            {{errorMessage}}
+        </div>
+
+        
+          <!--<div class="alert alert-danger" *ngIf="errorMessage"><span class='p-3'>{{errorMessage}}</span></div>-->
+
+          <div class="loading-custom" *ngIf="loading"><span class="fa fa-spinner fa-spin"></span> &nbsp;Loading...</div>
+          <form method="post" #myForm="ngForm">
+                <h2>Admin Login</h2>
+                  <div class="mb-3">
+                    <!--<label for="email" class="form-label">Email</label>-->
+                    <input ngModel [ngClass]="{
+                      'form-control':true, 
+                      'is-invalid':!myForm.form.controls.email?.valid && myForm.form.controls.email?.touched,
+                      'is-valid': myForm.form.controls.email?.valid && myForm.form.controls.email?.touched}" required email type="email" name="email" id="email" placeholder="Email Address">
+                    <small id="emailHelp" class="form-text text-danger"
+                        *ngIf="myForm.form.controls.email?.errors?.required && myForm.form.controls.email?.touched">
+                        User email is required!
+                    </small>
+                    <small id="emailHelp" class="form-text text-danger"
+                        *ngIf="myForm.form.controls.email?.errors?.email && myForm.form.controls.email?.touched">
+                        Please enter correct email!
+                    </small>
+
+                  </div>
+                  
+                  <div class="mb-3">
+                    <!--<label for="password" class="form-label">Password</label>-->
+                        <input ngModel [ngClass]="{
+                          'form-control':true, 
+                          'is-invalid':!myForm.form.controls.pass?.valid && myForm.form.controls.pass?.touched,
+                          'is-valid': myForm.form.controls.pass?.valid && myForm.form.controls.pass?.touched
+                      }" required minlength="3" type="password" name="pass" id="pass" placeholder="Password">
+                      <small id="passHelp" class="form-text text-danger"
+                          *ngIf="myForm.form.controls.pass?.errors?.required && myForm.form.controls.pass?.touched">
+                          Password is required!
+                      </small>
+                      <small id="passHelp" class="form-text text-danger"
+                          *ngIf="myForm.form.controls.pass?.errors?.minlength && myForm.form.controls.pass?.touched">
+                          Minimum 3 characters required
+                      </small>
+                  </div>
+                  
+                  <div class="d-grid submit-btn">
+                    <button class="btn btn-primary" (click)="loginFrmSubmit(myForm)" [disabled]="!myForm.form.valid">Login</button>
+                  </div>
+            </form>
+        </div>
+    </div>
+</div>

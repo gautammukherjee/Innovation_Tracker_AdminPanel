@@ -30,9 +30,22 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "./src/assets/extrnalJs/fancybox/jquery.fancybox.css",
+              "./src/assets/extrnalJs/bootstraps/css/bootstrap.min.css",
+              "./src/assets/extrnalJs/bootstrap-table/bootstrap-table.min.css",
+              "./src/assets/extrnalJs/bootstrap-table/bootstrap-table.css",
+              "./src/assets/extrnalJs/jquery.qtip.min.css"
             ],
-            "scripts": []
+            "scripts": [
+              "./src/assets/extrnalJs/jquery.min.js",
+              "./src/assets/extrnalJs/popper.min.js",
+              "./src/assets/extrnalJs/bootstraps/js/bootstrap.min.js",
+              "./src/assets/extrnalJs/bootstrap-table/bootstrap-table.js",
+              "./src/assets/extrnalJs/bootstrap-table/extensions/export/bootstrap-table-export.js",
+              "./src/assets/extrnalJs/bootstrap-table/table-export.js",
+              "./src/assets/extrnalJs/jquery.qtip.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -100,5 +113,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }
