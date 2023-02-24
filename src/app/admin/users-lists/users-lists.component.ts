@@ -15,7 +15,6 @@ export class UsersListsComponent implements OnInit {
   result: any = [];
   userRecords: any = [];
   userRecordsDetails: any = [];
-  diseaseCheck: any;
 
   loading = false;
   params;
@@ -47,15 +46,6 @@ export class UsersListsComponent implements OnInit {
         });
 
         jQuery('#showUsersLists').bootstrapTable({
-          bProcessing: true,
-          bServerSide: true,
-          pagination: true,
-          showColumns: true,
-          pageSize: 25,
-          striped: true,
-          showFilter: true,
-          filter: true,
-          showExport: true,
           columns: [
             {}, {},
             {
@@ -69,18 +59,7 @@ export class UsersListsComponent implements OnInit {
           ],
           data: this.userRecordsDetails,
         });
-
         jQuery('#showUsersLists').bootstrapTable("load", this.userRecordsDetails);
-
-        jQuery('#showUsersLists').on("search.bs.table", function () {
-          jQuery('#showUsersLists').bootstrapTable("load", this.userRecordsDetails);
-        })
-          .on("search.bs.table", function () {
-            jQuery('#showUsersLists').bootstrapTable("load", this.userRecordsDetails);
-          })
-          .on("page-change.bs.table", function () {
-            jQuery('#showUsersLists').bootstrapTable("load", this.userRecordsDetails);
-          });
       },
       err => {
         console.log(err.message);

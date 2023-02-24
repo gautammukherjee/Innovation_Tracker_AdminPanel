@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import * as moment from "moment";
+import { Router } from '@angular/router';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -14,7 +15,9 @@ export class UsersService {
 
   private SERVER_URL: string = environment.SERVER_URL;
 
-  constructor(private _http: HttpClient) { }
+  constructor(private _http: HttpClient, private router: Router) {
+    // console.log("user: ", sessionStorage.getItem('currentUser'));
+  }
 
   doLogin(params: any): Observable<any> {
     return this._http.post<any>(this.SERVER_URL + 'login', params, httpOptions);
@@ -40,8 +43,9 @@ export class UsersService {
 
   logout() {
     sessionStorage.removeItem('currentUser');
-    localStorage.removeItem("id_token");
-    localStorage.removeItem("expires_at");
+    localStorage.removeItem('id_token');
+    localStorage.removeItem('expires_at');
+    this.router.navigate(['login']);
   }
 
   getExpiration() {

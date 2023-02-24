@@ -1,0 +1,27 @@
+<div class="card mb-3">
+  <div class="loading-custom" *ngIf="loading"><span class="fa fa-spinner fa-spin"></span>&nbsp;Loading...
+  </div>
+  <div class="card-header">
+    <h6>User Lists</h6>
+  </div>
+  
+  <div class="card-panel-box-detail">
+    <div class="customTable">
+        <div class="table-responsive custom-fixed-header-table" style="max-height:600px">
+            <table id="showUsersLists" class="table" data-toolbar="#toolbar" data-search="true"
+                data-show-export="true" data-show-columns="true" data-page-size="50"
+                data-page-list="[10, 25, 50, 100, All]">
+                <thead style="background-color: #32404e; color: #fff;">
+                    <tr>
+                        <th data-field="name" data-sortable="true" width="20%">Name</th>
+                        <th data-field="email" data-sortable="true" class="nowrap" width="20%">Email</th>
+                        <th data-field="created_at" data-sortable="true" width="15%">Created At</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+  </div>
+
+</div>
+      

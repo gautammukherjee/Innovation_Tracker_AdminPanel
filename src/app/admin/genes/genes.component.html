@@ -1,0 +1,124 @@
+<div class="card mb-3">    
+    <div class="card-header">
+      <h6>Genes Lists</h6>
+    </div>
+
+    <div class="panel panel-primary">
+        <div class="panel-body">
+            <br/>
+            <div class="row">
+                <div class="col-lg-12">
+                    <button class="btn btn-success" type="button" data-bs-toggle="modal" (click)="addGenes($event,addFormGeneModal);">Add Genes</button>
+                </div>
+            </div><br />
+
+            <div class="loading-custom" *ngIf="loading"><span class="fa fa-spinner fa-spin"></span>&nbsp;Loading...</div>
+            <div class="loading-custom" *ngIf="loadingDelete"><span class="fa fa-spinner fa-spin"></span>&nbsp;Loading...</div>
+
+            <div class="card-panel-box-detail">
+                <div class="customTable">
+                    <div class="table-responsive custom-fixed-header-table" style="max-height:600px">
+                        <table id="showGenesLists" class="table" data-toolbar="#toolbar" data-search="true"
+                            data-show-export="true" data-show-columns="true" data-page-size="50"
+                            data-pagination="true"  data-page-list="[10, 25, 50, 100, All]" data-detail-formatter="detailFormatter">
+                            <thead style="background-color: #32404e; color: #fff;">
+                                <tr>
+                                    <th data-field="id" data-sortable="true" width="25%">ID</th>
+                                    <th data-field="name" data-sortable="true" width="25%">Name</th>
+                                    <th data-field="symbol" data-sortable="true" class="nowrap" width="25%">Symbol</th>
+                                    <th data-field="created_at" data-sortable="true" width="25%">Created At</th>
+                                    <th data-field="edit" width="25%">Edit</th>
+                                    <th data-field="delete" width="25%">Delete</th>
+                                </tr>
+                            </thead>
+                            <!--<tbody>
+                                <tr *ngFor="let genesRecordsDetail of genesRecordsDetails">
+                                    <td>{{genesRecordsDetail.name}}</td>
+                                    <td>{{genesRecordsDetail.symbol}}</td>
+                                    <td>{{genesRecordsDetail.created_at}}</td>
+                                    <td><button class="btn btn-sm btn-success">Edit</button></td>
+                                </tr>
+                            </tbody>-->
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+<ng-template #addFormGeneModal let-c="close" let-d="dismiss">
+  <div class="loading-custom-add" *ngIf="loadingEdit"><span class="fa fa-spinner fa-spin"></span>&nbsp;Loading...</div>
+  <div class="loading-custom-add" *ngIf="loadingAdd"><span class="fa fa-spinner fa-spin"></span>&nbsp;Loading...</div>
+  <div class="modal-header modal-lg" style="background: #32404E !important;color:#fff;">
+      <h4 class="modal-title" *ngIf="showAdd">Add Genes</h4>
+      <h4 class="modal-title" *ngIf="showUpdate">Update Genes</h4>
+      &nbsp;
+      <button class="close" aria-label="Close" (click)="d('Cross click')">
+          <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+  <div class="modal-body white_bg without_bord_rad">  
+      <form #geneForm="ngForm" [formGroup]="formValue">
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Name</label>
+          <input type="text" formControlName="name" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+          <small id="passHelp" class="form-text text-danger"
+              *ngIf="geneForm.form.controls.name?.errors?.required && geneForm.form.controls.name?.touched">
+              Name is required!
+          </small>
+        </div>
+
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">Symbol</label>
+          <input type="text" formControlName="symbol" required class="form-control" id="exampleInputPassword1">
+          <small id="passHelp" class="form-text text-danger"
+              *ngIf="geneForm.form.controls.symbol?.errors?.required && geneForm.form.controls.symbol?.touched">
+              Symbol is required!
+          </small>
+        </div>
+        <button type="submit" class="btn btn-primary" *ngIf="showAdd" (click)="addGenesValues()" [disabled]="!geneForm.form.valid">Add</button>&nbsp;
+        <button type="submit" class="btn btn-primary" *ngIf="showUpdate" (click)="uodateGenesValues()" [disabled]="!geneForm.form.valid">Update</button>&nbsp;
+        <button type="submit" class="btn btn-danger" id="cancel" (click)="d('Cross click')">Close</button>
+      </form>
+  </div>
+</ng-template>
+
+
+<!-- Button trigger modal -->
+<!-- Modal -->
+<!--<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Launch demo modal
+</button>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Email address</label>
+              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+              <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Password</label>
+              <input type="password" class="form-control" id="exampleInputPassword1">
+            </div>
+            <div class="mb-3 form-check">
+              <input type="checkbox" class="form-check-input" id="exampleCheck1">
+              <label class="form-check-label" for="exampleCheck1">Check me out</label>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>-->

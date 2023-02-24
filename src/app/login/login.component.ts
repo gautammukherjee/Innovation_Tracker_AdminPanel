@@ -32,11 +32,11 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  loginFrmSubmit(myForm: any) {
+  loginFrmSubmit(loginForm: any) {
     this.loading = true;
     this.error = "false";
-    let userEmail = myForm.value.email;
-    let userPwd = myForm.value.pass;
+    let userEmail = loginForm.value.email;
+    let userPwd = loginForm.value.pass;
     this.userCredentials = { email: userEmail, password: userPwd };
 
     this.usersService.doLogin(this.userCredentials).subscribe( //3 Login
@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit {
         } else {
           if (this.result.success == true) {
             this.setSession(this.result.search['original']);
-            this._router.navigate(['/pages/dashboard'], { relativeTo: this._activatedRoute });
+            this._router.navigate(['/admin/users-lists'], { relativeTo: this._activatedRoute });
           }
         }
       },
@@ -78,7 +78,7 @@ export class LoginComponent implements OnInit {
   private setSession(authResult) {
     // const expiresAt = moment().add(authResult.expiresAt, authResult.expireTimeUnit);
     const expiresAt = moment().add(authResult.expires_in, authResult.expireTimeUnit);
-    sessionStorage.setItem('currentUser', JSON.stringify({ user_name: authResult.user.name, user_id: authResult.user.user_id, email: authResult.user.email }));
+    sessionStorage.setItem('currentUser', JSON.stringify({ user_name: authResult.user.name, user_id: authResult.user.user_id, user_type_id: authResult.user.user_type_id, email: authResult.user.email }));
     localStorage.setItem('id_token', authResult.access_token);
     localStorage.setItem('expires_at', JSON.stringify(expiresAt.valueOf()));
 

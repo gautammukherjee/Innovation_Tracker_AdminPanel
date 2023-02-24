@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // import { RouterModule } from '@angular/router';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -12,9 +12,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';
-import { HeaderComponent } from './pages/structure/header/header.component';
-import { SideNavComponent } from './pages/structure/side-nav/side-nav.component';
-import { MainLayoutComponent } from './pages/structure/main-layout/main-layout.component';
+import { HeaderComponent } from './admin/structure/header/header.component';
+import { SideNavComponent } from './admin/structure/side-nav/side-nav.component';
+import { MainLayoutComponent } from './admin/structure/main-layout/main-layout.component';
 import { TokenInterceptorService } from './services/token-interceptor.service';
 
 @NgModule({
@@ -35,7 +35,8 @@ import { TokenInterceptorService } from './services/token-interceptor.service';
     NgbModule,
     HttpClientModule,
     AutocompleteLibModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ReactiveFormsModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true }],
   bootstrap: [AppComponent]

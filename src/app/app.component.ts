@@ -34,15 +34,18 @@ export class AppComponent implements OnInit {
   constructor(private usersService: UsersService, private router: Router, private activatedRoute: ActivatedRoute, private titleService: Title, private location: Location) {
 
     this.user = JSON.parse(this.usersService.getCurrentUser());
-    console.log("idToken:: ", localStorage.getItem('id_token'));
+    // console.log("idToken:: ", localStorage.getItem('id_token'));
 
-    if (this.usersService.isLoggednIn() == true) {
-    }
-    else {
-      this.error = "true";
-      this.errorMessage = "Your session is expired..";
-      this.router.navigate(['login'], { queryParams: { error: this.error, errorMessage: this.errorMessage } }); // when user is not logged in app is redirected to login page 
-    }
+    // if (this.usersService.isLoggednIn() == true) {
+    // }
+    // else if (localStorage.getItem('id_token') == null) {
+    //   this.router.navigate(['login']);
+    // }
+    // else {
+    //   this.error = "true";
+    //   this.errorMessage = "Your session is expired..";
+    //   this.router.navigate(['login'], { queryParams: { error: this.error, errorMessage: this.errorMessage } }); // when user is not logged in app is redirected to login page 
+    // }
 
     // Start set title bar
     this.router.events.pipe(

@@ -31,20 +31,16 @@
             ],
             "styles": [
               "src/styles.scss",
-              "./src/assets/extrnalJs/fancybox/jquery.fancybox.css",
-              "./src/assets/extrnalJs/bootstraps/css/bootstrap.min.css",
-              "./src/assets/extrnalJs/bootstrap-table/bootstrap-table.min.css",
-              "./src/assets/extrnalJs/bootstrap-table/bootstrap-table.css",
-              "./src/assets/extrnalJs/jquery.qtip.min.css"
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "./node_modules/bootstrap-table/dist/bootstrap-table.min.css"
             ],
             "scripts": [
               "./src/assets/extrnalJs/jquery.min.js",
               "./src/assets/extrnalJs/popper.min.js",
               "./src/assets/extrnalJs/bootstraps/js/bootstrap.min.js",
-              "./src/assets/extrnalJs/bootstrap-table/bootstrap-table.js",
-              "./src/assets/extrnalJs/bootstrap-table/extensions/export/bootstrap-table-export.js",
               "./src/assets/extrnalJs/bootstrap-table/table-export.js",
-              "./src/assets/extrnalJs/jquery.qtip.min.js"
+              "./node_modules/bootstrap-table/dist/bootstrap-table.min.js",
+              "./node_modules/bootstrap-table/dist/extensions/export/bootstrap-table-export.min.js"
             ]
           },
           "configurations": {

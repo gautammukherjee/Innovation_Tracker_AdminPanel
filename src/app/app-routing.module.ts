@@ -20,8 +20,8 @@ const routes: Routes = [
     data: { title: 'Logout', animation: 'LogoutPage' }
   },
   {
-    path: 'pages',
-    loadChildren: () => import('./pages/pages.module').then(mod => mod.PagesModule),
+    path: 'admin',
+    loadChildren: () => import('./admin/admin.module').then(mod => mod.AdminModule),
     data: { preload: true }
   },
 ];
