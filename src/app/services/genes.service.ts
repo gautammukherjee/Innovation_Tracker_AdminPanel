@@ -32,13 +32,13 @@ export class GenesService {
   }
 
   updateGenes(data: any, id: number) {
-    return this._http.post<any>(this.SERVER_URL + 'updateGenes/' + id, data, httpOptions).pipe(map((res: any) => {
+    return this._http.put<any>(this.SERVER_URL + 'updateGenes/' + id, data, httpOptions).pipe(map((res: any) => {
       return res;
     }));
   }
 
   deleteGenes(id) {
-    return this._http.delete(this.SERVER_URL + 'deleteGenes/' + id, httpOptions).pipe(map((res: any) => {
+    return this._http.put(this.SERVER_URL + 'deleteGenes/' + id, httpOptions).pipe(map((res: any) => {
       //return res;
     }));
   }

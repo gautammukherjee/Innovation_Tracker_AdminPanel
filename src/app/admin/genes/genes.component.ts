@@ -87,13 +87,13 @@ export class GenesComponent implements OnInit {
           ],
           data: this.genesRecordsDetails,
           onClickRow: function (field, row, $element) {
-            console.log("field12: ", field);
+            // console.log("field12: ", field);
 
             //delete
             if ($element == "delete") {
               var result = confirm("are you want to delete this genes?");
               if (result) {
-                this.funDeleteGenes(field.id);
+                this.deleteGenes(field.id);
               }
             }
 
@@ -120,29 +120,18 @@ export class GenesComponent implements OnInit {
     );
   }
 
-  addGenes() {
+  addGenesPopup() {
     this.modalRef = this.modalService.open(this.addFormGeneModal_edit, { size: 'lg', keyboard: false, backdrop: 'static' });
     this.formValue.reset();
     this.showAdd = true;
     this.showUpdate = false;
   }
 
-  editGenes(row) {
-    console.log(row);
-    this.modalRef = this.modalService.open(this.addFormGeneModal_edit, { size: 'lg', keyboard: false, backdrop: 'static' });
-    this.formValue.reset();
-    this.showAdd = false;
-    this.showUpdate = true;
-    this.geneModelObj.gene_id = row.id;
-    this.formValue.controls['name'].setValue(row.name);
-    this.formValue.controls['symbol'].setValue(row.symbol);
-  }
-
   closePopup() {
     this.addFormGeneModal.close();
   }
 
-  addGenesValues() {
+  addGenesSubmit() {
     this.loadingAdd = true;
     this.geneModelObj.name = this.formValue.value.name;
     this.geneModelObj.symbol = this.formValue.value.symbol;
@@ -166,7 +155,7 @@ export class GenesComponent implements OnInit {
       );
   }
 
-  uodateGenesValues() {
+  updateGenesSubmit() {
     this.loadingEdit = true;
     this.geneModelObj.name = this.formValue.value.name;
     this.geneModelObj.symbol = this.formValue.value.symbol;
@@ -188,7 +177,7 @@ export class GenesComponent implements OnInit {
     );
   }
 
-  funDeleteGenes(event: any) {
+  deleteGenes(event: any) {
     console.log("event", event);
     this.loading = true;
     return this.genesService.deleteGenes(event).subscribe(res => {
