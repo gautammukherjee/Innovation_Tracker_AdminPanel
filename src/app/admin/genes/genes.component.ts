@@ -24,7 +24,7 @@ export class GenesComponent implements OnInit {
 
   loading = false;
   loadingAdd = false;
-  loadingDelete = false;
+
   loadingEdit = false;
 
   params;
@@ -82,31 +82,32 @@ export class GenesComponent implements OnInit {
                 return moment(value).format('DD-MM-YYYY');
               },
             },
-            {},
-            {}
+
+
           ],
           data: this.genesRecordsDetails,
-        });
+          onClickRow: function (field, row, $element) {
+            console.log("field12: ", field);
 
-        jQuery("#showGenesLists").on("click-cell.bs.table", function (e, field, value, row, $el) {
-          if (field == "delete") {
-            console.log("chk2: ", field);
-            var result = confirm("are you want to delete this genes?");
-            if (result) {
-              this.funDeleteGenes(row.id);
+            //delete
+            if ($element == "delete") {
+              var result = confirm("are you want to delete this genes?");
+              if (result) {
+                this.funDeleteGenes(field.id);
+              }
             }
-          }
-          if (field == "edit") {
-            this.modalRef = this.modalService.open(this.addFormGeneModal_edit, { size: 'lg', keyboard: false, backdrop: 'static' });
-            // this.modalRef = this.modalService.open(this.edit_genes_popup_event, { size: 'lg', keyboard: false, backdrop: 'static' });
 
-            this.showAdd = false;
-            this.showUpdate = true;
-            this.geneModelObj.gene_id = row.id;
-            this.formValue.controls['name'].setValue(row.name);
-            this.formValue.controls['symbol'].setValue(row.symbol);
-          }
-        }.bind(this));
+            //edit
+            if ($element == "edit") {
+              this.modalRef = this.modalService.open(this.addFormGeneModal_edit, { size: 'lg', keyboard: false, backdrop: 'static' });
+              this.showAdd = false;
+              this.showUpdate = true;
+              this.geneModelObj.gene_id = field.id;
+              this.formValue.controls['name'].setValue(field.name);
+              this.formValue.controls['symbol'].setValue(field.symbol);
+            }
+          }.bind(this),
+        });
         jQuery('#showGenesLists').bootstrapTable("load", this.genesRecordsDetails);
       },
       err => {
@@ -114,18 +115,29 @@ export class GenesComponent implements OnInit {
         this.loading = false;
       },
       () => {
-        jQuery('#showGenesLists').bootstrapTable("load", this.genesRecordsDetails);
         this.loading = false;
       }
     );
   }
 
-  addGenes(evt, addFormGeneModal) {
-    this.modalRef = this.modalService.open(this.addFormGeneModal_edit, { size: 'lg', windowClass: 'diseaseModal-custom-class', keyboard: false, backdrop: 'static' });
+  addGenes() {
+    this.modalRef = this.modalService.open(this.addFormGeneModal_edit, { size: 'lg', keyboard: false, backdrop: 'static' });
     this.formValue.reset();
     this.showAdd = true;
     this.showUpdate = false;
   }
+
+  editGenes(row) {
+    console.log(row);
+    this.modalRef = this.modalService.open(this.addFormGeneModal_edit, { size: 'lg', keyboard: false, backdrop: 'static' });
+    this.formValue.reset();
+    this.showAdd = false;
+    this.showUpdate = true;
+    this.geneModelObj.gene_id = row.id;
+    this.formValue.controls['name'].setValue(row.name);
+    this.formValue.controls['symbol'].setValue(row.symbol);
+  }
+
   closePopup() {
     this.addFormGeneModal.close();
   }
@@ -138,7 +150,6 @@ export class GenesComponent implements OnInit {
     this.genesService.addGenes(this.geneModelObj)
       .subscribe(res => {
         // alert("Genes Added Successfully");
-
         let ref = document.getElementById('cancel');
         ref?.click();
         //this.addFormGeneModal.close();
@@ -165,11 +176,7 @@ export class GenesComponent implements OnInit {
       refCancel?.click();
       //this.addFormGeneModal.close();
       this.formValue.reset();
-      //this.showAllGenesLists();
-      //jQuery('#showGenesLists').bootstrapTable("load", this.genesRecordsDetails);
-      // this._router.navigate(['/admin/user-lists'], { relativeTo: this._activatedRoute });
-      // this._router.navigate(['/admin/users-lists']);
-      window.location.reload();
+      this.showAllGenesLists();
     },
       err => {
         console.log(err.message);
@@ -182,20 +189,20 @@ export class GenesComponent implements OnInit {
   }
 
   funDeleteGenes(event: any) {
-    this.loadingDelete = true;
+    console.log("event", event);
+    this.loading = true;
     return this.genesService.deleteGenes(event).subscribe(res => {
       this.showAllGenesLists();
+      //window.location.reload();
     },
       err => {
         console.log(err.message);
-        this.loadingDelete = false;
+        this.loading = false;
       },
       () => {
-        this.loadingDelete = false;
+        this.loading = false;
       }
     );
   }
-
-
 
 }

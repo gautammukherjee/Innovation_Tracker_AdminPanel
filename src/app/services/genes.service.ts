@@ -39,7 +39,7 @@ export class GenesService {
 
   deleteGenes(id) {
     return this._http.delete(this.SERVER_URL + 'deleteGenes/' + id, httpOptions).pipe(map((res: any) => {
-      return res;
+      //return res;
     }));
   }
 
