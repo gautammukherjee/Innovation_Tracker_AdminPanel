@@ -22,11 +22,8 @@
     </form>-->
 
     <div class="profile-logo dropstart">
-        <button class="btn btn-outline-light dropdown-toggle" data-bs-toggle="dropdown">{{result.email}}</button>
-        <ul class="dropdown-menu dropdown-menu-dark">
-            <!--<li><a [routerLink]="['/profile']" class="dropdown-item">Profile</a></li>-->
-            <li><a [routerLink]="['/logout']" class="dropdown-item">Logout</a></li>
-        </ul>
+        &nbsp;<button class="btn btn-outline-success" [routerLink]="['/logout']"><i class="fa fa-sign-out"
+            aria-hidden="true">Logout</i> {{result.user_name}}</button>        
     </div>
 
 </nav>
