@@ -23,7 +23,7 @@
                                 <tr>
                                     <th data-field="id" data-sortable="true" width="25%">ID</th>
                                     <th data-field="name" data-sortable="true" width="25%">Name</th>
-                                    <th data-field="symbol" data-sortable="true" class="nowrap" width="25%">Symbol</th>
+                                    <th data-field="description" data-sortable="true" class="nowrap" width="25%">Description</th>
                                     <th data-field="created_at" data-sortable="true" width="25%">Created At</th>
                                     <th data-field="edit" width="25%">Edit</th>
                                     <th data-field="delete" width="25%">Delete</th>
@@ -74,7 +74,7 @@
             <textarea formControlName="description" required class="form-control" id="exampleInputPassword1"></textarea>
             <small id="passHelp" class="form-text text-danger"
                 *ngIf="moaForm.form.controls.description?.errors?.required && moaForm.form.controls.description?.touched">
-                Symbol is required!
+                Description is required!
             </small>
           </div>
           <button type="submit" class="btn btn-primary" *ngIf="showAdd" (click)="addMoasSubmit()" [disabled]="!moaForm.form.valid">Add</button>&nbsp;

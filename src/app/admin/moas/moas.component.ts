@@ -110,7 +110,7 @@ export class MoasComponent {
               this.showUpdate = true;
               this.moaModelObj.moa_id = field.id;
               this.formValue.controls['name'].setValue(field.name);
-              this.formValue.controls['description'].setValue(field.symbol);
+              this.formValue.controls['description'].setValue(field.description);
             }
           }.bind(this),
         });
