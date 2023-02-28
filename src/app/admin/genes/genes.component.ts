@@ -24,7 +24,6 @@ export class GenesComponent implements OnInit {
 
   loading = false;
   loadingAdd = false;
-
   loadingEdit = false;
 
   params;
@@ -47,7 +46,8 @@ export class GenesComponent implements OnInit {
   ngOnInit(): void {
     this.formValue = this.formBuilder.group({
       name: [''],
-      symbol: ['']
+      symbol: [''],
+      description: ['']
     });
     this.showAllGenesLists();
   }
@@ -65,6 +65,7 @@ export class GenesComponent implements OnInit {
           temps["id"] = event.gene_id;
           temps["name"] = event.name;
           temps["symbol"] = event.symbol;
+          temps["description"] = event.description;
           temps["created_at"] = this.datePipe.transform(event.created_at, 'yyyy-MM-dd');
           temps["edit"] = "<button class='btn btn-sm btn-primary'>Edit</button> &nbsp;";
           temps["delete"] = "<button class='btn btn-sm btn-danger'>Delete</button>";
@@ -73,7 +74,7 @@ export class GenesComponent implements OnInit {
 
         jQuery('#showGenesLists').bootstrapTable({
           columns: [
-            {}, {}, {},
+            {}, {}, {}, {},
             {
               title: 'Created At',
               field: 'created_at',
@@ -82,8 +83,6 @@ export class GenesComponent implements OnInit {
                 return moment(value).format('DD-MM-YYYY');
               },
             },
-
-
           ],
           data: this.genesRecordsDetails,
           onClickRow: function (field, row, $element) {
@@ -105,6 +104,7 @@ export class GenesComponent implements OnInit {
               this.geneModelObj.gene_id = field.id;
               this.formValue.controls['name'].setValue(field.name);
               this.formValue.controls['symbol'].setValue(field.symbol);
+              this.formValue.controls['description'].setValue(field.description);
             }
           }.bind(this),
         });
@@ -135,6 +135,7 @@ export class GenesComponent implements OnInit {
     this.loadingAdd = true;
     this.geneModelObj.name = this.formValue.value.name;
     this.geneModelObj.symbol = this.formValue.value.symbol;
+    this.geneModelObj.description = this.formValue.value.description;
 
     this.genesService.addGenes(this.geneModelObj)
       .subscribe(res => {
@@ -159,6 +160,7 @@ export class GenesComponent implements OnInit {
     this.loadingEdit = true;
     this.geneModelObj.name = this.formValue.value.name;
     this.geneModelObj.symbol = this.formValue.value.symbol;
+    this.geneModelObj.description = this.formValue.value.description;
 
     this.genesService.updateGenes(this.geneModelObj, this.geneModelObj.gene_id).subscribe(res => {
       let refCancel = document.getElementById('cancel');

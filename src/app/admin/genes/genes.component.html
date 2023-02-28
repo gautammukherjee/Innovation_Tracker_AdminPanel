@@ -21,9 +21,10 @@
                             data-pagination="true"  data-page-list="[10, 25, 50, 100, All]" data-detail-formatter="detailFormatter">
                             <thead style="background-color: #32404e; color: #fff;">
                                 <tr>
-                                    <th data-field="id" data-sortable="true" width="25%">ID</th>
+                                    <th data-field="id" data-sortable="true" width="25%" hidden>ID</th>
                                     <th data-field="name" data-sortable="true" width="25%">Name</th>
                                     <th data-field="symbol" data-sortable="true" class="nowrap" width="25%">Symbol</th>
+                                    <th data-field="description" data-sortable="true" class="nowrap" width="25%">Description</th>
                                     <th data-field="created_at" data-sortable="true" width="25%">Created At</th>
                                     <th data-field="edit" width="25%">Edit</th>
                                     <th data-field="delete" width="25%">Delete</th>
@@ -33,6 +34,7 @@
                                 <tr *ngFor="let genesRecordsDetail of genesRecordsDetails">
                                     <td>{{genesRecordsDetail.name}}</td>
                                     <td>{{genesRecordsDetail.symbol}}</td>
+                                    <td>{{genesRecordsDetail.description}}</td>
                                     <td>{{genesRecordsDetail.created_at}}</td>
                                     <td><button class="btn btn-sm btn-success">Edit</button></td>
                                 </tr>
@@ -75,6 +77,12 @@
               Symbol is required!
           </small>
         </div>
+        
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">Description</label>
+          <input type="text" formControlName="description" class="form-control" id="exampleInputPassword1">
+        </div>
+
         <button type="submit" class="btn btn-primary" *ngIf="showAdd" (click)="addGenesSubmit()" [disabled]="!geneForm.form.valid">Add</button>&nbsp;
         <button type="submit" class="btn btn-primary" *ngIf="showUpdate" (click)="updateGenesSubmit()" [disabled]="!geneForm.form.valid">Update</button>&nbsp;
         <button type="submit" class="btn btn-danger" (click)="d('Cross click')" id="cancel">Close</button>
