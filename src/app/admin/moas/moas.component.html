@@ -1,1 +1,85 @@
-<p>moas works!</p>
+<div class="card mb-3">    
+    <div class="card-header">
+      <h6>MOAs Lists</h6>
+    </div>
+
+    <div class="panel panel-primary">
+        <div class="panel-body">            
+            <div class="row" style="position: absolute;right: 19px;top: 65px;">
+                <div class="col-lg-12">
+                    <button class="btn btn-primary" type="button" data-bs-toggle="modal" (click)="addMoasPopup();">Add MOAs</button>
+                </div>
+            </div>
+
+            <div class="loading-custom" *ngIf="loading"><span class="fa fa-spinner fa-spin"></span>&nbsp;Loading...</div>
+            
+            <div class="card-panel-box-detail">
+                <div class="customTable">
+                    <div class="table-responsive custom-fixed-header-table" style="max-height:600px">
+                        <table id="showMoasLists" class="table" data-toolbar="#toolbar" data-search="true"
+                            data-show-export="true" data-show-columns="true" data-page-size="50"
+                            data-pagination="true"  data-page-list="[10, 25, 50, 100, All]" data-detail-formatter="detailFormatter">
+                            <thead style="background-color: #32404e; color: #fff;">
+                                <tr>
+                                    <th data-field="id" data-sortable="true" width="25%">ID</th>
+                                    <th data-field="name" data-sortable="true" width="25%">Name</th>
+                                    <th data-field="symbol" data-sortable="true" class="nowrap" width="25%">Symbol</th>
+                                    <th data-field="created_at" data-sortable="true" width="25%">Created At</th>
+                                    <th data-field="edit" width="25%">Edit</th>
+                                    <th data-field="delete" width="25%">Delete</th>
+                                </tr>
+                            </thead>
+                            <!--<tbody>
+                                <tr *ngFor="let moasRecordsDetail of moasRecordsDetails">
+                                    <td>{{moasRecordsDetail.name}}</td>
+                                    <td>{{moasRecordsDetail.description}}</td>
+                                    <td>{{moasRecordsDetail.created_at}}</td>
+                                    <td><button class="btn btn-sm btn-success">Edit</button></td>
+                                </tr>
+                            </tbody>-->
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+  
+<ng-template #addFormMoaModal let-c="close" let-d="dismiss">  
+    <div class="loading-custom-add" *ngIf="loadingEdit"><span class="fa fa-spinner fa-spin"></span>&nbsp;Loading...</div>
+    <div class="loading-custom-add" *ngIf="loadingAdd"><span class="fa fa-spinner fa-spin"></span>&nbsp;Loading...</div>
+    <div class="modal-header modal-lg" style="background: #32404E !important;color:#fff;">
+        <h4 class="modal-title" *ngIf="showAdd">Add MOAs</h4>
+        <h4 class="modal-title" *ngIf="showUpdate">Update MOAs</h4>
+        &nbsp;
+        <button class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body white_bg without_bord_rad">  
+        <form #moaForm="ngForm" [formGroup]="formValue">
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Name</label>
+            <input type="text" formControlName="name" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <small id="passHelp" class="form-text text-danger"
+                *ngIf="moaForm.form.controls.name?.errors?.required && moaForm.form.controls.name?.touched">
+                Name is required!
+            </small>
+          </div>
+  
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Description</label>
+            <!--<input type="text" formControlName="description" required class="form-control" id="exampleInputPassword1">-->
+            <textarea formControlName="description" required class="form-control" id="exampleInputPassword1"></textarea>
+            <small id="passHelp" class="form-text text-danger"
+                *ngIf="moaForm.form.controls.description?.errors?.required && moaForm.form.controls.description?.touched">
+                Symbol is required!
+            </small>
+          </div>
+          <button type="submit" class="btn btn-primary" *ngIf="showAdd" (click)="addMoasSubmit()" [disabled]="!moaForm.form.valid">Add</button>&nbsp;
+          <button type="submit" class="btn btn-primary" *ngIf="showUpdate" (click)="updateMoasSubmit()" [disabled]="!moaForm.form.valid">Update</button>&nbsp;
+          <button type="submit" class="btn btn-danger" (click)="d('Cross click')" id="cancel">Close</button>
+        </form>
+    </div>
+  </ng-template>
