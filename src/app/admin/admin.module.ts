@@ -13,6 +13,11 @@ import { DiseasesComponent } from './diseases/diseases.component';
 import { CompaniesComponent } from './companies/companies.component';
 import { DrugsComponent } from './drugs/drugs.component';
 import { MoasComponent } from './moas/moas.component';
+import { NewslettersComponent } from './newsletters/newsletters.component';
+import { DiseaseSynsComponent } from './disease-syns/disease-syns.component';
+import { DrugSynsComponent } from './drug-syns/drug-syns.component';
+import { GeneSynsComponent } from './gene-syns/gene-syns.component';
+import { TasComponent } from './tas/tas.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +29,11 @@ import { MoasComponent } from './moas/moas.component';
     CompaniesComponent,
     DrugsComponent,
     MoasComponent,
+    NewslettersComponent,
+    DiseaseSynsComponent,
+    DrugSynsComponent,
+    GeneSynsComponent,
+    TasComponent,
   ],
   imports: [
     CommonModule,

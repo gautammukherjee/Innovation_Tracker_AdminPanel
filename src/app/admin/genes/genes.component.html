@@ -12,6 +12,7 @@
             </div>
 
             <div class="loading-custom" *ngIf="loading"><span class="fa fa-spinner fa-spin"></span>&nbsp;Loading...</div>
+            <div class="loading-custom" *ngIf="loadingDel"><span class="fa fa-spinner fa-spin"></span>&nbsp;Loading...</div>
             
             <div class="card-panel-box-detail">
                 <div class="customTable">
@@ -21,7 +22,8 @@
                             data-pagination="true"  data-page-list="[10, 25, 50, 100, All]" data-detail-formatter="detailFormatter">
                             <thead style="background-color: #32404e; color: #fff;">
                                 <tr>
-                                    <th data-field="id" data-sortable="true" width="25%" hidden>ID</th>
+                                    <th data-field="sr_no" data-sortable="true" width="5%">Sr No</th>
+                                    <th data-field="id" data-visible="false"></th>
                                     <th data-field="name" data-sortable="true" width="25%">Name</th>
                                     <th data-field="symbol" data-sortable="true" class="nowrap" width="25%">Symbol</th>
                                     <th data-field="description" data-sortable="true" class="nowrap" width="25%">Description</th>
@@ -45,7 +47,7 @@
             </div>
         </div>
     </div>
-  </div>
+</div>
 
 <ng-template #addFormGeneModal let-c="close" let-d="dismiss">  
   <div class="loading-custom-add" *ngIf="loadingEdit"><span class="fa fa-spinner fa-spin"></span>&nbsp;Loading...</div>

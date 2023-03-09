@@ -1,14 +1,14 @@
 <div class="card mb-3">
 
     <div class="card-header">
-      <h6>Diseases Lists</h6>
+      <h6>Gene Synonym Lists</h6>
     </div>
 
     <div class="panel panel-primary">
         <div class="panel-body">            
             <div class="row" style="position: absolute;right: 19px;top: 65px;">
                 <div class="col-lg-12">
-                    <button class="btn btn-primary" type="button" data-bs-toggle="modal" (click)="addDiseasesPopup();">Add Disease</button>
+                    <button class="btn btn-primary" type="button" data-bs-toggle="modal" (click)="addGenesPopup();">Add Gene Synonym</button>
                 </div>
             </div>
 
@@ -18,7 +18,7 @@
             <div class="card-panel-box-detail">
                 <div class="customTable">
                     <div class="table-responsive custom-fixed-header-table" style="max-height:600px">
-                        <table id="showDiseasesLists" class="table" data-toolbar="#toolbar" data-search="true"
+                        <table id="showGenesLists" class="table" data-toolbar="#toolbar" data-search="true"
                             data-show-export="true" data-show-columns="true" data-page-size="50"
                             data-pagination="true" data-page-list="[10, 25, 50, 100, All]">
                             <thead style="background-color:#32404E;color: #fff;">
@@ -26,9 +26,8 @@
                                     <th data-field="sr_no" data-sortable="true" width="25%">Sr No</th>
                                     <th data-field="id" data-visible="false"></th>
                                     <th data-field="name" data-sortable="true" width="25%">Name</th>
-                                    <th data-field="description" data-sortable="true" class="nowrap" width="25%">Description</th>
                                     <th data-field="created_at" data-sortable="true" width="25%">Created At</th>
-                                    <th data-field="edit" width="25%">Edit</th>
+                                    <!--<th data-field="edit" width="25%">Edit</th>-->
                                     <th data-field="delete" width="25%">Delete</th>
                                 </tr>
                             </thead>
@@ -40,34 +39,42 @@
     </div>
 </div>
 
-<ng-template #addFormDiseaseModal let-c="close" let-d="dismiss">  
+<ng-template #addFormGeneModal let-c="close" let-d="dismiss">  
     <div class="loading-custom-add" *ngIf="loadingEdit"><span class="fa fa-spinner fa-spin"></span>&nbsp;Loading...</div>
     <div class="loading-custom-add" *ngIf="loadingAdd"><span class="fa fa-spinner fa-spin"></span>&nbsp;Loading...</div>
     <div class="modal-header modal-lg" style="background: #32404E !important;color:#fff;">
-        <h4 class="modal-title" *ngIf="showAdd">Add Disease</h4>
-        <h4 class="modal-title" *ngIf="showUpdate">Update Disease</h4>
+        <h4 class="modal-title" *ngIf="showAdd">Add Gene Synonym</h4>
+        <h4 class="modal-title" *ngIf="showUpdate">Update Gene Synonym</h4>
         &nbsp;
         <button class="close" aria-label="Close" (click)="d('Cross click')">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
     <div class="modal-body white_bg without_bord_rad">  
-        <form #diseaseForm="ngForm" [formGroup]="formValue">
+        <form #geneForm="ngForm" [formGroup]="formValue">
           <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Name</label>
             <input type="text" formControlName="name" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
             <small id="passHelp" class="form-text text-danger"
-                *ngIf="diseaseForm.form.controls.name?.errors?.required && diseaseForm.form.controls.name?.touched">
+                *ngIf="geneForm.form.controls.name?.errors?.required && geneForm.form.controls.name?.touched">
                 Name is required!
             </small>
           </div>
           <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Description</label>
-            <input type="text" formControlName="description" class="form-control" id="exampleInputPassword1">
+            <div *ngIf="loadingDLists"><span class="fa fa-spinner fa-spin"></span>&nbsp;Loading...</div>
+            <label for="exampleInputPassword1" class="form-label">Gene Name</label>
+            <select class="form-control" formControlName="gene_id" id="gene_id" required>
+                <option value="null" disabled>Please Choose Gene Name</option>
+                <option *ngFor="let allGenesList of allGenesLists; let i = index" [value]="allGenesLists[i].gene_id" selected>{{ allGenesList.name }}</option>
+            </select>
+            <small id="passHelp" class="form-text text-danger"
+                *ngIf="geneForm.form.controls.gene_id?.errors?.required && geneForm.form.controls.gene_id?.touched">
+                Gene Name is required!
+            </small>
           </div>
-  
-          <button type="submit" class="btn btn-primary" *ngIf="showAdd" (click)="addDiseasesSubmit()" [disabled]="!diseaseForm.form.valid">Add</button>&nbsp;
-          <button type="submit" class="btn btn-primary" *ngIf="showUpdate" (click)="updateDiseasesSubmit()" [disabled]="!diseaseForm.form.valid">Update</button>&nbsp;
+          
+          <button type="submit" class="btn btn-primary" *ngIf="showAdd" (click)="addGenesSubmit()" [disabled]="!geneForm.form.valid">Add</button>&nbsp;
+          <button type="submit" class="btn btn-primary" *ngIf="showUpdate" (click)="updateGenesSubmit()" [disabled]="!geneForm.form.valid">Update</button>&nbsp;
           <button type="submit" class="btn btn-danger" (click)="d('Cross click')" id="cancel">Close</button>
         </form>
     </div>

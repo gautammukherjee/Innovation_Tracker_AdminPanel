@@ -37,7 +37,7 @@ export class MoasComponent {
 
   formValue !: FormGroup;
   moaModelObj: MoasModel = new MoasModel();
-  
+
   constructor(
     private moasService: MoasService,
     private _router: Router,
@@ -45,10 +45,10 @@ export class MoasComponent {
     private modalService: NgbModal,
     private datePipe: DatePipe,
     private formBuilder: FormBuilder
-  ){
+  ) {
 
   }
-  
+
   ngOnInit(): void {
     this.formValue = this.formBuilder.group({
       name: [''],
@@ -57,8 +57,8 @@ export class MoasComponent {
     this.showAllMoasLists();
   }
 
-  showAllMoasLists(){
-    
+  showAllMoasLists() {
+
     this.loading = true;
     this.moasService.getMoasLists().subscribe(
       data => {
@@ -69,7 +69,7 @@ export class MoasComponent {
         this.moasRecords.forEach(event => {
           var temps = {};
           temps["id"] = event.moa_id;
-          temps["name"] = event.name;
+          temps["name"] = event.moa_name;
           temps["description"] = event.description;
           temps["created_at"] = this.datePipe.transform(event.created_at, 'yyyy-MM-dd');
           temps["edit"] = "<button class='btn btn-sm btn-primary'>Edit</button> &nbsp;";
@@ -126,7 +126,7 @@ export class MoasComponent {
     );
   }
 
-  addMoasPopup(){
+  addMoasPopup() {
     this.modalRef = this.modalService.open(this.addFormMoaModal_edit, { size: 'lg', keyboard: false, backdrop: 'static' });
     this.formValue.reset();
     this.showAdd = true;
@@ -136,9 +136,9 @@ export class MoasComponent {
   closePopup() {
     this.addFormMoaModal.close();
   }
-  
+
   addMoasSubmit() {
-    
+
     this.loadingAdd = true;
     this.moaModelObj.name = this.formValue.value.name;
     this.moaModelObj.description = this.formValue.value.description;
@@ -162,7 +162,7 @@ export class MoasComponent {
       );
   }
 
-  updateMoasSubmit(){
+  updateMoasSubmit() {
     this.loadingEdit = true;
     this.moaModelObj.name = this.formValue.value.name;
     this.moaModelObj.description = this.formValue.value.description;
@@ -199,7 +199,7 @@ export class MoasComponent {
         this.loading = false;
       }
     );
-  }    
+  }
 
 
 }

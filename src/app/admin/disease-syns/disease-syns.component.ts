@@ -5,20 +5,22 @@ import { DatePipe } from '@angular/common';
 import * as moment from "moment";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { DiseasesModel } from './diseases.model';
+import { DiseaseSynsModel } from './disease-syns.model';
 declare var jQuery: any;
 
 @Component({
-  selector: 'app-diseases',
-  templateUrl: './diseases.component.html',
-  styleUrls: ['./diseases.component.scss'],
+  selector: 'app-disease-syns',
+  templateUrl: './disease-syns.component.html',
+  styleUrls: ['./disease-syns.component.scss'],
   providers: [DatePipe]
 })
-export class DiseasesComponent implements OnInit {
+export class DiseaseSynsComponent implements OnInit {
 
   result: any = [];
+
   diseasesRecords: any = [];
   diseasesRecordsDetails: any = [];
+  allDiseasesLists: any = [];
 
   private addFormDiseaseModal: any;
   private modalRef: any;
@@ -28,6 +30,7 @@ export class DiseasesComponent implements OnInit {
   loadingDel = false;
   loadingAdd = false;
   loadingEdit = false;
+  loadingDLists = false;
   params;
   layout: any = {};
   hideCardBody: boolean = true;
@@ -36,27 +39,45 @@ export class DiseasesComponent implements OnInit {
   showUpdate !: boolean;
 
   formValue !: FormGroup;
-  diseaseModelObj: DiseasesModel = new DiseasesModel();
+  diseaseSynsModelObj: DiseaseSynsModel = new DiseaseSynsModel();
 
   constructor(private diseasesService: DiseasesService,
     private _router: Router,
     private _activatedRoute: ActivatedRoute,
     private modalService: NgbModal,
     private datePipe: DatePipe,
-    private formBuilder: FormBuilder) { }
+    private formBuilder: FormBuilder) {
+
+    this.formValue = this.formBuilder.group({
+      disease_id: [''],
+      name: ['']
+    });
+  }
 
   ngOnInit(): void {
 
-    this.formValue = this.formBuilder.group({
-      name: [''],
-      description: ['']
-    });
+    this.loadingDLists = true;
+    //show the company type
+    this.diseasesService.getDiseasesLists().subscribe(
+      data => {
+        this.result = data;
+        this.allDiseasesLists = this.result.diseasesRecords;
+        // console.log("allDiseasesLists: ", this.allDiseasesLists);
+      },
+      err => {
+        console.log(err.message);
+        this.loadingDLists = false;
+      },
+      () => {
+        this.loadingDLists = false;
+      });
+
     this.showAllDiseasesLists();
   }
 
   showAllDiseasesLists() {
     this.loading = true;
-    this.diseasesService.getDiseasesLists().subscribe(
+    this.diseasesService.getDiseaseSynLists().subscribe(
       data => {
         this.result = data;
         this.diseasesRecords = this.result.diseasesRecords;
@@ -65,9 +86,8 @@ export class DiseasesComponent implements OnInit {
         this.diseasesRecords.forEach(event => {
           var temps = {};
           temps["sr_no"] = i;
-          temps["id"] = event.disease_id;
-          temps["name"] = event.disease_name;
-          temps["description"] = event.description;
+          temps["id"] = event.disease_syn_id;
+          temps["name"] = event.name;
           temps["created_at"] = this.datePipe.transform(event.created_at, 'yyyy-MM-dd');
           temps["edit"] = "<button class='btn btn-sm btn-primary'>Edit</button> &nbsp;";
           temps["delete"] = "<button class='btn btn-sm btn-danger'>Delete</button>";
@@ -76,24 +96,13 @@ export class DiseasesComponent implements OnInit {
         });
 
         jQuery('#showDiseasesLists').bootstrapTable({
-          columns: [
-            {}, {}, {}, {},
-            {
-              title: 'Created At',
-              field: 'created_at',
-              class: 'text-center',
-              formatter: function dateFormat(value, row, index) {
-                return moment(value).format('DD-MM-YYYY');
-              },
-            },
-          ],
           data: this.diseasesRecordsDetails,
           onClickRow: function (field, row, $element) {
             //delete
             if ($element == "delete") {
-              var result = confirm("are you want to delete this Disease?");
+              var result = confirm("are you want to delete this Disease Synonym?");
               if (result) {
-                this.deleteDiseases(field.id);
+                this.deleteDiseaseSyn(field.id);
               }
             }
             //edit
@@ -101,9 +110,9 @@ export class DiseasesComponent implements OnInit {
               this.modalRef = this.modalService.open(this.addFormDiseaseModal_edit, { size: 'lg', keyboard: false, backdrop: 'static' });
               this.showAdd = false;
               this.showUpdate = true;
-              this.diseaseModelObj.disease_id = field.id;
+              this.diseaseSynsModelObj.disease_syn_id = field.id;
+              this.formValue.controls['disease_id'].setValue(field.disease_id);
               this.formValue.controls['name'].setValue(field.name);
-              this.formValue.controls['description'].setValue(field.description);
             }
           }.bind(this),
         });
@@ -132,10 +141,10 @@ export class DiseasesComponent implements OnInit {
 
   addDiseasesSubmit() {
     this.loadingAdd = true;
-    this.diseaseModelObj.name = this.formValue.value.name;
-    this.diseaseModelObj.description = this.formValue.value.description;
+    this.diseaseSynsModelObj.disease_id = this.formValue.value.disease_id;
+    this.diseaseSynsModelObj.name = this.formValue.value.name;
 
-    this.diseasesService.addDiseases(this.diseaseModelObj)
+    this.diseasesService.addDiseaseSyn(this.diseaseSynsModelObj)
       .subscribe(res => {
         // alert("Companies Added Successfully");
         let ref = document.getElementById('cancel');
@@ -156,10 +165,10 @@ export class DiseasesComponent implements OnInit {
 
   updateDiseasesSubmit() {
     this.loadingEdit = true;
-    this.diseaseModelObj.name = this.formValue.value.name;
-    this.diseaseModelObj.description = this.formValue.value.description;
+    this.diseaseSynsModelObj.disease_id = this.formValue.value.disease_id;
+    this.diseaseSynsModelObj.name = this.formValue.value.name;
 
-    this.diseasesService.updateDiseases(this.diseaseModelObj, this.diseaseModelObj.disease_id).subscribe(res => {
+    this.diseasesService.updateDiseaseSyn(this.diseaseSynsModelObj, this.diseaseSynsModelObj.disease_syn_id).subscribe(res => {
       let refCancel = document.getElementById('cancel');
       refCancel?.click();
       this.formValue.reset();
@@ -175,9 +184,9 @@ export class DiseasesComponent implements OnInit {
     );
   }
 
-  deleteDiseases(event: any) {
+  deleteDiseaseSyn(event: any) {
     this.loadingDel = true;
-    return this.diseasesService.deleteDiseases(event).subscribe(res => {
+    return this.diseasesService.deleteDiseaseSyn(event).subscribe(res => {
       this.showAllDiseasesLists();
     },
       err => {

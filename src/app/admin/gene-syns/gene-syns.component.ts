@@ -5,19 +5,23 @@ import { DatePipe } from '@angular/common';
 import * as moment from "moment";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { GenesModel } from './genes.model';
+import { GeneSynsModel } from './gene-syns.model';
 declare var jQuery: any;
 
 @Component({
-  selector: 'app-genes',
-  templateUrl: './genes.component.html',
-  styleUrls: ['./genes.component.scss'],
+  selector: 'app-gene-syns',
+  templateUrl: './gene-syns.component.html',
+  styleUrls: ['./gene-syns.component.scss'],
   providers: [DatePipe]
 })
-export class GenesComponent implements OnInit {
+export class GeneSynsComponent implements OnInit {
+
   result: any = [];
+
   genesRecords: any = [];
   genesRecordsDetails: any = [];
+  allGenesLists: any = [];
+
   private addFormGeneModal: any;
   private modalRef: any;
   @ViewChild('addFormGeneModal', { static: false }) addFormGeneModal_edit: ElementRef;
@@ -26,7 +30,7 @@ export class GenesComponent implements OnInit {
   loadingDel = false;
   loadingAdd = false;
   loadingEdit = false;
-
+  loadingDLists = false;
   params;
   layout: any = {};
   hideCardBody: boolean = true;
@@ -35,40 +39,55 @@ export class GenesComponent implements OnInit {
   showUpdate !: boolean;
 
   formValue !: FormGroup;
-  geneModelObj: GenesModel = new GenesModel();
+  geneSynsModelObj: GeneSynsModel = new GeneSynsModel();
 
   constructor(private genesService: GenesService,
     private _router: Router,
     private _activatedRoute: ActivatedRoute,
     private modalService: NgbModal,
     private datePipe: DatePipe,
-    private formBuilder: FormBuilder) { }
+    private formBuilder: FormBuilder) {
+
+    this.formValue = this.formBuilder.group({
+      gene_id: [''],
+      name: ['']
+    });
+  }
 
   ngOnInit(): void {
-    this.formValue = this.formBuilder.group({
-      name: [''],
-      symbol: [''],
-      description: ['']
-    });
+
+    this.loadingDLists = true;
+    //show the company type
+    this.genesService.getGenesLists().subscribe(
+      data => {
+        this.result = data;
+        this.allGenesLists = this.result.genesRecords;
+        // console.log("allGenesLists: ", this.allGenesLists);
+      },
+      err => {
+        console.log(err.message);
+        this.loadingDLists = false;
+      },
+      () => {
+        this.loadingDLists = false;
+      });
+
     this.showAllGenesLists();
   }
 
   showAllGenesLists() {
     this.loading = true;
-    this.genesService.getGenesLists().subscribe(
+    this.genesService.getGeneSynLists().subscribe(
       data => {
         this.result = data;
         this.genesRecords = this.result.genesRecords;
-        // console.log("genesRecords: ", this.result);
         let i = 1;
         this.genesRecordsDetails = [];
         this.genesRecords.forEach(event => {
           var temps = {};
           temps["sr_no"] = i;
-          temps["id"] = event.gene_id;
-          temps["name"] = event.gene_name;
-          temps["symbol"] = event.symbol;
-          temps["description"] = event.description;
+          temps["id"] = event.gene_syn_id;
+          temps["name"] = event.name;
           temps["created_at"] = this.datePipe.transform(event.created_at, 'yyyy-MM-dd');
           temps["edit"] = "<button class='btn btn-sm btn-primary'>Edit</button> &nbsp;";
           temps["delete"] = "<button class='btn btn-sm btn-danger'>Delete</button>";
@@ -77,24 +96,13 @@ export class GenesComponent implements OnInit {
         });
 
         jQuery('#showGenesLists').bootstrapTable({
-          columns: [
-            {}, {}, {}, {}, {},
-            {
-              title: 'Created At',
-              field: 'created_at',
-              class: 'text-center',
-              formatter: function dateFormat(value, row, index) {
-                return moment(value).format('DD-MM-YYYY');
-              },
-            },
-          ],
           data: this.genesRecordsDetails,
           onClickRow: function (field, row, $element) {
             //delete
             if ($element == "delete") {
-              var result = confirm("are you want to delete this genes?");
+              var result = confirm("are you want to delete this Gene Synonym?");
               if (result) {
-                this.deleteGenes(field.id);
+                this.deleteGeneSyn(field.id);
               }
             }
             //edit
@@ -102,10 +110,9 @@ export class GenesComponent implements OnInit {
               this.modalRef = this.modalService.open(this.addFormGeneModal_edit, { size: 'lg', keyboard: false, backdrop: 'static' });
               this.showAdd = false;
               this.showUpdate = true;
-              this.geneModelObj.gene_id = field.id;
+              this.geneSynsModelObj.gene_syn_id = field.id;
+              this.formValue.controls['gene_id'].setValue(field.gene_id);
               this.formValue.controls['name'].setValue(field.name);
-              this.formValue.controls['symbol'].setValue(field.symbol);
-              this.formValue.controls['description'].setValue(field.description);
             }
           }.bind(this),
         });
@@ -134,16 +141,15 @@ export class GenesComponent implements OnInit {
 
   addGenesSubmit() {
     this.loadingAdd = true;
-    this.geneModelObj.name = this.formValue.value.name;
-    this.geneModelObj.symbol = this.formValue.value.symbol;
-    this.geneModelObj.description = this.formValue.value.description;
+    this.geneSynsModelObj.gene_id = this.formValue.value.gene_id;
+    this.geneSynsModelObj.name = this.formValue.value.name;
 
-    this.genesService.addGenes(this.geneModelObj)
+    this.genesService.addGeneSyn(this.geneSynsModelObj)
       .subscribe(res => {
-        // alert("Genes Added Successfully");
+        // alert("Companies Added Successfully");
         let ref = document.getElementById('cancel');
         ref?.click();
-        //this.addFormGeneModal.close();
+        //this.addFormCompanyModal.close();
         this.formValue.reset();
         this.showAllGenesLists();
       },
@@ -159,14 +165,12 @@ export class GenesComponent implements OnInit {
 
   updateGenesSubmit() {
     this.loadingEdit = true;
-    this.geneModelObj.name = this.formValue.value.name;
-    this.geneModelObj.symbol = this.formValue.value.symbol;
-    this.geneModelObj.description = this.formValue.value.description;
+    this.geneSynsModelObj.gene_id = this.formValue.value.gene_id;
+    this.geneSynsModelObj.name = this.formValue.value.name;
 
-    this.genesService.updateGenes(this.geneModelObj, this.geneModelObj.gene_id).subscribe(res => {
+    this.genesService.updateGeneSyn(this.geneSynsModelObj, this.geneSynsModelObj.gene_syn_id).subscribe(res => {
       let refCancel = document.getElementById('cancel');
       refCancel?.click();
-      //this.addFormGeneModal.close();
       this.formValue.reset();
       this.showAllGenesLists();
     },
@@ -180,11 +184,10 @@ export class GenesComponent implements OnInit {
     );
   }
 
-  deleteGenes(event: any) {
+  deleteGeneSyn(event: any) {
     this.loadingDel = true;
-    return this.genesService.deleteGenes(event).subscribe(res => {
+    return this.genesService.deleteGeneSyn(event).subscribe(res => {
       this.showAllGenesLists();
-      //window.location.reload();
     },
       err => {
         console.log(err.message);

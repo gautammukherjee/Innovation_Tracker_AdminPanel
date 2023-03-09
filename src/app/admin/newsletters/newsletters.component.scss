@@ -84,3 +84,12 @@
         }
     }
 }
+
+
+///// scroll
+.table-wrapper {
+    max-height: 700px !important;
+    width: 100%;
+    overflow: auto;
+    display: inline-block;
+}

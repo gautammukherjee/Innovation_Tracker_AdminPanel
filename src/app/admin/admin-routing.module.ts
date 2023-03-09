@@ -9,6 +9,11 @@ import { DiseasesComponent } from './diseases/diseases.component';
 import { CompaniesComponent } from './companies/companies.component';
 import { DrugsComponent } from './drugs/drugs.component';
 import { MoasComponent } from './moas/moas.component';
+import { NewslettersComponent } from './newsletters/newsletters.component';
+import { DiseaseSynsComponent } from './disease-syns/disease-syns.component';
+import { GeneSynsComponent } from './gene-syns/gene-syns.component';
+import { DrugSynsComponent } from './drug-syns/drug-syns.component';
+import { TasComponent } from './tas/tas.component';
 
 const routes: Routes = [
   {
@@ -33,6 +38,13 @@ const routes: Routes = [
     ]
   },
   {
+    path: 'newsletters',
+    component: MainLayoutComponent,
+    children: [
+      { path: '', component: NewslettersComponent },
+    ]
+  },
+  {
     path: 'genes',
     component: MainLayoutComponent,
     children: [
@@ -40,10 +52,24 @@ const routes: Routes = [
     ]
   },
   {
+    path: 'gene-syns',
+    component: MainLayoutComponent,
+    children: [
+      { path: '', component: GeneSynsComponent },
+    ]
+  },
+  {
     path: 'diseases',
     component: MainLayoutComponent,
     children: [
       { path: '', component: DiseasesComponent },
+    ]
+  },
+  {
+    path: 'disease-syns',
+    component: MainLayoutComponent,
+    children: [
+      { path: '', component: DiseaseSynsComponent },
     ]
   },
   {
@@ -61,10 +87,24 @@ const routes: Routes = [
     ]
   },
   {
+    path: 'drug-syns',
+    component: MainLayoutComponent,
+    children: [
+      { path: '', component: DrugSynsComponent },
+    ]
+  },
+  {
     path: 'moas',
     component: MainLayoutComponent,
     children: [
       { path: '', component: MoasComponent },
+    ]
+  },
+  {
+    path: 'tas',
+    component: MainLayoutComponent,
+    children: [
+      { path: '', component: TasComponent },
     ]
   },
 ];

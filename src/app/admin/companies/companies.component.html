@@ -1,26 +1,90 @@
 <div class="card mb-3">
-    <div class="loading-custom" *ngIf="loading"><span class="fa fa-spinner fa-spin"></span>&nbsp;Loading...
-    </div>
-
     <div class="card-header">
       <h6>Companies Lists</h6>
     </div>
 
-    <div class="card-panel-box-detail">
-      <div class="customTable">
-          <div class="table-responsive custom-fixed-header-table" style="max-height:600px">
-              <table id="showCompaniesLists" class="table" data-toolbar="#toolbar" data-search="true"
-                  data-show-export="true" data-show-columns="true" data-page-size="50"
-                  data-page-list="[10, 25, 50, 100, All]">
-                  <thead style="background-color: #32404e; color: #fff;">
-                      <tr>
-                          <th data-field="name" data-sortable="true" width="20%">Name</th>
-                          <th data-field="created_at" data-sortable="true" width="15%">Created At</th>
-                      </tr>
-                  </thead>
-              </table>
+    <div class="panel panel-primary">
+        <div class="panel-body">            
+            <div class="row" style="position: absolute;right: 19px;top: 65px;">
+                <div class="col-lg-12">
+                    <button class="btn btn-primary" type="button" data-bs-toggle="modal" (click)="addCompaniesPopup();">Add Companies</button>
+                </div>
+            </div>
+
+            <div class="loading-custom" *ngIf="loading"><span class="fa fa-spinner fa-spin"></span>&nbsp;Loading...</div>
+            <div class="loading-custom" *ngIf="loadingDel"><span class="fa fa-spinner fa-spin"></span>&nbsp;Loading...</div>
+            
+            <div class="card-panel-box-detail">
+                <div class="customTable">
+                    <div class="table-responsive custom-fixed-header-table" style="max-height:600px">
+                        <table id="showCompaniesLists" class="table" data-toolbar="#toolbar" data-search="true"
+                            data-show-export="true" data-show-columns="true" data-page-size="50"
+                            data-pagination="true"  data-page-list="[10, 25, 50, 100, All]" data-detail-formatter="detailFormatter">
+                            <thead style="background-color: #32404e; color: #fff;">
+                                <tr>
+                                    <th data-field="sr_no" data-sortable="true" width="5%">Sr No</th>
+                                    <th data-field="id" data-visible="false"></th>
+                                    <th data-field="name" data-sortable="true" width="20%">Name</th>
+                                    <th data-field="description" data-sortable="true" class="nowrap" width="25%">Description</th>
+                                    <th data-field="company_type_id" data-visible="false"></th>
+                                    <th data-field="ct_name" data-sortable="true" width="20%">Company Type</th>
+                                    <th data-field="created_at" data-sortable="true" width="15%">Created At</th>
+                                    <th data-field="edit" width="10%">Edit</th>
+                                    <th data-field="delete" width="10%">Delete</th>
+                                </tr>
+                            </thead>                            
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #addFormCompanyModal let-c="close" let-d="dismiss">  
+    <div class="loading-custom-add" *ngIf="loadingEdit"><span class="fa fa-spinner fa-spin"></span>&nbsp;Loading...</div>
+    <div class="loading-custom-add" *ngIf="loadingAdd"><span class="fa fa-spinner fa-spin"></span>&nbsp;Loading...</div>
+    <div class="modal-header modal-lg" style="background: #32404E !important;color:#fff;">
+        <h4 class="modal-title" *ngIf="showAdd">Add Company</h4>
+        <h4 class="modal-title" *ngIf="showUpdate">Update Company</h4>
+        &nbsp;
+        <button class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body white_bg without_bord_rad">  
+        <form #companyForm="ngForm" [formGroup]="formValue">
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Name</label>
+            <input type="text" formControlName="name" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <small id="passHelp" class="form-text text-danger"
+                *ngIf="companyForm.form.controls.name?.errors?.required && companyForm.form.controls.name?.touched">
+                Name is required!
+            </small>
           </div>
-      </div>
-    </div>    
-  </div>
-        
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Description</label>
+            <textarea type="text" formControlName="description" class="form-control" id="exampleInputPassword1"></textarea>
+          </div>
+
+          <div class="mb-3">
+            <div *ngIf="loadingCType"><span class="fa fa-spinner fa-spin"></span>&nbsp;Loading...</div>
+            <label for="exampleInputPassword1" class="form-label">Company Type</label>
+            <select class="form-control" formControlName="company_type_id" id="company_type_id" required>
+                <option value="null" disabled>Please choose Company Type</option>
+                <option *ngFor="let companiesTypeRecord of companiesTypeRecords; let i = index" [value]="companiesTypeRecords[i].company_type_id" selected>{{ companiesTypeRecord.name }}</option>
+            </select>
+            <small id="passHelp" class="form-text text-danger"
+                *ngIf="companyForm.form.controls.company_type_id?.errors?.required && companyForm.form.controls.company_type_id?.touched">
+                Company Type is required!
+            </small>
+          </div>
+  
+          <button type="submit" class="btn btn-primary" *ngIf="showAdd" (click)="addCompaniesSubmit()" [disabled]="!companyForm.form.valid">Add</button>&nbsp;
+          <button type="submit" class="btn btn-primary" *ngIf="showUpdate" (click)="updateCompaniesSubmit()" [disabled]="!companyForm.form.valid">Update</button>&nbsp;
+          <button type="submit" class="btn btn-danger" (click)="d('Cross click')" id="cancel">Close</button>
+        </form>
+    </div>
+  </ng-template>
+
+  

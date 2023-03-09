@@ -34,33 +34,63 @@ export class SideNavComponent implements OnInit {
         },
         {
           number: '3',
+          name: 'Newsletters',
+          icon: 'fa-solid fa-circle-info',
+          routerLnk: '/admin/newsletters'
+        },
+        {
+          number: '4',
           name: 'Genes Lists',
           icon: 'fa-solid fa-gear',
           routerLnk: '/admin/genes'
         },
         {
-          number: '4',
+          number: '5',
+          name: 'Gene Synonms',
+          icon: 'fa-solid fa-gear',
+          routerLnk: '/admin/gene-syns'
+        },
+        {
+          number: '6',
           name: 'Companies Lists',
           icon: 'fa-solid fa-cart-shopping',
           routerLnk: '/admin/companies'
         },
         {
-          number: '5',
+          number: '7',
           name: 'Disease Lists',
           icon: 'fa-solid fa-gear',
           routerLnk: '/admin/diseases'
         },
         {
-          number: '6',
+          number: '8',
+          name: 'Disease Synonms',
+          icon: 'fa-solid fa-gear',
+          routerLnk: '/admin/disease-syns'
+        },
+        {
+          number: '9',
           name: 'Drugs Lists',
           icon: 'fa-solid fa-gear',
           routerLnk: '/admin/drugs'
         },
         {
-          number: '7',
+          number: '10',
+          name: 'Drug Synonms',
+          icon: 'fa-solid fa-gear',
+          routerLnk: '/admin/drug-syns'
+        },
+        {
+          number: '11',
           name: 'MOAS Lists',
           icon: 'fa-solid fa-phone',
           routerLnk: '/admin/moas'
+        },
+        {
+          number: '12',
+          name: 'TAS Lists',
+          icon: 'fa-solid fa-phone',
+          routerLnk: '/admin/tas'
         },
       ]
     } else {

@@ -5,21 +5,23 @@ import { DatePipe } from '@angular/common';
 import * as moment from "moment";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { DrugsModel } from './drugs.model';
+import { DrugSynsModel } from './drug-syns.model';
 declare var jQuery: any;
 
 @Component({
-  selector: 'app-drugs',
-  templateUrl: './drugs.component.html',
-  styleUrls: ['./drugs.component.scss'],
+  selector: 'app-drug-syns',
+  templateUrl: './drug-syns.component.html',
+  styleUrls: ['./drug-syns.component.scss'],
   providers: [DatePipe]
 })
-export class DrugsComponent implements OnInit {
+export class DrugSynsComponent implements OnInit {
 
   result: any = [];
+
   drugsRecords: any = [];
-  drugsTypeRecords: any = [];
   drugsRecordsDetails: any = [];
+  allDrugsLists: any = [];
+
   private addFormDrugModal: any;
   private modalRef: any;
   @ViewChild('addFormDrugModal', { static: false }) addFormDrugModal_edit: ElementRef;
@@ -28,6 +30,7 @@ export class DrugsComponent implements OnInit {
   loadingDel = false;
   loadingAdd = false;
   loadingEdit = false;
+  loadingDLists = false;
   params;
   layout: any = {};
   hideCardBody: boolean = true;
@@ -36,7 +39,7 @@ export class DrugsComponent implements OnInit {
   showUpdate !: boolean;
 
   formValue !: FormGroup;
-  drugModelObj: DrugsModel = new DrugsModel();
+  drugSynsModelObj: DrugSynsModel = new DrugSynsModel();
 
   constructor(private drugsService: DrugsService,
     private _router: Router,
@@ -44,32 +47,47 @@ export class DrugsComponent implements OnInit {
     private modalService: NgbModal,
     private datePipe: DatePipe,
     private formBuilder: FormBuilder) {
-    this.formValue = this.formBuilder.group({
-      name: [''],
-      description: [''],
 
+    this.formValue = this.formBuilder.group({
+      drug_id: [''],
+      name: ['']
     });
   }
 
   ngOnInit(): void {
+
+    this.loadingDLists = true;
+    //show the company type
+    this.drugsService.getDrugsLists().subscribe(
+      data => {
+        this.result = data;
+        this.allDrugsLists = this.result.drugsRecords;
+        // console.log("allDrugsLists: ", this.allDrugsLists);
+      },
+      err => {
+        console.log(err.message);
+        this.loadingDLists = false;
+      },
+      () => {
+        this.loadingDLists = false;
+      });
+
     this.showAllDrugsLists();
   }
 
   showAllDrugsLists() {
     this.loading = true;
-    this.drugsService.getDrugsLists().subscribe(
+    this.drugsService.getDrugSynLists().subscribe(
       data => {
         this.result = data;
         this.drugsRecords = this.result.drugsRecords;
-        console.log("drugsRecords1: ", this.drugsRecords);
-        this.drugsRecordsDetails = [];
         let i = 1;
+        this.drugsRecordsDetails = [];
         this.drugsRecords.forEach(event => {
           var temps = {};
           temps["sr_no"] = i;
-          temps["id"] = event.drug_id;
-          temps["name"] = event.drug_name;
-          temps["description"] = event.description;
+          temps["id"] = event.drug_syn_id;
+          temps["name"] = event.name;
           temps["created_at"] = this.datePipe.transform(event.created_at, 'yyyy-MM-dd');
           temps["edit"] = "<button class='btn btn-sm btn-primary'>Edit</button> &nbsp;";
           temps["delete"] = "<button class='btn btn-sm btn-danger'>Delete</button>";
@@ -82,9 +100,9 @@ export class DrugsComponent implements OnInit {
           onClickRow: function (field, row, $element) {
             //delete
             if ($element == "delete") {
-              var result = confirm("are you want to delete this Drug?");
+              var result = confirm("are you want to delete this Drug Synonym?");
               if (result) {
-                this.deleteDrugs(field.id);
+                this.deleteDrugSyn(field.id);
               }
             }
             //edit
@@ -92,9 +110,9 @@ export class DrugsComponent implements OnInit {
               this.modalRef = this.modalService.open(this.addFormDrugModal_edit, { size: 'lg', keyboard: false, backdrop: 'static' });
               this.showAdd = false;
               this.showUpdate = true;
-              this.drugModelObj.drug_id = field.id;
+              this.drugSynsModelObj.drug_syn_id = field.id;
+              this.formValue.controls['drug_id'].setValue(field.drug_id);
               this.formValue.controls['name'].setValue(field.name);
-              this.formValue.controls['description'].setValue(field.description);
             }
           }.bind(this),
         });
@@ -108,7 +126,6 @@ export class DrugsComponent implements OnInit {
         this.loading = false;
       }
     );
-
   }
 
   addDrugsPopup() {
@@ -124,14 +141,15 @@ export class DrugsComponent implements OnInit {
 
   addDrugsSubmit() {
     this.loadingAdd = true;
-    this.drugModelObj.name = this.formValue.value.name;
-    this.drugModelObj.description = this.formValue.value.description;
+    this.drugSynsModelObj.drug_id = this.formValue.value.drug_id;
+    this.drugSynsModelObj.name = this.formValue.value.name;
 
-    this.drugsService.addDrugs(this.drugModelObj)
+    this.drugsService.addDrugSyn(this.drugSynsModelObj)
       .subscribe(res => {
-        // alert("Drugs Added Successfully");
+        // alert("Companies Added Successfully");
         let ref = document.getElementById('cancel');
         ref?.click();
+        //this.addFormCompanyModal.close();
         this.formValue.reset();
         this.showAllDrugsLists();
       },
@@ -147,13 +165,12 @@ export class DrugsComponent implements OnInit {
 
   updateDrugsSubmit() {
     this.loadingEdit = true;
-    this.drugModelObj.name = this.formValue.value.name;
-    this.drugModelObj.description = this.formValue.value.description;
+    this.drugSynsModelObj.drug_id = this.formValue.value.drug_id;
+    this.drugSynsModelObj.name = this.formValue.value.name;
 
-    this.drugsService.updateDrugs(this.drugModelObj, this.drugModelObj.drug_id).subscribe(res => {
+    this.drugsService.updateDrugSyn(this.drugSynsModelObj, this.drugSynsModelObj.drug_syn_id).subscribe(res => {
       let refCancel = document.getElementById('cancel');
       refCancel?.click();
-      //this.addFormDrugModal.close();
       this.formValue.reset();
       this.showAllDrugsLists();
     },
@@ -167,11 +184,10 @@ export class DrugsComponent implements OnInit {
     );
   }
 
-  deleteDrugs(event: any) {
+  deleteDrugSyn(event: any) {
     this.loadingDel = true;
-    return this.drugsService.deleteDrugs(event).subscribe(res => {
+    return this.drugsService.deleteDrugSyn(event).subscribe(res => {
       this.showAllDrugsLists();
-      //window.location.reload();
     },
       err => {
         console.log(err.message);
@@ -182,6 +198,5 @@ export class DrugsComponent implements OnInit {
       }
     );
   }
-
 
 }

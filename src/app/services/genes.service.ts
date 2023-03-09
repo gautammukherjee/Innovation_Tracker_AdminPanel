@@ -43,4 +43,27 @@ export class GenesService {
     }));
   }
 
+  //For Gene Synonms
+  getGeneSynLists(): Observable<any> {
+    return this._http.get(this.SERVER_URL + 'getGeneSynLists', httpOptions);
+  }
+
+  addGeneSyn(data: any) {
+    return this._http.post(this.SERVER_URL + 'addGeneSyn', data, httpOptions).pipe(map((res: any) => {
+      return res;
+    }));
+  }
+
+  updateGeneSyn(data: any, id: number) {
+    return this._http.put<any>(this.SERVER_URL + 'updateGeneSyn/' + id, data, httpOptions).pipe(map((res: any) => {
+      return res;
+    }));
+  }
+
+  deleteGeneSyn(id) {
+    return this._http.put(this.SERVER_URL + 'deleteGeneSyn/' + id, httpOptions).pipe(map((res: any) => {
+      //return res;
+    }));
+  }
+
 }
