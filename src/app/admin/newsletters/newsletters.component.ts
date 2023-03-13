@@ -72,13 +72,13 @@ export class NewslettersComponent implements OnInit {
           //temps["sr_no"] = i;
           temps["id"] = event.news_id;
           temps["user_name"] = event.user_name;
-          temps["publication_date"] = this.datePipe.transform(event.publication_date, 'MM-dd-yyyy');
-          temps["title"] = event.title;
-          temps["description"] = event.description;
+          temps["publication_date"] = this.datePipe.transform(event.publication_date, 'dd/MM/yyyy');
+          temps["title"] = (event.title.length>100)?(event.title.substring(0,100)+"..."):(event.title);
+          temps["description"] = (event.description.length>200)?(event.description.substring(0,200)+"..."):(event.description);
           temps["url_title"] = (event.url != null) ? ('<a href="' + event.url + '" target="_blank">link</a>') : '-';
           temps["url"] = event.url;
           temps["edit"] = "<button class='btn btn-sm btn-primary'>Edit</button>";
-          temps["delete"] = "<button class='btn btn-sm btn-danger'>Delete</button>";
+          temps["delete"] = "<button class='btn btn-sm btn-danger'>Trash</button>";
           i++;
           this.newsletterRecordsDetails.push(temps);
         });
@@ -88,7 +88,7 @@ export class NewslettersComponent implements OnInit {
           onClickRow: function (field, row, $element) {
             //delete
             if ($element == "delete") {
-              var result = confirm("are you want to delete this Newsletter?");
+              var result = confirm("Are you sure to delete this Newsletter?");
               if (result) {
                 this.deleteNewsletter(field.id);
               }
