@@ -1,6 +1,6 @@
 <div class="card mb-3 p-1">
     <div class="card-header">
-      <h6>Newsletter List</h6>
+      <h6>Newsletters</h6>
     </div>
 
     <div class="loading-custom" *ngIf="loading"><span class="fa fa-spinner fa-spin"></span>&nbsp;Loading...</div>
@@ -15,7 +15,10 @@
                     </div>
                 </div> 
                 <div class="customTable">
+
                     <div class="table-wrapper table-responsive custom-fixed-header-table" style="max-height:600px">
+                        
+                        
                         <table id="showNewsletterLists" class="table" data-toolbar="#toolbar" data-search="true"
                         data-escape="false" data-show-export="true" data-show-columns="true" data-page-size="50"
                             data-pagination="true"  data-page-list="[10, 25, 50, 100, All]" data-detail-formatter="detailFormatter">
@@ -27,9 +30,12 @@
                                     <th data-field="title" data-sortable="true" width="20%">Title</th>
                                     <th data-field="description" data-sortable="true" width="30%">Description</th>
                                     <th data-field="url_title" data-sortable="true" width="10%">URL</th>
-                                    <th data-field="user_name" data-sortable="true" width="10%">Added By</th>
-                                    <th data-field="edit" width="10%">Edit</th>
-                                    <th data-field="delete" width="10%">Trash</th>
+                                    
+                                    <!--<th data-field="user_name" data-sortable="true" width="10%">Added By</th>-->
+                                    <th data-field="approve" width="10%" *ngIf="(userType.user_type_id==1 || userType.user_type_id==3)">Approve</th>
+                                    <!--<th data-field="edit" width="10%">Edit</th>-->
+                                    <th data-field="trash" width="10%">Trash</th>
+                                    <!--<th data-field="delete" width="10%">Delete</th>-->
                                 </tr>
                             </thead>                           
                         </table>
@@ -40,6 +46,7 @@
     </div>
 </div>
 
+<!-- Add and Edit Form -->
 <ng-template #addFormNewsletterModal let-c="close" let-d="dismiss">  
     <div class="loading-custom-add" *ngIf="loadingEdit"><span class="fa fa-spinner fa-spin"></span>&nbsp;Loading...</div>
     <div class="loading-custom-add" *ngIf="loadingAdd"><span class="fa fa-spinner fa-spin"></span>&nbsp;Loading...</div>
@@ -65,24 +72,59 @@
             <label for="exampleInputPassword1" class="form-label">Description</label>
             <textarea type="text" formControlName="description" class="form-control" id="exampleInputPassword1"></textarea>
           </div>
+
           <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Publication Date</label>
-            <input type="text" formControlName="publication_date" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-            <small id="passHelp" class="form-text text-danger"
-            *ngIf="newsletterForm.form.controls.publication_date?.errors?.required && newsletterForm.form.controls.publication_date?.touched">
-            Publication Date is required!
-            </small>
+            <label for="exampleInputEmail1" class="form-label">Publication Date</label><br/>
+            <!--<input type="text" formControlName="publication_date" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">-->            
+            <span *ngIf="showAdd" style="float:left;">
+                <input class="" formControlName="publication_date" required name="publication_date" placeholder="mm-dd-yyyy" [value]="publication_date"
+                ngbDatepicker #f="ngbDatepicker">
+                &nbsp;<div class="input-group-append" style="float:right;">
+                    <button class="btn btn-outline-secondary calendar" (click)="f.toggle()" type="button"><span class="fa fa-calendar"></span></button>
+                </div>
+            </span>            
+            
+            <br/>
           </div>
+
           <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">URL</label>
             <input type="text" formControlName="url" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
           </div>
 
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Comments</label>
+            <textarea type="text" formControlName="comments" class="form-control" id="exampleInputPassword1"></textarea>
+          </div>
+
           <button type="submit" class="btn btn-primary" *ngIf="showAdd" (click)="addNewsletterSubmit()" [disabled]="!newsletterForm.form.valid">Add</button>&nbsp;
-          <button type="submit" class="btn btn-primary" *ngIf="showUpdate" (click)="updateNewsletterSubmit()" [disabled]="!newsletterForm.form.valid">Update</button>&nbsp;
+          <!--<button type="submit" class="btn btn-primary" *ngIf="showUpdate" (click)="updateNewsletterSubmit()" [disabled]="!newsletterForm.form.valid">Update</button>&nbsp;-->
           <button type="submit" class="btn btn-danger" (click)="d('Cross click')" id="cancel">Close</button>
         </form>
     </div>
   </ng-template>
 
-  
+
+<!-- Approval Form -->
+  <ng-template #approveFormNewsletterModal let-c="close" let-d="dismiss">  
+    <div class="loading-custom-add" *ngIf="loadingEdit"><span class="fa fa-spinner fa-spin"></span>&nbsp;Loading...</div>
+    <div class="loading-custom-add" *ngIf="loadingAdd"><span class="fa fa-spinner fa-spin"></span>&nbsp;Loading...</div>
+    <div class="modal-header modal-lg" style="background: #32404E !important;color:#fff;">
+        <h4 class="modal-title">Approve Newsletter</h4>
+        &nbsp;
+        <button class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body white_bg without_bord_rad">  
+        <form #approveNewsForm="ngForm" [formGroup]="formValue">
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Comments</label>
+            <textarea type="text" formControlName="comments" class="form-control" id="exampleInputPassword1"></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary" (click)="approveNewsletterSubmit()" [disabled]="!approveNewsForm.form.valid">Approve</button>&nbsp;
+          <button type="submit" class="btn btn-danger" (click)="d('Cross click')" id="cancel">Close</button>
+        </form>
+    </div>
+  </ng-template>

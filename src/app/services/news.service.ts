@@ -34,9 +34,27 @@ export class NewsService {
     }));
   }
 
-  deleteNewsletter(id) {
-    return this._http.put(this.SERVER_URL + 'deleteNewsletter/' + id, httpOptions).pipe(map((res: any) => {
+  trashNewsletter(id) {
+    return this._http.put(this.SERVER_URL + 'trashNewsletter/' + id, httpOptions).pipe(map((res: any) => {
       //return res;
     }));
   }
+
+  deleteNewsletter(id) {
+    return this._http.delete(this.SERVER_URL + 'deleteNewsletter/' + id, httpOptions).pipe(map((res: any) => {
+      //return res;
+    }));
+  }
+
+  approveNewsletter(data: any) {
+    return this._http.post<any>(this.SERVER_URL + 'approveNewsletter', data, httpOptions).pipe(map((res: any) => {
+      return res;
+    }));
+  }
+
+  //Approved News
+  getApproveNewsletterLists(): Observable<any> {
+    return this._http.get(this.SERVER_URL + 'getApproveNewsletterLists', httpOptions);
+  }
+
 }

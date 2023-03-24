@@ -75,7 +75,7 @@ export class LoginComponent implements OnInit {
 
   }
 
-  private setSession(authResult) {
+  private setSession(authResult:any) {
     // const expiresAt = moment().add(authResult.expiresAt, authResult.expireTimeUnit);
     const expiresAt = moment().add(authResult.expires_in, authResult.expireTimeUnit);
     sessionStorage.setItem('currentUser', JSON.stringify({ user_name: authResult.user.name, user_id: authResult.user.user_id, user_type_id: authResult.user.user_type_id, email: authResult.user.email }));

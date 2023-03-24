@@ -18,7 +18,7 @@ export class SideNavComponent implements OnInit {
   }
   ngOnInit(): void {
 
-    if (this.result.user_type_id == 1) {
+    if (this.result.user_type_id == 1 || this.result.user_type_id == 3) {
       this.lists = [
         // {
         //   number: '1',
@@ -34,9 +34,21 @@ export class SideNavComponent implements OnInit {
         },
         {
           number: '3',
-          name: 'Newsletters',
+          name: 'Pending News',
           icon: 'fa-solid fa-newspaper',
           routerLnk: '/admin/newsletters'
+        },
+        {
+          number: '4',
+          name: 'Appoved News',
+          icon: 'fa-solid fa-newspaper',
+          routerLnk: '/admin/approve_news'
+        },
+        {
+          number: '5',
+          name: 'Disapprove News',
+          icon: 'fa-solid fa-newspaper',
+          routerLnk: '/admin/disapprove_news'
         },
         {
           number: '4',
