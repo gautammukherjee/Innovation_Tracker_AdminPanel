@@ -1,6 +1,6 @@
 <div class="card mb-3 p-1">
     <div class="card-header">
-      <h6>Newsletters</h6>
+      <h6>Pending News</h6>
     </div>
 
     <div class="loading-custom" *ngIf="loading"><span class="fa fa-spinner fa-spin"></span>&nbsp;Loading...</div>
@@ -11,7 +11,7 @@
             <div class="card-panel-box-detail">
                 <div class="row">
                     <div class="col m-1">
-                        <button class="btn btn-primary float-end" type="button" data-bs-toggle="modal" (click)="addNewsletterPopup();">Add Newsletter</button>
+                        <button class="btn btn-primary float-end" type="button" data-bs-toggle="modal" (click)="addNewsletterPopup();">Add News</button>
                     </div>
                 </div> 
                 <div class="customTable">
@@ -34,7 +34,7 @@
                                     <!--<th data-field="user_name" data-sortable="true" width="10%">Added By</th>-->
                                     <th data-field="approve" width="10%" *ngIf="(userType.user_type_id==1 || userType.user_type_id==3)">Approve</th>
                                     <!--<th data-field="edit" width="10%">Edit</th>-->
-                                    <th data-field="trash" width="10%">Trash</th>
+                                    <th data-field="disapprove" width="10%">Disapprove</th>
                                     <!--<th data-field="delete" width="10%">Delete</th>-->
                                 </tr>
                             </thead>                           

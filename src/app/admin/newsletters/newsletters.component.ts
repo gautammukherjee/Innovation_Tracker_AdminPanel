@@ -97,11 +97,11 @@ export class NewslettersComponent implements OnInit {
           temps["url"] = event.url;
           //temps["edit"] = "<button class='btn btn-sm btn-primary'>Edit</button>";
           if (this.userType.user_type_id == 1 || this.userType.user_type_id == 3) {
-            temps["approve"] = "<button class='btn btn-sm btn-primary'>Approve</button>";
+            temps["approve"] = "<button class='btn btn-sm btn-success'>Approve</button>";
           }
 
-          temps["trash"] = "<button class='btn btn-sm btn-warning'>Trash</button>";
-          temps["delete"] = "<button class='btn btn-sm btn-danger'>Delete</button>";
+          temps["disapprove"] = "<button class='btn btn-sm btn-danger'>Disapprove</button>";
+          //temps["delete"] = "<button class='btn btn-sm btn-danger'>Delete</button>";
           i++;
           this.newsletterRecordsDetails.push(temps);
         });

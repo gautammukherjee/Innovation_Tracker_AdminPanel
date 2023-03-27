@@ -15,6 +15,7 @@ import { GeneSynsComponent } from './gene-syns/gene-syns.component';
 import { DrugSynsComponent } from './drug-syns/drug-syns.component';
 import { TasComponent } from './tas/tas.component';
 import { ApproveNewsComponent } from './approve_news/approve_news.component';
+import { DisapproveNewsComponent } from './disapprove-news/disapprove-news.component';
 
 const routes: Routes = [
   {
@@ -56,7 +57,7 @@ const routes: Routes = [
     path: 'disapprove_news',
     component: MainLayoutComponent,
     children: [
-      { path: '', component: NewslettersComponent },
+      { path: '', component: DisapproveNewsComponent },
     ]
   },
   {

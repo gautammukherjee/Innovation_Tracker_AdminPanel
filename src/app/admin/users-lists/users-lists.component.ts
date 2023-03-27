@@ -40,6 +40,7 @@ export class UsersListsComponent implements OnInit {
         this.userRecords.forEach(event => {
           var temps = {};
           temps["name"] = event.name;
+          temps["user_type"] = '';
           temps["email"] = event.email;
           temps["created_at"] = this.datePipe.transform(event.created_at, 'yyyy-MM-dd');
           this.userRecordsDetails.push(temps);
@@ -53,7 +54,7 @@ export class UsersListsComponent implements OnInit {
               field: 'created_at',
               class: 'text-center',
               formatter: function dateFormat(value, row, index) {
-                return moment(value).format('DD-MM-YYYY');
+                return moment(value).format('DD/MM/YYYY');
               },
             },
           ],

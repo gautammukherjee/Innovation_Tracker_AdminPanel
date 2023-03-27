@@ -30,79 +30,92 @@ export class SideNavComponent implements OnInit {
           number: '2',
           name: 'Users List',
           icon: 'fa-solid fa-users',
-          routerLnk: '/admin/users-lists'
+          routerLnk: '/admin/users-lists',
+          class: 'text-white'
         },
         {
           number: '3',
           name: 'Pending News',
           icon: 'fa-solid fa-newspaper',
-          routerLnk: '/admin/newsletters'
+          routerLnk: '/admin/newsletters',
+          class: 'text-warning'
         },
         {
           number: '4',
           name: 'Appoved News',
           icon: 'fa-solid fa-newspaper',
-          routerLnk: '/admin/approve_news'
+          routerLnk: '/admin/approve_news',
+          class: 'text-success'
         },
         {
           number: '5',
-          name: 'Disapprove News',
+          name: 'Disapproved News',
           icon: 'fa-solid fa-newspaper',
-          routerLnk: '/admin/disapprove_news'
+          routerLnk: '/admin/disapprove_news',
+          class: 'text-danger'
         },
         {
           number: '4',
           name: 'Genes List',
           icon: 'fa-solid fa-dna',
-          routerLnk: '/admin/genes'
+          routerLnk: '/admin/genes',
+          class: 'text-white'
         },
         {
           number: '5',
           name: 'Gene Synonms',
           icon: 'fa-solid fa-atom',
-          routerLnk: '/admin/gene-syns'
+          routerLnk: '/admin/gene-syns',
+          class: 'text-white'
         },
         {
           number: '6',
           name: 'Companies List',
           icon: 'fa-solid fa-building',
-          routerLnk: '/admin/companies'
+          routerLnk: '/admin/companies',
+          class: 'text-white'
         },
         {
           number: '7',
           name: 'Disease List',
           icon: 'fa-solid fa-disease',
-          routerLnk: '/admin/diseases'
+          routerLnk: '/admin/diseases',
+          class: 'text-white'
         },
         {
           number: '8',
           name: 'Disease Synonms',
           icon: 'fa-solid fa-disease',
-          routerLnk: '/admin/disease-syns'
+          routerLnk: '/admin/disease-syns',
+          class: 'text-white'
         },
         {
           number: '9',
           name: 'Drugs List',
           icon: 'fa-solid fa-capsules',
-          routerLnk: '/admin/drugs'
+          routerLnk: '/admin/drugs',
+          class: 'text-white'
         },
         {
           number: '10',
           name: 'Drug Synonms',
           icon: 'fa-solid fa-pills',
-          routerLnk: '/admin/drug-syns'
+          routerLnk: '/admin/drug-syns',
+          class: 'text-white'
         },
         {
           number: '11',
           name: 'MOAs List',
           icon: 'fa-solid fa-location-crosshairs',
-          routerLnk: '/admin/moas'
+          routerLnk: '/admin/moas',
+          class: 'text-white'
         },
         {
           number: '12',
           name: 'TAS List',
           icon: 'fa-sharp fa-solid fa-square-virus',
-          routerLnk: '/admin/tas'
+          routerLnk: '/admin/tas',
+          class: 'text-white'
         },
       ]
     } else {
@@ -117,7 +130,8 @@ export class SideNavComponent implements OnInit {
           number: '2',
           name: 'Users Lists',
           icon: 'fa-solid fa-circle-info',
-          routerLnk: '/admin/users-lists'
+          routerLnk: '/admin/users-lists',
+          class: 'text-white'
         }
       ]
     }
