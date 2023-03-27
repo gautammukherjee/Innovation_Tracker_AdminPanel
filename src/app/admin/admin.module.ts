@@ -21,6 +21,7 @@ import { DrugSynsComponent } from './drug-syns/drug-syns.component';
 import { GeneSynsComponent } from './gene-syns/gene-syns.component';
 import { TasComponent } from './tas/tas.component';
 import { EditorModule } from '@tinymce/tinymce-angular';
+import { DisapproveNewsComponent } from './disapprove-news/disapprove-news.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { EditorModule } from '@tinymce/tinymce-angular';
     DrugSynsComponent,
     GeneSynsComponent,
     TasComponent,
+    DisapproveNewsComponent,
   ],
   imports: [
     CommonModule,
