@@ -4,7 +4,6 @@
     </div>
 
     <div class="loading-custom" *ngIf="loading"><span class="fa fa-spinner fa-spin"></span>&nbsp;Loading...</div>
-    <div class="loading-custom" *ngIf="loadingDel"><span class="fa fa-spinner fa-spin"></span>&nbsp;Loading...</div>
     
     <div class="panel panel-primary">
         <div class="panel-body">                    
@@ -21,8 +20,8 @@
                                     <th data-field="publication_date" data-sortable="true" data-visible="true">Date</th>
                                     <th data-field="title" data-sortable="true" width="20%">Title</th>
                                     <th data-field="description" data-sortable="true" width="30%">Description</th>
-                                    <th data-field="url_title" data-sortable="true" width="10%">URL</th>                                    
-                                    <!--<th data-field="user_name" data-sortable="true" width="10%">Approved By</th>-->
+                                    <th data-field="url_title" data-sortable="true" width="10%">URL</th>
+                                    <th data-field="show_comments" data-sortable="true" width="10%">Show Comments</th>
                                     <!--<th data-field="approve" width="10%" *ngIf="(userType.user_type_id==1 || userType.user_type_id==3)">Approve</th>-->
                                 </tr>
                             </thead>                           
@@ -34,3 +33,24 @@
     </div>
 </div>
 
+<!-- Show Comments -->
+<ng-template #showCommentsNewsletterModal let-c="close" let-d="dismiss">  
+  <div class="loading-custom-comments" *ngIf="loadingComment"><span class="fa fa-spinner fa-spin"></span>&nbsp;Loading...</div>
+  <div class="modal-header modal-lg" style="background: #32404E !important;color:#fff;">
+      <h4 class="modal-title">{{newsHeading}}</h4>
+      &nbsp;
+      <button class="close" aria-label="Close" (click)="d('Cross click')">
+          <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+  <div class="modal-body white_bg without_bord_rad">  
+      <div *ngFor="let newsCommentsRecord of newsCommentsRecords">
+        <div class="m-4">
+          <div class="alert alert-primary alert-dismissible fade show">
+            <p>{{newsCommentsRecord.description}}</p>
+            <span class="user-comments">Commented By: {{newsCommentsRecord.name}}</span>
+          </div>
+        </div>        
+      </div>
+  </div>
+  </ng-template>

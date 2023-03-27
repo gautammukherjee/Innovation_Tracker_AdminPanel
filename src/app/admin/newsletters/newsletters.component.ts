@@ -18,24 +18,29 @@ export class NewslettersComponent implements OnInit {
   result: any = [];
   newsletterRecords: any = [];
   newsletterRecordsDetails: any = [];
+  newsCommentsRecords: any = [];
   private addFormNewsletterModal: any;
   private approveFormNewsletterModal: any;
+  private showCommentsNewsletterModal: any;
   private modalRef: any;
   @ViewChild('addFormNewsletterModal', { static: false }) addFormNewsletterModal_edit: ElementRef;
   @ViewChild('approveFormNewsletterModal', { static: false }) approveFormNewsletterModal_approve: ElementRef;
+  @ViewChild('showCommentsNewsletterModal', { static: false }) showCommentsNewsletterModal_approve: ElementRef;
 
   loading = false;
   loadingDel = false;
   loadingAdd = false;
   loadingEdit = false;
+  loadingComment = false;
   params;
   layout: any = {};
   hideCardBody: boolean = true;
   publication_date: any;
   selectedItems: any = [];
+  newsHeading: any = '';
 
-  showAdd !: boolean;
-  showUpdate !: boolean;
+  showApprove !: boolean;
+  showDisapprove !: boolean;
   showUpdateDate: Date;
   userType: any;
 
@@ -99,9 +104,9 @@ export class NewslettersComponent implements OnInit {
           if (this.userType.user_type_id == 1 || this.userType.user_type_id == 3) {
             temps["approve"] = "<button class='btn btn-sm btn-primary'>Approve</button>";
           }
-
-          temps["trash"] = "<button class='btn btn-sm btn-warning'>Trash</button>";
-          temps["delete"] = "<button class='btn btn-sm btn-danger'>Delete</button>";
+          temps["disapprove"] = "<button class='btn btn-sm btn-warning'>Disapprove</button>";
+          //temps["delete"] = "<button class='btn btn-sm btn-danger'>Delete</button>";
+          temps["show_comments"] = "<button class='btn btn-sm btn-primary'>View Comments</button>";
           i++;
           this.newsletterRecordsDetails.push(temps);
         });
@@ -110,13 +115,34 @@ export class NewslettersComponent implements OnInit {
           data: this.newsletterRecordsDetails,
           onClickRow: function (field, row, $element) {
 
-            //trash
-            if ($element == "trash") {
-              var result = confirm("Are you sure to delete this Newsletter?");
-              if (result) {
-                this.trashNewsletter(field.id);
-              }
+            //Approve
+            if ($element == "approve") {
+              // console.log("field: ", field);
+              this.showApprove = true;
+              this.showDisapprove = false;
+              this.modalRef = this.modalService.open(this.approveFormNewsletterModal_approve, { size: 'lg', keyboard: false, backdrop: 'static' });
+              this.newssModelObj.news_ids = [field.id];
             }
+
+            //Disapprove
+            if ($element == "disapprove") {
+              //var result = confirm("Are you sure to disapprove this Newsletter?");
+              //if (result) {
+              // this.trashNewsletter(field.id);
+              this.showApprove = false;
+              this.showDisapprove = true;
+              this.modalRef = this.modalService.open(this.approveFormNewsletterModal_approve, { size: 'lg', keyboard: false, backdrop: 'static' });
+              this.newssModelObj.news_ids = [field.id];
+              //}
+            }
+
+            // Show all the comments
+            if ($element == "show_comments") {
+              this.newsHeading = field.title;
+              this.modalRef = this.modalService.open(this.showCommentsNewsletterModal_approve, { size: 'lg', keyboard: false, backdrop: 'static' });
+              this.showCommentsNewsletter(field.id);
+            }
+
             //permanent delete
             // if ($element == "delete") {
             //   var result = confirm("Are you sure to permanent delete this Newsletter?");
@@ -124,16 +150,6 @@ export class NewslettersComponent implements OnInit {
             //     this.deleteNewsletter(field.id);
             //   }
             // }
-            //Approve
-            if ($element == "approve") {
-              console.log("field: ", field);
-              this.modalRef = this.modalService.open(this.approveFormNewsletterModal_approve, { size: 'lg', keyboard: false, backdrop: 'static' });
-              this.newssModelObj.news_id = field.id;
-
-              // this.formValue.controls['title'].setValue(field.title);
-              // this.formValue.controls['description'].setValue(field.description);
-              // this.formValue.controls['url'].setValue(field.url);
-            }
 
             //edit
             // if ($element == "edit") {
@@ -171,8 +187,8 @@ export class NewslettersComponent implements OnInit {
   addNewsletterPopup() {
     this.modalRef = this.modalService.open(this.addFormNewsletterModal_edit, { size: 'lg', keyboard: false, backdrop: 'static' });
     this.formValue.reset();
-    this.showAdd = true;
-    this.showUpdate = false;
+    // this.showAdd = true;
+    // this.showUpdate = false;
   }
 
   closePopup() {
@@ -181,6 +197,7 @@ export class NewslettersComponent implements OnInit {
 
   closePopupApproval() {
     this.approveFormNewsletterModal.close();
+    this.showCommentsNewsletterModal.close();
   }
 
   addNewsletterSubmit() {
@@ -240,46 +257,49 @@ export class NewslettersComponent implements OnInit {
   //   );
   // }
 
-  trashNewsletter(event: any) {
-    this.loadingDel = true;
-    return this.newsService.trashNewsletter(event).subscribe(res => {
-    },
-      err => {
-        console.log(err.message);
-        this.loadingDel = false;
-      },
-      () => {
-        this.showAllNewsletterLists();
-        this.loadingDel = false;
-      }
-    );
-  }
+  // trashNewsletter(event: any) {
+  //   this.loadingDel = true;
+  //   return this.newsService.trashNewsletter(event).subscribe(res => {
+  //   },
+  //     err => {
+  //       console.log(err.message);
+  //       this.loadingDel = false;
+  //     },
+  //     () => {
+  //       this.showAllNewsletterLists();
+  //       this.loadingDel = false;
+  //     }
+  //   );
+  // }
 
-  deleteNewsletter(event: any) {
-    this.loadingDel = true;
-    return this.newsService.deleteNewsletter(event).subscribe(res => {
-    },
-      err => {
-        console.log(err.message);
-        this.loadingDel = false;
-      },
-      () => {
-        this.showAllNewsletterLists();
-        this.loadingDel = false;
-      }
-    );
-  }
+  // deleteNewsletter(event: any) {
+  //   this.loadingDel = true;
+  //   return this.newsService.deleteNewsletter(event).subscribe(res => {
+  //   },
+  //     err => {
+  //       console.log(err.message);
+  //       this.loadingDel = false;
+  //     },
+  //     () => {
+  //       this.showAllNewsletterLists();
+  //       this.loadingDel = false;
+  //     }
+  //   );
+  // }
 
   approvedMultipleNewsletter() {
+    this.showApprove = true;
     var selectedRows = this.getRowSelections();
-    this.selectedItems = [];
-    selectedRows.forEach((value: any) => {
-      this.selectedItems.push(value.id);
-    });
-    this.modalRef = this.modalService.open(this.approveFormNewsletterModal_approve, { size: 'lg', keyboard: false, backdrop: 'static' });
-    this.newssModelObj.news_ids = this.selectedItems;
-    // this.newssModelObj.comments = this.formValue.value.comments;
-    // console.log("valuesMM: ", this.newssModelObj);
+    if (selectedRows == "") {
+      alert("Please choose atleat one news");
+    } else {
+      this.selectedItems = [];
+      selectedRows.forEach((value: any) => {
+        this.selectedItems.push(value.id);
+      });
+      this.modalRef = this.modalService.open(this.approveFormNewsletterModal_approve, { size: 'lg', keyboard: false, backdrop: 'static' });
+      this.newssModelObj.news_ids = this.selectedItems;
+    }
   }
 
   getRowSelections() {
@@ -292,7 +312,7 @@ export class NewslettersComponent implements OnInit {
   approveNewsletterSubmit() {
     this.loadingEdit = true;
     this.newssModelObj.comments = this.formValue.value.comments;
-    console.log("values: ", this.newssModelObj);
+    // console.log("values: ", this.newssModelObj);
     // this.newssModelObj.approval_date = this.formValue.value.approval_date;
     // this.newssModelObj.publication_date = this.formValue.value.publication_date;
 
@@ -313,17 +333,61 @@ export class NewslettersComponent implements OnInit {
     );
   }
 
-  formatDate(date) {
-    var d = new Date(date),
-      month = '' + (d.getMonth() + 1),
-      day = '' + d.getDate(),
-      year = d.getFullYear();
-    if (month.length < 2)
-      month = '0' + month;
-    if (day.length < 2)
-      day = '0' + day;
+  //DisApproval form Submit
+  disapproveNewsletterSubmit() {
+    this.loadingEdit = true;
+    this.newssModelObj.comments = this.formValue.value.comments;
+    // console.log("values: ", this.newssModelObj);
+    // this.newssModelObj.approval_date = this.formValue.value.approval_date;
+    // this.newssModelObj.publication_date = this.formValue.value.publication_date;
 
-    return [year, month, day].join('-');
+    this.newsService.disapproveNewsletter(this.newssModelObj).subscribe(res => {
+      let refCancel = document.getElementById('cancel');
+      refCancel?.click();
+      //this.addFormNewsletterModal.close();
+      this.formValue.reset();
+      this.showAllNewsletterLists();
+    },
+      err => {
+        console.log(err.message);
+        this.loadingEdit = false;
+      },
+      () => {
+        this.loadingEdit = false;
+      }
+    );
   }
+
+  showCommentsNewsletter(newsId: any) {
+    this.loadingComment = true;
+    this.newsCommentsRecords = [];
+    this.newsService.getCommentsNewsletter(newsId).subscribe(
+      data => {
+        this.result = data;
+        this.newsCommentsRecords = this.result.newsCommentsRecords;
+        console.log("newsCommentsRecords: ", this.newsCommentsRecords);
+      },
+      err => {
+        console.log(err.message);
+        this.loadingComment = false;
+      },
+      () => {
+        this.loadingComment = false;
+      }
+    );
+  }
+
+  // formatDate(date) {
+  //   var d = new Date(date),
+  //     month = '' + (d.getMonth() + 1),
+  //     day = '' + d.getDate(),
+  //     year = d.getFullYear();
+  //   if (month.length < 2)
+  //     month = '0' + month;
+  //   if (day.length < 2)
+  //     day = '0' + day;
+
+  //   return [year, month, day].join('-');
+  // }
 
 }
