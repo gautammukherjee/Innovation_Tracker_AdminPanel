@@ -1,0 +1,85 @@
+<div class="card mb-3 p-1">
+    <div class="card-header">
+      <h6>Disapproved News</h6>
+    </div>
+
+    <div class="loading-custom" *ngIf="loading"><span class="fa fa-spinner fa-spin"></span>&nbsp;Loading...</div>
+    
+    <div class="panel panel-primary">
+        <div class="panel-body">                    
+            <div class="card-panel-box-detail">
+                <div class="customTable">
+                    <div class="table-wrapper table-responsive custom-fixed-header-table" style="max-height:600px">
+                        <table id="showNewsletterLists" class="table" data-toolbar="#toolbar" data-search="true"
+                        data-escape="false" data-show-export="true" data-show-columns="true" data-page-size="50"
+                            data-pagination="true"  data-page-list="[10, 25, 50, 100, All]" data-detail-formatter="detailFormatter">
+                            <thead style="background-color: #32404e; color: #fff;">
+                                <tr>
+                                    <!--<th data-field="sr_no" data-sortable="true">Sr No</th>-->
+                                    <th data-field="id" data-visible="false"></th>
+                                    <th data-field="publication_date" data-sortable="true" data-visible="true">Date</th>
+                                    <th data-field="title" data-sortable="true" width="20%">Title</th>
+                                    <th data-field="description" data-sortable="true" width="30%">Description</th>
+                                    <th data-field="url_title" data-sortable="true" width="10%">URL</th>
+                                    <th data-field="show_comments" data-sortable="true" width="10%">Comments</th>
+                                    <th data-field="pending_news" data-sortable="true" width="10%">Pending News</th>
+                                </tr>
+                            </thead>                           
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Show Comments -->
+<ng-template #showCommentsNewsletterModal let-c="close" let-d="dismiss">  
+  <div class="loading-custom-comments" *ngIf="loadingComment"><span class="fa fa-spinner fa-spin"></span>&nbsp;Loading...</div>
+  <div class="modal-header modal-lg" style="background: #32404E !important;color:#fff;">
+      <h4 class="modal-title">{{newsHeading}}</h4>
+      &nbsp;
+      <button class="close" aria-label="Close" (click)="d('Cross click')">
+          <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+  <div class="modal-body white_bg without_bord_rad">  
+    <div *ngFor="let newsCommentsRecord of newsCommentsRecords">
+      <div class="m-4">
+        <div class="alert alert-primary alert-dismissible fade show">
+            <p>{{newsCommentsRecord.description}}</p>
+            <span class="user-comments">Commented By: {{newsCommentsRecord.name}}</span>
+        </div>
+      </div>        
+    </div>
+</div>
+</ng-template>
+
+
+<!-- Pending  Form -->
+<ng-template #pendingFormNewsletterModal let-c="close" let-d="dismiss">
+    <div class="loading-custom-add" *ngIf="loadingEdit"><span class="fa fa-spinner fa-spin"></span>&nbsp;Loading...</div>
+    <div class="loading-custom-add" *ngIf="loadingAdd"><span class="fa fa-spinner fa-spin"></span>&nbsp;Loading...</div>
+    <div class="modal-header modal-lg" style="background: #32404E !important;color:#fff;">
+        <h4 class="modal-title">Pending News</h4>
+        &nbsp;
+        <button class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body white_bg without_bord_rad">  
+        <form #approveNewsForm="ngForm" [formGroup]="formValue">
+            <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Comments</label>
+            <textarea type="text" required formControlName="comments" class="form-control" id="exampleInputPassword1"></textarea>
+    
+            <small id="passHelp" class="form-text text-danger"
+                *ngIf="approveNewsForm.form.controls.comments?.errors?.required && approveNewsForm.form.controls.comments?.touched">
+                Comment is required!
+            </small>
+            </div>
+            <button type="submit" class="btn btn-primary" (click)="disapproveNewsletterSubmit()" [disabled]="!approveNewsForm.form.valid">Pending News</button>&nbsp;
+            <button type="submit" class="btn btn-danger" (click)="d('Cross click')" id="cancel">Close</button>
+        </form>
+    </div>
+</ng-template>

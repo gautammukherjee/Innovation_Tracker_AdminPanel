@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 // import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 // import { RouterModule } from '@angular/router';
 
 import { AdminRoutingModule } from './admin-routing.module';
@@ -14,10 +15,13 @@ import { CompaniesComponent } from './companies/companies.component';
 import { DrugsComponent } from './drugs/drugs.component';
 import { MoasComponent } from './moas/moas.component';
 import { NewslettersComponent } from './newsletters/newsletters.component';
+import { ApproveNewsComponent } from './approve_news/approve_news.component';
 import { DiseaseSynsComponent } from './disease-syns/disease-syns.component';
 import { DrugSynsComponent } from './drug-syns/drug-syns.component';
 import { GeneSynsComponent } from './gene-syns/gene-syns.component';
 import { TasComponent } from './tas/tas.component';
+import { EditorModule } from '@tinymce/tinymce-angular';
+import { DisapproveNewsComponent } from './disapprove-news/disapprove-news.component';
 
 @NgModule({
   declarations: [
@@ -30,10 +34,12 @@ import { TasComponent } from './tas/tas.component';
     DrugsComponent,
     MoasComponent,
     NewslettersComponent,
+    ApproveNewsComponent,
     DiseaseSynsComponent,
     DrugSynsComponent,
     GeneSynsComponent,
     TasComponent,
+    DisapproveNewsComponent,
   ],
   imports: [
     CommonModule,
@@ -41,7 +47,9 @@ import { TasComponent } from './tas/tas.component';
     // BrowserModule,
     FormsModule,
     // RouterModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgbModule,
+    EditorModule
   ],
   exports: [
   ]

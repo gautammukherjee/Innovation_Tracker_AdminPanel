@@ -7,4 +7,7 @@ export class NewssModel {
     url: any = '';
     webhose_id: any = '';
     textindex_td: any = '';
+    comments: string = '';
+    approval_date: string = '';
+    news_ids: any = [];
 }

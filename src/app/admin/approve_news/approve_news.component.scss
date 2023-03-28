@@ -14,13 +14,13 @@
     }
 }
 
-.loading-custom-add {
+.loading-custom-comments {
     position: absolute;
     width: 200px;
     left: 290px;
     top: 25px;
     padding: 10px;
-    background: #a4b5e6;
+    background: #576878;
     text-align: center;
     color: aliceblue;
     border: 1px solid #b3af22;
@@ -92,26 +92,6 @@
     width: 100%;
     overflow: auto;
     display: inline-block;
-}
-
-.loading-custom-comments {
-    position: absolute;
-    width: 200px;
-    left: 290px;
-    top: 25px;
-    padding: 10px;
-    background: #576878;
-    text-align: center;
-    color: aliceblue;
-    border: 1px solid #b3af22;
-
-    span {
-        color: #000;
-    }
-}
-
-.tox-statusbar {
-    display: none !important;
 }
 
 .user-comments {
