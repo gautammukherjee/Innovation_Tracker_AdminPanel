@@ -1,1 +1,36 @@
-<p>disapprove-news works!</p>
+<div class="card mb-3 p-1">
+    <div class="card-header">
+      <h6>Disapproved News</h6>
+    </div>
+
+    <div class="loading-custom" *ngIf="loading"><span class="fa fa-spinner fa-spin"></span>&nbsp;Loading...</div>
+    <div class="loading-custom" *ngIf="loadingDel"><span class="fa fa-spinner fa-spin"></span>&nbsp;Loading...</div>
+    
+    <div class="panel panel-primary">
+        <div class="panel-body">                    
+            <div class="card-panel-box-detail">
+                <div class="customTable">
+                    <div class="table-wrapper table-responsive custom-fixed-header-table" style="max-height:600px">
+                        <table id="showNewsletterLists" class="table" data-toolbar="#toolbar" data-search="true"
+                        data-escape="false" data-show-export="true" data-show-columns="true" data-page-size="50"
+                            data-pagination="true"  data-page-list="[10, 25, 50, 100, All]" data-detail-formatter="detailFormatter">
+                            <thead style="background-color: #32404e; color: #fff;">
+                                <tr>
+                                    <!--<th data-field="sr_no" data-sortable="true">Sr No</th>-->
+                                    <th data-field="id" data-visible="false"></th>
+                                    <th data-field="publication_date" data-sortable="true" data-visible="true">Date</th>
+                                    <th data-field="title" data-sortable="true" width="20%">Title</th>
+                                    <th data-field="description" data-sortable="true" width="30%">Description</th>
+                                    <th data-field="url_title" data-sortable="true" width="10%">URL</th>                                    
+                                    <!--<th data-field="user_name" data-sortable="true" width="10%">Disapproved By</th>-->
+                                    <!--<th data-field="approve" width="10%" *ngIf="(userType.user_type_id==1 || userType.user_type_id==3)">Revert</th>-->
+                                </tr>
+                            </thead>                           
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

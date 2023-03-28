@@ -57,4 +57,9 @@ export class NewsService {
     return this._http.get(this.SERVER_URL + 'getApproveNewsletterLists', httpOptions);
   }
 
+  //Disapproved News
+  getDisapprovedNewsList(): Observable<any> {
+    return this._http.get(this.SERVER_URL + 'getApproveNewsletterLists', httpOptions);
+  }
+
 }
