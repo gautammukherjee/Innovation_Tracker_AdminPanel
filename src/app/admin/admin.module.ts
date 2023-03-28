@@ -20,6 +20,7 @@ import { DiseaseSynsComponent } from './disease-syns/disease-syns.component';
 import { DrugSynsComponent } from './drug-syns/drug-syns.component';
 import { GeneSynsComponent } from './gene-syns/gene-syns.component';
 import { TasComponent } from './tas/tas.component';
+import { EditorModule } from '@tinymce/tinymce-angular';
 import { DisapproveNewsComponent } from './disapprove-news/disapprove-news.component';
 
 @NgModule({
@@ -47,7 +48,8 @@ import { DisapproveNewsComponent } from './disapprove-news/disapprove-news.compo
     FormsModule,
     // RouterModule,
     ReactiveFormsModule,
-    NgbModule
+    NgbModule,
+    EditorModule
   ],
   exports: [
   ]
