@@ -63,9 +63,21 @@ export class NewsService {
     return this._http.get(this.SERVER_URL + 'getApproveNewsletterLists', httpOptions);
   }
 
+  //Pending News
+  getPendingNewsletterLists(): Observable<any> {
+    return this._http.get(this.SERVER_URL + 'getPendingNewsletterLists', httpOptions);
+  }
+
   //Show comments on News
   getCommentsNewsletter(newsId): Observable<any> {
     return this._http.post(this.SERVER_URL + 'getCommentsNewsletter/' + newsId, httpOptions);
+  }
+
+  //Pending News
+  pendingNewsletter(data: any, id: number): Observable<any> {
+    return this._http.post<any>(this.SERVER_URL + 'pendingNewsletter/' + id, data, httpOptions).pipe(map((res: any) => {
+      return res;
+    }));
   }
 
 }

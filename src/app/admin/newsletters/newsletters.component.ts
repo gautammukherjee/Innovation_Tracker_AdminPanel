@@ -106,7 +106,7 @@ export class NewslettersComponent implements OnInit {
           }
           temps["disapprove"] = "<button class='btn btn-sm btn-warning'>Disapprove</button>";
           //temps["delete"] = "<button class='btn btn-sm btn-danger'>Delete</button>";
-          temps["show_comments"] = "<button class='btn btn-sm btn-primary'>View Comments</button>";
+          temps["show_comments"] = "<button class='btn btn-sm btn-primary'>Comments</button>";
           i++;
           this.newsletterRecordsDetails.push(temps);
         });

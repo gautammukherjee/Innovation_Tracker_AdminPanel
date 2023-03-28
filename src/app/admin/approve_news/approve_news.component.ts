@@ -19,8 +19,10 @@ export class ApproveNewsComponent implements OnInit {
   newsletterRecordsDetails: any = [];
   newsCommentsRecords: any = [];
   private showCommentsNewsletterModal: any;
+  private showRelationsNewsletterModal: any;
   private modalRef: any;
-  @ViewChild('showCommentsNewsletterModal', { static: false }) showCommentsNewsletterModal_approve: ElementRef;
+  @ViewChild('showCommentsNewsletterModal', { static: false }) showCommentsNewsletterModal_active: ElementRef;
+  @ViewChild('showRelationsNewsletterModal', { static: false }) showRelationsNewsletterModal_active: ElementRef;
 
   loading = false;
   loadingComment = false;
@@ -84,7 +86,9 @@ export class ApproveNewsComponent implements OnInit {
           temps["description"] = (event.description.length > 200) ? (event.description.substring(0, 200) + "...") : (event.description);
           temps["url_title"] = (event.url != null) ? ('<a href="' + event.url + '" target="_blank">link</a>') : '-';
           temps["url"] = event.url;
-          temps["show_comments"] = "<button class='btn btn-sm btn-primary'>View Comments</button>";
+          temps["show_comments"] = "<button class='btn btn-sm btn-primary'>Comments</button>";
+          temps["show_relations"] = "<button class='btn btn-sm btn-primary'>Show Relations</button>";
+
           // if (this.userType.user_type_id == 1 || this.userType.user_type_id == 3) {
           //   temps["approve"] = "<button class='btn btn-sm btn-primary'>Approve</button>";
           // }
@@ -97,11 +101,19 @@ export class ApproveNewsComponent implements OnInit {
           onClickRow: function (field, row, $element) {
             // Show all the comments
             if ($element == "show_comments") {
-              console.log("field: ", field);
               this.newsHeading = field.title;
-              this.modalRef = this.modalService.open(this.showCommentsNewsletterModal_approve, { size: 'lg', keyboard: false, backdrop: 'static' });
+              this.modalRef = this.modalService.open(this.showCommentsNewsletterModal_active, { size: 'lg', keyboard: false, backdrop: 'static' });
               this.showCommentsNewsletter(field.id);
             }
+
+            // Show all the comments
+            if ($element == "show_relations") {
+              console.log("field: ", field);
+              this.newsHeading = field.title;
+              this.modalRef = this.modalService.open(this.showRelationsNewsletterModal_active, { size: 'lg', keyboard: false, backdrop: 'static' });
+              // this.showCommentsNewsletter(field.id);
+            }
+
           }.bind(this),
         });
         jQuery('#showNewsletterLists').bootstrapTable("load", this.newsletterRecordsDetails);
