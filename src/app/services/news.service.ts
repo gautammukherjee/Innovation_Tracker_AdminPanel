@@ -63,19 +63,11 @@ export class NewsService {
     return this._http.get(this.SERVER_URL + 'getApproveNewsletterLists', httpOptions);
   }
 
-<<<<<<< HEAD
   //Pending News
   getPendingNewsletterLists(): Observable<any> {
     return this._http.get(this.SERVER_URL + 'getPendingNewsletterLists', httpOptions);
   }
 
-=======
-
-  //Disapproved News
-  getDisapprovedNewsList(): Observable<any> {
-    return this._http.get(this.SERVER_URL + 'getApproveNewsletterLists', httpOptions);
-  }
->>>>>>> 8d91bb54960efc3d4481f17a2af9a61937682060
   //Show comments on News
   getCommentsNewsletter(newsId): Observable<any> {
     return this._http.post(this.SERVER_URL + 'getCommentsNewsletter/' + newsId, httpOptions);
