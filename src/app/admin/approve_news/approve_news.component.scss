@@ -100,3 +100,77 @@
     bottom: 3px;
     font-size: 13px;
 }
+
+
+.alert {
+    width: 95%;
+    position: relative;
+    border-radius: 1px;
+    box-shadow: 0 0 15px 5px #ccc;
+}
+
+
+@mixin alert($name, $bgColor) {
+    $accentColor: darken($bgColor, 50);
+
+    .#{$name} {
+        background-color:#{$bgColor};
+        border-left: 5px solid $accentColor;
+        padding: 3px;
+        width: 30%;
+
+        .close {
+            border-color: $accentColor;
+            color: $accentColor;
+        }
+    }
+}
+
+@include alert(simple-alert, #ebebeb);
+@include alert(success-alert, #a8f0c6);
+@include alert(danger-alert, #f7a7a3);
+@include alert(warning-alert, #ffd48a);
+
+
+
+.card-panel-box {
+    margin-bottom: 20px;
+    box-shadow: 0px 1px 5px #ddd;
+    background: #32404E;
+}
+
+.card-panel-box .card-panel-box-heading {
+    font-size: 16px;
+    padding: 12px 15px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    column-gap: 8px;
+    border-bottom: 1px solid;
+
+    span.arrow-down {
+        margin-left: auto;
+
+        img {
+            width: 20px;
+        }
+    }
+}
+
+.card-panel-box .card-panel-box-detail {
+    padding: 2px 20px 30px 20px;
+}
+
+.card-panel-box .card-panel-box-detail .search-input {
+    margin-bottom: 10px;
+}
+
+.card-panel-box .card-panel-box-detail .search-input input:focus {
+    border: 1px solid #187ebc;
+    outline: none;
+    box-shadow: none;
+}
+
+.card-panel-box .card-panel-box-detail .checkbox-group .form-check {
+    margin-bottom: 3px;
+}

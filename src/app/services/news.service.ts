@@ -80,4 +80,14 @@ export class NewsService {
     }));
   }
 
+  //Save News TA Relations
+
+  saveNewsTaRl(data: any, id: number): Observable<any> {
+    return this._http.post<any>(this.SERVER_URL + 'saveNewsTaRl/' + id, data, httpOptions).pipe(map((res: any) => {
+      return res;
+    }));
+  }
+
+
+
 }

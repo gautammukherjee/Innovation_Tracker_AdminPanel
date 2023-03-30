@@ -88,7 +88,7 @@ export class DisapproveNewsComponent implements OnInit {
           temps["url_title"] = (event.url != null) ? ('<a href="' + event.url + '" target="_blank">link</a>') : '-';
           temps["url"] = event.url;
           temps["show_comments"] = "<button class='btn btn-sm btn-primary'>Comments</button>";
-          temps["pending_news"] = "<button class='btn btn-sm btn-primary'>Pending News</button>";
+          temps["pending_news"] = "<button class='btn btn-sm btn-primary'>Undo</button>";
 
           // if (this.userType.user_type_id == 1 || this.userType.user_type_id == 3) {
           //   temps["approve"] = "<button class='btn btn-sm btn-primary'>Approve</button>";

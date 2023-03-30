@@ -21,4 +21,17 @@ export class TasService {
   getTasLists(): Observable<any> {
     return this._http.get(this.SERVER_URL + 'getTasLists', httpOptions);
   }
+
+  getTasListsNotExistRl(id: number): Observable<any> {
+    return this._http.post<any>(this.SERVER_URL + 'getTasListsNotExistRl/' + id, httpOptions).pipe(map((res: any) => {
+      return res;
+    }));
+  }
+
+  getTasListsExistRl(id: number): Observable<any> {
+    return this._http.post<any>(this.SERVER_URL + 'getTasListsExistRl/' + id, httpOptions).pipe(map((res: any) => {
+      return res;
+    }));
+  }
+
 }

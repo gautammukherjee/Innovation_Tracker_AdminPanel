@@ -22,7 +22,7 @@
                                     <th data-field="description" data-sortable="true" width="30%">Description</th>
                                     <th data-field="url_title" data-sortable="true" width="10%">URL</th>
                                     <th data-field="show_comments" data-sortable="true" width="10%">Comments</th>
-                                    <th data-field="pending_news" data-sortable="true" width="10%">Pending News</th>
+                                    <th data-field="pending_news" data-sortable="true" width="10%">Revert to Pending News</th>
                                 </tr>
                             </thead>                           
                         </table>
@@ -78,7 +78,7 @@
                 Comment is required!
             </small>
             </div>
-            <button type="submit" class="btn btn-primary" (click)="disapproveNewsletterSubmit()" [disabled]="!approveNewsForm.form.valid">Pending News</button>&nbsp;
+            <button type="submit" class="btn btn-primary" (click)="disapproveNewsletterSubmit()" [disabled]="!approveNewsForm.form.valid">Undo</button>&nbsp;
             <button type="submit" class="btn btn-danger" (click)="d('Cross click')" id="cancel">Close</button>
         </form>
     </div>

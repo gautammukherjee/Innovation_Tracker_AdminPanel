@@ -4,7 +4,10 @@ import { NewsService } from '../../services/news.service';
 import { DatePipe } from '@angular/common';
 import * as moment from "moment";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
+
+import { ApproveNewssModel } from './approve_newss.model';
+import { TasService } from '../../services/tas.service';
 declare var jQuery: any;
 
 @Component({
@@ -26,21 +29,31 @@ export class ApproveNewsComponent implements OnInit {
 
   loading = false;
   loadingComment = false;
+  loadingRelations = false;
+  loadingTa = false;
+  loadingExistTa = false;
   params;
   layout: any = {};
   hideCardBody: boolean = true;
   publication_date: any;
   selectedItems: any = [];
+  tasRecords: any = [];
+  tasExistRecords: any = [];
 
   showAdd !: boolean;
   showUpdate !: boolean;
   showUpdateDate: Date;
   userType: any;
   newsHeading: any = '';
+  public selectedTa: Array<object> = [];
+
+  saveMessage: boolean = false;
 
   formValue !: FormGroup;
+  newssModelObj: ApproveNewssModel = new ApproveNewssModel();
 
-  constructor(private newsService: NewsService,
+  constructor(private tasService: TasService,
+    private newsService: NewsService,
     private _router: Router,
     private _activatedRoute: ActivatedRoute,
     private modalService: NgbModal,
@@ -48,15 +61,11 @@ export class ApproveNewsComponent implements OnInit {
     private formBuilder: FormBuilder) {
 
     this.userType = JSON.parse(sessionStorage.getItem('currentUser'));
-    console.log("utype: ", this.userType);
+    // console.log("utype: ", this.userType);
 
     this.formValue = this.formBuilder.group({
-      publication_date: [''],
-      title: [''],
-      description: [''],
-      url: [''],
-      comments: ['']
-    });
+      ta_ids: this.formBuilder.array([], [Validators.required])
+    })
   }
 
   ngOnInit(): void {
@@ -87,7 +96,7 @@ export class ApproveNewsComponent implements OnInit {
           temps["url_title"] = (event.url != null) ? ('<a href="' + event.url + '" target="_blank">link</a>') : '-';
           temps["url"] = event.url;
           temps["show_comments"] = "<button class='btn btn-sm btn-primary'>Comments</button>";
-          temps["show_relations"] = "<button class='btn btn-sm btn-primary'>Show Relations</button>";
+          temps["show_relations"] = "<button class='btn btn-sm btn-primary'>Metadata</button>";
 
           // if (this.userType.user_type_id == 1 || this.userType.user_type_id == 3) {
           //   temps["approve"] = "<button class='btn btn-sm btn-primary'>Approve</button>";
@@ -112,6 +121,10 @@ export class ApproveNewsComponent implements OnInit {
               this.newsHeading = field.title;
               this.modalRef = this.modalService.open(this.showRelationsNewsletterModal_active, { size: 'lg', keyboard: false, backdrop: 'static' });
               // this.showCommentsNewsletter(field.id);
+              //TA lists
+              this.newssModelObj.news_id = field.id;
+              this.showListedTA(field.id);
+              this.showExistTARlt(field.id);
             }
 
           }.bind(this),
@@ -143,6 +156,80 @@ export class ApproveNewsComponent implements OnInit {
       },
       () => {
         this.loadingComment = false;
+      }
+    );
+  }
+
+  showListedTA(newsId: any) {
+    this.loadingTa = true;
+    console.log("newsId", newsId);
+    this.tasService.getTasListsNotExistRl(newsId).subscribe(
+      data => {
+        this.result = data;
+        this.tasRecords = this.result.tasRecords;
+        console.log("tasRecords: ", this.tasRecords);
+      },
+      err => {
+        console.log(err.message);
+        this.loadingTa = false;
+      },
+      () => {
+        this.loadingTa = false;
+      }
+    );
+  }
+
+  selectTa(e) {
+    const ta_ids: FormArray = this.formValue.get('ta_ids') as FormArray;
+    if (e.target.checked) {
+      ta_ids.push(new FormControl(e.target.value));
+      this.selectedTa.push(e.target.value);
+    } else {
+      const index = ta_ids.controls.findIndex(ta_ids => ta_ids.value === e.target.value);
+      ta_ids.removeAt(index);
+    }
+  }
+
+  //Already Exists TA News Relations
+  showExistTARlt(newsId: any) {
+    this.loadingExistTa = true;
+    console.log("newsId", newsId);
+    this.tasService.getTasListsExistRl(newsId).subscribe(
+      data => {
+        this.result = data;
+        this.tasExistRecords = this.result.tasExistRecords;
+        console.log("tasExistRecords: ", this.tasExistRecords);
+      },
+      err => {
+        console.log(err.message);
+        this.loadingExistTa = false;
+      },
+      () => {
+        this.loadingExistTa = false;
+      }
+    );
+  }
+
+  //Approval form Submit
+  saveNewsTaRl() {
+    this.loadingRelations = true;
+    console.log("values1: ", this.formValue.value.ta_ids);
+    console.log("values2: ", this.newssModelObj);
+    this.newsService.saveNewsTaRl({ 'ta_ids': this.formValue.value.ta_ids }, this.newssModelObj.news_id).subscribe(res => {
+      let refCancel = document.getElementById('cancel');
+      refCancel?.click();
+      //this.addFormNewsletterModal.close();
+      this.formValue.reset();
+      this.saveMessage = true;
+      this.showListedTA(this.newssModelObj.news_id);
+      this.showExistTARlt(this.newssModelObj.news_id);
+    },
+      err => {
+        console.log(err.message);
+        this.loadingRelations = false;
+      },
+      () => {
+        this.loadingRelations = false;
       }
     );
   }

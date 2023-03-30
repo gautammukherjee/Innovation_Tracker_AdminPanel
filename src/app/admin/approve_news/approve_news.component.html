@@ -22,7 +22,7 @@
                                     <th data-field="description" data-sortable="true" width="30%">Description</th>
                                     <th data-field="url_title" data-sortable="true" width="10%">URL</th>
                                     <th data-field="show_comments" data-sortable="true" width="10%">Comments</th>
-                                    <!--<th data-field="show_relations" data-sortable="true" width="10%">View Relations</th>-->
+                                    <th data-field="show_relations" data-sortable="true" width="10%">Metadata</th>
                                     <!--<th data-field="approve" width="10%" *ngIf="(userType.user_type_id==1 || userType.user_type_id==3)">Approve</th>-->
                                 </tr>
                             </thead>                           
@@ -58,11 +58,11 @@
 
 
 
-  <!-- Show Relations for master lists -->
+<!-- Show Relations for master lists -->
 <ng-template #showRelationsNewsletterModal let-c="close" let-d="dismiss">  
-  <div class="loading-custom-comments" *ngIf="loadingComment"><span class="fa fa-spinner fa-spin"></span>&nbsp;Loading...</div>
+  <div class="loading-custom-comments" *ngIf="loadingRelations"><span class="fa fa-spinner fa-spin"></span>&nbsp;Loading...</div>
   <div class="modal-header modal-lg" style="background: #32404E !important;color:#fff;">
-      <h4 class="modal-title">{{newsHeading}}</h4>
+      <h4 class="modal-title">Add Metadata - TA</h4>
       &nbsp;
       <button class="close" aria-label="Close" (click)="d('Cross click')">
           <span aria-hidden="true">&times;</span>
@@ -70,29 +70,60 @@
   </div>
 
 
+<div class="modal-body white_bg without_bord_rad">
 
-  <div class="modal-body white_bg without_bord_rad">
-    
+  <!-- 1.  TA RElation Masters -->
 
-    <div>
-      TA Lists
-      <br/>
-      Save
-    </div>
-    <div>
-      Already Relations
-    </div>
-
-
-      <div *ngFor="let newsCommentsRecord of newsCommentsRecords">
-        <div class="m-4">
-          <div class="alert alert-primary alert-dismissible fade show">
-            <p>{{newsCommentsRecord.description}}</p>
-            <span class="user-comments">Commented By: {{newsCommentsRecord.name}}</span>
-          </div>
-        </div>        
+  <!-- No Exists TA News relation -->
+  <div style="float: left;width: 50%;">
+    <div class="card-panel-box bg-theme top-tile">
+      <div class="card-panel-box card-panel-box-heading">
+        TA Master List <img *ngIf="loadingTa" src="../../assets/images/small-loader.gif" width="18px" />
       </div>
+      <div class="alert success-alert" *ngIf="saveMessage">
+        <span>Selected TA is attached</span>
+      </div>
+      <form #taNewsRlForm="ngForm" [formGroup]="formValue">
+          <div class="card-panel-box-detail" style="height: 150px;overflow: auto;">
+            <div class="checkbox-group" style="min-height: 183px; color: aliceblue;">
+              <div *ngFor="let ta of tasRecords" class="form-check">
+                <input class="form-check-input" required type="checkbox" [value]="ta.ta_id"
+                (change)="selectTa($event)">
+                <label class="form-check-label" for="defaultCheckTAAI">{{ta.name}}</label>
+              </div>
+            </div>
+          </div>          
+      </form>
+    </div> 
+    <div>
+      <button type="submit" class="btn btn-primary" (click)="saveNewsTaRl()">Attach</button>&nbsp;
+      <!--<button type="submit" class="btn btn-danger" (click)="d('Cross click')" id="cancel">Close</button>-->
+    </div>        
+  </div>   
+  
+  <!-- Exists TA News relation -->
+  <div class="card-panel-box bg-theme top-tile" style="float: left;width: 48%;">
+    <div class="card-panel-box-heading">
+      Existing Relation with TA <img *ngIf="loadingExistTa" src="../../assets/images/small-loader.gif" width="18px" />
+    </div>
+    <div class="card-panel-box-detail" style="height: 150px;overflow: auto;">
+      <div class="checkbox-group" style="min-height: 183px; color: aliceblue;">
+
+
+        <div *ngFor="let ta_exist of tasExistRecords" class="form-check">
+          <label class="form-check-label" for="defaultCheckTAAI" style="color: aliceblue;">{{ta_exist.name}}</label>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- 1. End here for TA RElation Masters -->
+
+
+  <!-- 2.  Disease RElation Masters -->
+
+  <!-- 2. End here for Disease RElation Masters -->
 
 
   </div>
-  </ng-template>
+</ng-template>
