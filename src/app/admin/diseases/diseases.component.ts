@@ -56,7 +56,7 @@ export class DiseasesComponent implements OnInit {
 
   showAllDiseasesLists() {
     this.loading = true;
-    this.diseasesService.getDiseasesLists().subscribe(
+    this.diseasesService.getBackendDiseasesLists().subscribe(
       data => {
         this.result = data;
         this.diseasesRecords = this.result.diseasesRecords;

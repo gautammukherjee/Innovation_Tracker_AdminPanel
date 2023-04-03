@@ -65,7 +65,7 @@
             <label for="exampleInputPassword1" class="form-label">Disease Name</label>
             <select class="form-control" formControlName="disease_id" id="disease_id" required>
                 <option value="null" disabled>Please choose Disease Name</option>
-                <option *ngFor="let allDiseasesList of allDiseasesLists; let i = index" [value]="allDiseasesLists[i].disease_id" selected>{{ allDiseasesList.name }}</option>
+                <option *ngFor="let allDiseasesList of allDiseasesLists; let i = index" [value]="allDiseasesLists[i].disease_id" selected>{{ allDiseasesList.disease_name }}</option>
             </select>
             <small id="passHelp" class="form-text text-danger"
                 *ngIf="diseaseForm.form.controls.disease_id?.errors?.required && diseaseForm.form.controls.disease_id?.touched">

@@ -58,7 +58,7 @@ export class GeneSynsComponent implements OnInit {
 
     this.loadingDLists = true;
     //show the company type
-    this.genesService.getGenesLists().subscribe(
+    this.genesService.getBackendGenesLists().subscribe(
       data => {
         this.result = data;
         this.allGenesLists = this.result.genesRecords;

@@ -25,8 +25,8 @@ export class MoasComponent {
 
   loading = false;
   loadingAdd = false;
-
   loadingEdit = false;
+  loadingDel = false;
 
   params;
   layout: any = {};
@@ -60,7 +60,7 @@ export class MoasComponent {
   showAllMoasLists() {
 
     this.loading = true;
-    this.moasService.getMoasLists().subscribe(
+    this.moasService.getBackendMoasLists().subscribe(
       data => {
         this.result = data;
         this.moasRecords = this.result.moasRecords;
@@ -186,17 +186,17 @@ export class MoasComponent {
 
   deleteMoas(event: any) {
     console.log("event", event);
-    this.loading = true;
+    this.loadingDel = true;
     return this.moasService.deleteMoas(event).subscribe(res => {
       this.showAllMoasLists();
       //window.location.reload();
     },
       err => {
         console.log(err.message);
-        this.loading = false;
+        this.loadingDel = false;
       },
       () => {
-        this.loading = false;
+        this.loadingDel = false;
       }
     );
   }

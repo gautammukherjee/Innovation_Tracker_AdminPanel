@@ -18,8 +18,8 @@ export class DiseasesService {
 
   constructor(private _http: HttpClient) { }
 
-  getDiseasesLists(): Observable<any> {
-    return this._http.get(this.SERVER_URL + 'getDiseasesLists', httpOptions);
+  getBackendDiseasesLists(): Observable<any> {
+    return this._http.get(this.SERVER_URL + 'getBackendDiseasesLists', httpOptions);
   }
 
   addDiseases(data: any) {
@@ -61,6 +61,18 @@ export class DiseasesService {
   deleteDiseaseSyn(id) {
     return this._http.put(this.SERVER_URL + 'deleteDiseaseSyn/' + id, httpOptions).pipe(map((res: any) => {
       //return res;
+    }));
+  }
+
+  getDiseaseListsNotExistRl(id: number): Observable<any> {
+    return this._http.post<any>(this.SERVER_URL + 'getDiseaseListsNotExistRl/' + id, httpOptions).pipe(map((res: any) => {
+      return res;
+    }));
+  }
+
+  getDiseaseListsExistRl(id: number): Observable<any> {
+    return this._http.post<any>(this.SERVER_URL + 'getDiseaseListsExistRl/' + id, httpOptions).pipe(map((res: any) => {
+      return res;
     }));
   }
 }

@@ -76,7 +76,7 @@ export class CompaniesComponent implements OnInit {
 
   showAllCompaniesLists() {
     this.loading = true;
-    this.companiesService.getCompaniesLists().subscribe(
+    this.companiesService.getBackendCompaniesLists().subscribe(
       data => {
         this.result = data;
         this.companiesRecords = this.result.companiesRecords;

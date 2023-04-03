@@ -55,7 +55,7 @@ export class GenesComponent implements OnInit {
 
   showAllGenesLists() {
     this.loading = true;
-    this.genesService.getGenesLists().subscribe(
+    this.genesService.getBackendGenesLists().subscribe(
       data => {
         this.result = data;
         this.genesRecords = this.result.genesRecords;

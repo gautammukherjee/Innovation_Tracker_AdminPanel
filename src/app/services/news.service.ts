@@ -80,14 +80,47 @@ export class NewsService {
     }));
   }
 
-  //Save News TA Relations
-
+  //1. Save News TA Relations
   saveNewsTaRl(data: any, id: number): Observable<any> {
     return this._http.post<any>(this.SERVER_URL + 'saveNewsTaRl/' + id, data, httpOptions).pipe(map((res: any) => {
       return res;
     }));
   }
 
+  //2. Save News Disease Relations
+  saveNewsDiseaseRl(data: any, id: number): Observable<any> {
+    return this._http.post<any>(this.SERVER_URL + 'saveNewsDiseaseRl/' + id, data, httpOptions).pipe(map((res: any) => {
+      return res;
+    }));
+  }
+
+  //3. Save News Drug Relations
+  saveNewsDrugRl(data: any, id: number): Observable<any> {
+    return this._http.post<any>(this.SERVER_URL + 'saveNewsDrugRl/' + id, data, httpOptions).pipe(map((res: any) => {
+      return res;
+    }));
+  }
+
+  //4. Save News Company Relations
+  saveNewsCompanyRl(data: any, id: number): Observable<any> {
+    return this._http.post<any>(this.SERVER_URL + 'saveNewsCompanyRl/' + id, data, httpOptions).pipe(map((res: any) => {
+      return res;
+    }));
+  }
+
+  //5. Save News Gene Relations
+  saveNewsGeneRl(data: any, id: number): Observable<any> {
+    return this._http.post<any>(this.SERVER_URL + 'saveNewsGeneRl/' + id, data, httpOptions).pipe(map((res: any) => {
+      return res;
+    }));
+  }
+
+  //5. Save News Moa Relations
+  saveNewsMoaRl(data: any, id: number): Observable<any> {
+    return this._http.post<any>(this.SERVER_URL + 'saveNewsMoaRl/' + id, data, httpOptions).pipe(map((res: any) => {
+      return res;
+    }));
+  }
 
 
 }

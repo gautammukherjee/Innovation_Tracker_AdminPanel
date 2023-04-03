@@ -18,8 +18,8 @@ export class DrugsService {
 
   constructor(private _http: HttpClient) { }
 
-  getDrugsLists(): Observable<any> {
-    return this._http.get(this.SERVER_URL + 'getDrugsLists', httpOptions);
+  getBackendDrugsLists(): Observable<any> {
+    return this._http.get(this.SERVER_URL + 'getBackendDrugsLists', httpOptions);
   }
 
   addDrugs(data: any) {
@@ -62,4 +62,17 @@ export class DrugsService {
       //return res;
     }));
   }
+
+  getDrugListsNotExistRl(id: number): Observable<any> {
+    return this._http.post<any>(this.SERVER_URL + 'getDrugListsNotExistRl/' + id, httpOptions).pipe(map((res: any) => {
+      return res;
+    }));
+  }
+
+  getDrugListsExistRl(id: number): Observable<any> {
+    return this._http.post<any>(this.SERVER_URL + 'getDrugListsExistRl/' + id, httpOptions).pipe(map((res: any) => {
+      return res;
+    }));
+  }
+
 }

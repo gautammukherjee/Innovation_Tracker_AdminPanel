@@ -58,7 +58,7 @@ export class DiseaseSynsComponent implements OnInit {
 
     this.loadingDLists = true;
     //show the company type
-    this.diseasesService.getDiseasesLists().subscribe(
+    this.diseasesService.getBackendDiseasesLists().subscribe(
       data => {
         this.result = data;
         this.allDiseasesLists = this.result.diseasesRecords;

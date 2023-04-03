@@ -58,7 +58,7 @@ export class DrugSynsComponent implements OnInit {
 
     this.loadingDLists = true;
     //show the company type
-    this.drugsService.getDrugsLists().subscribe(
+    this.drugsService.getBackendDrugsLists().subscribe(
       data => {
         this.result = data;
         this.allDrugsLists = this.result.drugsRecords;

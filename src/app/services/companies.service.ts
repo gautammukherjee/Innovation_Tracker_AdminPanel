@@ -22,8 +22,8 @@ export class CompaniesService {
     return this._http.get(this.SERVER_URL + 'getCompaniesTypes', httpOptions);
   }
 
-  getCompaniesLists(): Observable<any> {
-    return this._http.get(this.SERVER_URL + 'getCompaniesLists', httpOptions);
+  getBackendCompaniesLists(): Observable<any> {
+    return this._http.get(this.SERVER_URL + 'getBackendCompaniesLists', httpOptions);
   }
 
   addCompanies(data: any) {
@@ -41,6 +41,18 @@ export class CompaniesService {
   deleteCompanies(id) {
     return this._http.put(this.SERVER_URL + 'deleteCompanies/' + id, httpOptions).pipe(map((res: any) => {
       //return res;
+    }));
+  }
+
+  getCompanyListsNotExistRl(id: number): Observable<any> {
+    return this._http.post<any>(this.SERVER_URL + 'getCompanyListsNotExistRl/' + id, httpOptions).pipe(map((res: any) => {
+      return res;
+    }));
+  }
+
+  getCompanyListsExistRl(id: number): Observable<any> {
+    return this._http.post<any>(this.SERVER_URL + 'getCompanyListsExistRl/' + id, httpOptions).pipe(map((res: any) => {
+      return res;
     }));
   }
 }

@@ -65,7 +65,7 @@
             <label for="exampleInputPassword1" class="form-label">Gene Name</label>
             <select class="form-control" formControlName="gene_id" id="gene_id" required>
                 <option value="null" disabled>Please Choose Gene Name</option>
-                <option *ngFor="let allGenesList of allGenesLists; let i = index" [value]="allGenesLists[i].gene_id" selected>{{ allGenesList.name }}</option>
+                <option *ngFor="let allGenesList of allGenesLists; let i = index" [value]="allGenesLists[i].gene_id" selected>{{ allGenesList.gene_name }}</option>
             </select>
             <small id="passHelp" class="form-text text-danger"
                 *ngIf="geneForm.form.controls.gene_id?.errors?.required && geneForm.form.controls.gene_id?.touched">

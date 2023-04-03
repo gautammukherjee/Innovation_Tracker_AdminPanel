@@ -21,8 +21,8 @@ export class GenesService {
 
   constructor(private _http: HttpClient) { }
 
-  getGenesLists(): Observable<any> {
-    return this._http.get(this.SERVER_URL + 'getGenesLists', httpOptions);
+  getBackendGenesLists(): Observable<any> {
+    return this._http.get(this.SERVER_URL + 'getBackendGenesLists', httpOptions);
   }
 
   addGenes(data: any) {
@@ -63,6 +63,18 @@ export class GenesService {
   deleteGeneSyn(id) {
     return this._http.put(this.SERVER_URL + 'deleteGeneSyn/' + id, httpOptions).pipe(map((res: any) => {
       //return res;
+    }));
+  }
+
+  getGeneListsNotExistRl(id: number): Observable<any> {
+    return this._http.post<any>(this.SERVER_URL + 'getGeneListsNotExistRl/' + id, httpOptions).pipe(map((res: any) => {
+      return res;
+    }));
+  }
+
+  getGeneListsExistRl(id: number): Observable<any> {
+    return this._http.post<any>(this.SERVER_URL + 'getGeneListsExistRl/' + id, httpOptions).pipe(map((res: any) => {
+      return res;
     }));
   }
 

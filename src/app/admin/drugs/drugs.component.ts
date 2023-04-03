@@ -57,7 +57,7 @@ export class DrugsComponent implements OnInit {
 
   showAllDrugsLists() {
     this.loading = true;
-    this.drugsService.getDrugsLists().subscribe(
+    this.drugsService.getBackendDrugsLists().subscribe(
       data => {
         this.result = data;
         this.drugsRecords = this.result.drugsRecords;

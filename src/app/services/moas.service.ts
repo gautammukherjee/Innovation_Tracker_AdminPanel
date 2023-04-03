@@ -20,8 +20,8 @@ export class MoasService {
 
   constructor(private _http: HttpClient) { }
 
-  getMoasLists(): Observable<any> {
-    return this._http.get(this.SERVER_URL + 'getMoasLists', httpOptions);
+  getBackendMoasLists(): Observable<any> {
+    return this._http.get(this.SERVER_URL + 'getBackendMoasLists', httpOptions);
   }
 
   addMoas(data: any) {
@@ -39,6 +39,18 @@ export class MoasService {
   deleteMoas(id) {
     return this._http.put(this.SERVER_URL + 'deleteMoas/' + id, httpOptions).pipe(map((res: any) => {
       //return res;
+    }));
+  }
+
+  getMoaListsNotExistRl(id: number): Observable<any> {
+    return this._http.post<any>(this.SERVER_URL + 'getMoaListsNotExistRl/' + id, httpOptions).pipe(map((res: any) => {
+      return res;
+    }));
+  }
+
+  getMoaListsExistRl(id: number): Observable<any> {
+    return this._http.post<any>(this.SERVER_URL + 'getMoaListsExistRl/' + id, httpOptions).pipe(map((res: any) => {
+      return res;
     }));
   }
 
