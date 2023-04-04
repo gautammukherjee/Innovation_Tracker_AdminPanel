@@ -22,7 +22,7 @@
                                     <th data-field="description" data-sortable="true" width="30%">Description</th>
                                     <th data-field="url_title" data-sortable="true" width="10%">URL</th>
                                     <th data-field="show_comments" data-sortable="true" width="10%">Comments</th>
-                                    <th data-field="pending_news" data-sortable="true" width="10%">Revert to Pending News</th>
+                                    <th data-field="pending_news" data-sortable="true" width="10%" *ngIf="(userType.user_type_id==1 || userType.user_type_id==3)">Revert to Pending News</th>
                                 </tr>
                             </thead>                           
                         </table>

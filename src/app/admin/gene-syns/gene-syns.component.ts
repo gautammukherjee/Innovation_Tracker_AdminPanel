@@ -100,7 +100,7 @@ export class GeneSynsComponent implements OnInit {
           onClickRow: function (field, row, $element) {
             //delete
             if ($element == "delete") {
-              var result = confirm("are you want to delete this Gene Synonym?");
+              var result = confirm("Are you sure to delete? Your user id will be recorded in database.");
               if (result) {
                 this.deleteGeneSyn(field.id);
               }

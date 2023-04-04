@@ -97,7 +97,7 @@ export class MoasComponent {
 
             //delete
             if ($element == "delete") {
-              var result = confirm("are you want to delete this MOAs?");
+              var result = confirm("Are you sure to delete? Your user id will be recorded in database.");
               if (result) {
                 this.deleteMoas(field.id);
               }

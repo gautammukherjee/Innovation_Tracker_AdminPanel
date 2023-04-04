@@ -100,11 +100,9 @@ export class NewslettersComponent implements OnInit {
           temps["description"] = (event.description.length > 200) ? (event.description.substring(0, 200) + "...") : (event.description);
           temps["url_title"] = (event.url != null) ? ('<a href="' + event.url + '" target="_blank">link</a>') : '-';
           temps["url"] = event.url;
-          //temps["edit"] = "<button class='btn btn-sm btn-primary'>Edit</button>";
-          if (this.userType.user_type_id == 1 || this.userType.user_type_id == 3) {
-            temps["approve"] = "<button class='btn btn-sm btn-success'>Approve</button>";
-          }
-          temps["disapprove"] = "<button class='btn btn-sm btn-warning'>Disapprove</button>";
+          //temps["edit"] = "<button class='btn btn-sm btn-primary'>Edit</button>";          
+          temps["approve"] = "<button class='btn btn-sm btn-success'>Approve</button>";
+          temps["disapprove"] = "<button class='btn btn-sm btn-danger'>Disapprove</button>";
           //temps["delete"] = "<button class='btn btn-sm btn-danger'>Delete</button>";
           temps["show_comments"] = "<button class='btn btn-sm btn-primary'>Comments</button>";
           i++;

@@ -236,6 +236,7 @@ export class ApproveNewsComponent implements OnInit {
               //TA lists
               this.newssModelObj.news_id = field.id;
               this.showListedTA(field.id);
+              this.showExistTARlt(field.id);
             }
 
             //Disease Show
@@ -246,6 +247,7 @@ export class ApproveNewsComponent implements OnInit {
               //Disease lists
               this.newssModelObj.news_id = field.id;
               this.showListedDisease(field.id);
+              this.showExistDiseaseRlt(field.id);
             }
 
             //Drug Show
@@ -256,6 +258,7 @@ export class ApproveNewsComponent implements OnInit {
               //Drug lists
               this.newssModelObj.news_id = field.id;
               this.showListedDrug(field.id);
+              this.showExistDrugRlt(field.id);
             }
 
             //Company Show
@@ -266,6 +269,7 @@ export class ApproveNewsComponent implements OnInit {
               //Company lists
               this.newssModelObj.news_id = field.id;
               this.showListedCompany(field.id);
+              this.showExistCompanyRlt(field.id);
             }
 
             //Gene Show
@@ -276,6 +280,7 @@ export class ApproveNewsComponent implements OnInit {
               //Gene lists
               this.newssModelObj.news_id = field.id;
               this.showListedGene(field.id);
+              this.showExistGeneRlt(field.id);
             }
 
             //MOA Show
@@ -286,6 +291,7 @@ export class ApproveNewsComponent implements OnInit {
               //MOA lists
               this.newssModelObj.news_id = field.id;
               this.showListedMoa(field.id);
+              this.showExistMoaRlt(field.id);
             }
 
           }.bind(this),
@@ -399,8 +405,11 @@ export class ApproveNewsComponent implements OnInit {
     this.tasService.getTasListsExistRl(newsId).subscribe(
       data => {
         this.result = data;
-        this.tasExistRecords = this.result.tasExistRecords;
-        console.log("tasExistRecords: ", this.tasExistRecords);
+        if (this.result.tasExistRecords != "") {
+          this.tasExistRecords = this.result.tasExistRecords;
+        } else {
+          this.tasExistRecords = [{ 'name': "Do not exist any TA relation" }];
+        }
       },
       err => {
         console.log(err.message);
@@ -478,8 +487,12 @@ export class ApproveNewsComponent implements OnInit {
     this.diseasesService.getDiseaseListsExistRl(newsId).subscribe(
       data => {
         this.result = data;
-        this.diseaseExistRecords = this.result.diseaseExistRecords;
-        console.log("diseaseExistRecords: ", this.diseaseExistRecords);
+        if (this.result.diseaseExistRecords != "") {
+          this.diseaseExistRecords = this.result.diseaseExistRecords;
+          console.log("diseaseExistRecords: ", this.diseaseExistRecords);
+        } else {
+          this.diseaseExistRecords = [{ 'name': "Do not exist any Disease relation" }];
+        }
       },
       err => {
         console.log(err.message);
@@ -560,8 +573,12 @@ export class ApproveNewsComponent implements OnInit {
     this.drugsService.getDrugListsExistRl(newsId).subscribe(
       data => {
         this.result = data;
-        this.drugExistRecords = this.result.drugExistRecords;
-        console.log("drugExistRecords: ", this.drugExistRecords);
+        if (this.result.drugExistRecords != "") {
+          this.drugExistRecords = this.result.drugExistRecords;
+          console.log("drugExistRecords: ", this.drugExistRecords);
+        } else {
+          this.drugExistRecords = [{ 'name': "Do not exist any Drug relation" }];
+        }
       },
       err => {
         console.log(err.message);
@@ -643,8 +660,12 @@ export class ApproveNewsComponent implements OnInit {
     this.companiesService.getCompanyListsExistRl(newsId).subscribe(
       data => {
         this.result = data;
-        this.companyExistRecords = this.result.companyExistRecords;
-        console.log("companyExistRecords: ", this.companyExistRecords);
+        if (this.result.companyExistRecords != "") {
+          this.companyExistRecords = this.result.companyExistRecords;
+          console.log("companyExistRecords: ", this.companyExistRecords);
+        } else {
+          this.companyExistRecords = [{ 'name': "Do not exist any Company relation" }];
+        }
       },
       err => {
         console.log(err.message);
@@ -726,8 +747,12 @@ export class ApproveNewsComponent implements OnInit {
     this.genesService.getGeneListsExistRl(newsId).subscribe(
       data => {
         this.result = data;
-        this.geneExistRecords = this.result.geneExistRecords;
-        console.log("geneExistRecords: ", this.geneExistRecords);
+        if (this.result.geneExistRecords != "") {
+          this.geneExistRecords = this.result.geneExistRecords;
+          console.log("geneExistRecords: ", this.geneExistRecords);
+        } else {
+          this.geneExistRecords = [{ 'name': "Do not exist any Gene relation" }];
+        }
       },
       err => {
         console.log(err.message);
@@ -809,8 +834,12 @@ export class ApproveNewsComponent implements OnInit {
     this.moasService.getMoaListsExistRl(newsId).subscribe(
       data => {
         this.result = data;
-        this.moaExistRecords = this.result.moaExistRecords;
-        console.log("moaExistRecords: ", this.moaExistRecords);
+        if (this.result.moaExistRecords != "") {
+          this.moaExistRecords = this.result.moaExistRecords;
+          console.log("moaExistRecords: ", this.moaExistRecords);
+        } else {
+          this.moaExistRecords = [{ 'name': "Do not exist any MOA relation" }];
+        }
       },
       err => {
         console.log(err.message);

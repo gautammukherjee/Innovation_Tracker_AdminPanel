@@ -71,7 +71,7 @@
 
   <div class="modal-body white_bg without_bord_rad">
     <!-- No Exists TA News relation -->
-    <div [ngClass]="showExistTA ? 'halfWidth': 'fullWidth'">
+    <div class='halfWidth'>
       <div class="card-panel-box bg-theme top-tile">
         <div class="card-panel-box card-panel-box-heading">
           TA Master List <img *ngIf="loadingTa" src="../../assets/images/small-loader.gif" width="18px" />
@@ -103,11 +103,11 @@
         Existing Relation with TA <img *ngIf="loadingExistTa" src="../../assets/images/small-loader.gif" width="18px" />
       </div>
       <div class="card-panel-box-detail" style="height: 150px;overflow: auto;">
-        <div class="checkbox-group" style="min-height: 183px; color: aliceblue;">
+        <div class="checkbox-group" style="min-height: 183px; color: aliceblue;" *ngIf="tasExistRecords?.length > 0">
           <div *ngFor="let ta_exist of tasExistRecords" class="form-check">
             <label class="form-check-label" for="defaultCheckTAAI" style="color: aliceblue;">{{ta_exist.name}}</label>
           </div>
-        </div>
+        </div>       
       </div>
     </div>
   </div>
@@ -128,7 +128,7 @@
 
   <div class="modal-body white_bg without_bord_rad">
     <!-- No Exists TA News relation -->
-    <div [ngClass]="showExistDisease ? 'halfWidth': 'fullWidth'">
+    <div class='halfWidth'>
       <div class="card-panel-box bg-theme top-tile">
         <div class="card-panel-box card-panel-box-heading">
           Disease Master List <img *ngIf="loadingDisease" src="../../assets/images/small-loader.gif" width="18px" />
@@ -186,7 +186,7 @@
 
   <div class="modal-body white_bg without_bord_rad">
     <!-- No Exists Drug News relation -->
-    <div [ngClass]="showExistDrug ? 'halfWidth': 'fullWidth'">
+    <div class='halfWidth'>
       <div class="card-panel-box bg-theme top-tile">
         <div class="card-panel-box card-panel-box-heading">
           Drug Master List <img *ngIf="loadingDrug" src="../../assets/images/small-loader.gif" width="18px" />
@@ -243,7 +243,7 @@
 
   <div class="modal-body white_bg without_bord_rad">
     <!-- No Exists Company News relation -->
-    <div [ngClass]="showExistCompany ? 'halfWidth': 'fullWidth'">
+    <div class='halfWidth'>
       <div class="card-panel-box bg-theme top-tile">
         <div class="card-panel-box card-panel-box-heading">
           Company Master List <img *ngIf="loadingCompany" src="../../assets/images/small-loader.gif" width="18px" />
@@ -299,7 +299,7 @@
 
   <div class="modal-body white_bg without_bord_rad">
     <!-- No Exists Gene News relation -->
-    <div [ngClass]="showExistGene ? 'halfWidth': 'fullWidth'">
+    <div class='halfWidth'>
       <div class="card-panel-box bg-theme top-tile">
         <div class="card-panel-box card-panel-box-heading">
           Gene Master List <img *ngIf="loadingGene" src="../../assets/images/small-loader.gif" width="18px" />
@@ -355,7 +355,7 @@
 
   <div class="modal-body white_bg without_bord_rad">
     <!-- No Exists Moa News relation -->
-    <div [ngClass]="showExistMoa ? 'halfWidth': 'fullWidth'">
+    <div class='halfWidth'>
       <div class="card-panel-box bg-theme top-tile">
         <div class="card-panel-box card-panel-box-heading">
           Moa Master List <img *ngIf="loadingMoa" src="../../assets/images/small-loader.gif" width="18px" />

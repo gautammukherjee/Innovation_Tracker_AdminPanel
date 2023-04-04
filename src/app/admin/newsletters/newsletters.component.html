@@ -17,7 +17,7 @@
                 <div class="customTable">
                     <div class="table-wrapper table-responsive custom-fixed-header-table" style="max-height:600px">                        
                         <div id="toolbar">
-                            <button id="showSelectedRows" class="btn btn-primary" type="button" (click)="approvedMultipleNewsletter()">Approve</button>
+                            <button id="showSelectedRows" class="btn btn-primary" type="button" *ngIf="(userType.user_type_id==1 || userType.user_type_id==3)" (click)="approvedMultipleNewsletter()">Approve</button>
                         </div>
                         <table id="showNewsletterLists" class="table" data-toolbar="#toolbar" data-search="true"
                         data-escape="false" data-show-export="true" data-show-columns="true" data-page-size="50"
@@ -33,7 +33,7 @@
                                     <th data-field="url_title" data-sortable="true" width="10%">URL</th>                                    
                                     <!--<th data-field="user_name" data-sortable="true" width="10%">Added By</th>-->
                                     <th data-field="approve" width="10%" *ngIf="(userType.user_type_id==1 || userType.user_type_id==3)">Approve</th>
-                                    <th data-field="disapprove" width="10%">Disapprove</th>
+                                    <th data-field="disapprove" width="10%" *ngIf="(userType.user_type_id==1 || userType.user_type_id==3)">Disapprove</th>
                                     <th data-field="show_comments" data-sortable="true" width="10%">Comments</th>
                                     <!--<th data-field="edit" width="10%">Edit</th>-->
                                     <!--<th data-field="delete" width="10%">Delete</th>-->

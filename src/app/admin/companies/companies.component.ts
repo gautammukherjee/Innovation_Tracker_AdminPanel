@@ -115,7 +115,7 @@ export class CompaniesComponent implements OnInit {
           onClickRow: function (field, row, $element) {
             //delete
             if ($element == "delete") {
-              var result = confirm("are you want to delete this Company?");
+              var result = confirm("Are you sure to delete? Your user id will be recorded in database.");
               if (result) {
                 this.deleteCompanies(field.id);
               }

@@ -82,7 +82,7 @@ export class DrugsComponent implements OnInit {
           onClickRow: function (field, row, $element) {
             //delete
             if ($element == "delete") {
-              var result = confirm("are you want to delete this Drug?");
+              var result = confirm("Are you sure to delete? Your user id will be recorded in database.");
               if (result) {
                 this.deleteDrugs(field.id);
               }

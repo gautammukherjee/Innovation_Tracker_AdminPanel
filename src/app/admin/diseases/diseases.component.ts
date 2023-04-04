@@ -91,7 +91,7 @@ export class DiseasesComponent implements OnInit {
           onClickRow: function (field, row, $element) {
             //delete
             if ($element == "delete") {
-              var result = confirm("are you want to delete this Disease?");
+              var result = confirm("Are you sure to delete? Your user id will be recorded in database.");
               if (result) {
                 this.deleteDiseases(field.id);
               }
