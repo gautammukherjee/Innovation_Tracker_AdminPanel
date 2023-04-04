@@ -84,7 +84,7 @@
               <div class="checkbox-group" style="min-height: 183px; color: aliceblue;">
                 <div *ngFor="let ta of tasRecords" class="form-check">
                   <input class="form-check-input" required type="checkbox" [value]="ta.ta_id"
-                  (change)="selectTa($event)">
+                  (change)="selectTa($event)" *ngIf="ta.name != 'All list are attached'">
                   <label class="form-check-label" for="defaultCheckTAAI">{{ta.name}}</label>
                 </div>
               </div>
@@ -142,7 +142,7 @@
               <div class="checkbox-group" style="min-height: 183px; color: aliceblue;">
                 <div *ngFor="let disease of diseaseRecords" class="form-check">
                   <input class="form-check-input" required type="checkbox" [value]="disease.disease_id"
-                  (change)="selectDisease($event)">
+                  (change)="selectDisease($event)" *ngIf="disease.name != 'All list are attached'">
                   <label class="form-check-label" for="defaultCheckTAAI">{{disease.name}}</label>
                 </div>
               </div>
@@ -200,7 +200,7 @@
               <div class="checkbox-group" style="min-height: 183px; color: aliceblue;">
                 <div *ngFor="let drug of drugRecords" class="form-check">
                   <input class="form-check-input" required type="checkbox" [value]="drug.drug_id"
-                  (change)="selectDrug($event)">
+                  (change)="selectDrug($event)" *ngIf="drug.name != 'All list are attached'">
                   <label class="form-check-label" for="defaultCheckTAAI">{{drug.name}}</label>
                 </div>
               </div>
@@ -257,7 +257,7 @@
               <div class="checkbox-group" style="min-height: 183px; color: aliceblue;">
                 <div *ngFor="let company of companyRecords" class="form-check">
                   <input class="form-check-input" required type="checkbox" [value]="company.company_id"
-                  (change)="selectCompany($event)">
+                  (change)="selectCompany($event)" *ngIf="company.name != 'All list are attached'">
                   <label class="form-check-label" for="defaultCheckTAAI">{{company.name}}</label>
                 </div>
               </div>
@@ -313,7 +313,7 @@
               <div class="checkbox-group" style="min-height: 183px; color: aliceblue;">
                 <div *ngFor="let gene of geneRecords" class="form-check">
                   <input class="form-check-input" required type="checkbox" [value]="gene.gene_id"
-                  (change)="selectGene($event)">
+                  (change)="selectGene($event)" *ngIf="gene.name != 'All list are attached'">
                   <label class="form-check-label" for="defaultCheckTAAI">{{gene.name}}</label>
                 </div>
               </div>
@@ -369,7 +369,7 @@
               <div class="checkbox-group" style="min-height: 183px; color: aliceblue;">
                 <div *ngFor="let moa of moaRecords" class="form-check">
                   <input class="form-check-input" required type="checkbox" [value]="moa.moa_id"
-                  (change)="selectMoa($event)">
+                  (change)="selectMoa($event)" *ngIf="moa.name != 'All list are attached'">
                   <label class="form-check-label" for="defaultCheckTAAI">{{moa.name}}</label>
                 </div>
               </div>

@@ -371,8 +371,12 @@ export class ApproveNewsComponent implements OnInit {
     this.tasService.getTasListsNotExistRl(newsId).subscribe(
       data => {
         this.result = data;
-        this.tasRecords = this.result.tasRecords;
-        console.log("tasRecords: ", this.tasRecords);
+        if (this.result.tasRecords != "") {
+          this.tasRecords = this.result.tasRecords;
+          console.log("tasRecords: ", this.tasRecords);
+        } else {
+          this.tasRecords = [{ 'name': "All list are attached" }];
+        }
       },
       err => {
         console.log(err.message);
@@ -452,8 +456,12 @@ export class ApproveNewsComponent implements OnInit {
     this.diseasesService.getDiseaseListsNotExistRl(newsId).subscribe(
       data => {
         this.result = data;
-        this.diseaseRecords = this.result.diseaseRecords;
-        console.log("diseaseRecords: ", this.diseaseRecords);
+        if (this.result.diseaseRecords != "") {
+          this.diseaseRecords = this.result.diseaseRecords;
+          console.log("diseaseRecords: ", this.diseaseRecords);
+        } else {
+          this.diseaseRecords = [{ 'name': "All list are attached" }];
+        }
       },
       err => {
         console.log(err.message);
@@ -537,8 +545,12 @@ export class ApproveNewsComponent implements OnInit {
     this.drugsService.getDrugListsNotExistRl(newsId).subscribe(
       data => {
         this.result = data;
-        this.drugRecords = this.result.drugRecords;
-        console.log("drugRecords: ", this.drugRecords);
+        if (this.result.drugRecords != "") {
+          this.drugRecords = this.result.drugRecords;
+          console.log("drugRecords: ", this.drugRecords);
+        } else {
+          this.drugRecords = [{ 'name': "All list are attached" }];
+        }
       },
       err => {
         console.log(err.message);
@@ -624,8 +636,12 @@ export class ApproveNewsComponent implements OnInit {
     this.companiesService.getCompanyListsNotExistRl(newsId).subscribe(
       data => {
         this.result = data;
-        this.companyRecords = this.result.companyRecords;
-        console.log("companyRecords: ", this.companyRecords);
+        if (this.result.companyRecords != "") {
+          this.companyRecords = this.result.companyRecords;
+          console.log("companyRecords: ", this.companyRecords);
+        } else {
+          this.companyRecords = [{ 'name': "All list are attached" }];
+        }
       },
       err => {
         console.log(err.message);
@@ -712,7 +728,12 @@ export class ApproveNewsComponent implements OnInit {
       data => {
         this.result = data;
         this.geneRecords = this.result.geneRecords;
-        console.log("geneRecords: ", this.geneRecords);
+        if (this.result.geneRecords != "") {
+          this.geneRecords = this.result.geneRecords;
+          console.log("geneRecords: ", this.geneRecords);
+        } else {
+          this.geneRecords = [{ 'name': "All list are attached" }];
+        }
       },
       err => {
         console.log(err.message);
@@ -798,8 +819,12 @@ export class ApproveNewsComponent implements OnInit {
     this.moasService.getMoaListsNotExistRl(newsId).subscribe(
       data => {
         this.result = data;
-        this.moaRecords = this.result.moaRecords;
-        console.log("moaRecords: ", this.moaRecords);
+        if (this.result.moaRecords != "") {
+          this.moaRecords = this.result.moaRecords;
+          console.log("moaRecords: ", this.moaRecords);
+        } else {
+          this.moaRecords = [{ 'name': "All list are attached" }];
+        }
       },
       err => {
         console.log(err.message);
