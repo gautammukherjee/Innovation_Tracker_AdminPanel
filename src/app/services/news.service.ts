@@ -18,7 +18,7 @@ const httpOptions = {
 export class NewsService {
 
   private SERVER_URL: string = environment.SERVER_URL;
-  private SERVER_URL_OTHER: string = "http://150.136.91.243:8886/";
+  private SERVER_URL_OTHER: string = "http://150.136.91.243:8889/";
   // private SERVER_URL_OTHER: string = "https://fitroz.in/getBrandNameLists/";
 
 
@@ -151,7 +151,7 @@ export class NewsService {
     //   headers: header,
     // };
 
-    console.log("data: ", data);
+    console.log("data: ", (data.news_text));
     return this._http.post(this.SERVER_URL_OTHER + 'get_named_entities_news/', data);
   }
 

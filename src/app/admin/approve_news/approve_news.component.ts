@@ -920,9 +920,10 @@ export class ApproveNewsComponent implements OnInit {
     console.log("newsId: ", newsId);
     console.log("newsText: ", newsText);
 
+    let data = JSON.parse('{ "news_id": 1, "news_text": "newsText", "source": "angular" }')
     this.tasRecords = [];
     // this.newsService.getCuratedUncuratedData({ catId: 1 }).subscribe(
-    this.newsService.getCuratedUncuratedData({ 'news_id': newsId, 'news_text': newsText }).subscribe(
+    this.newsService.getCuratedUncuratedData(data).subscribe(
       data => {
         this.result = data;
 
