@@ -27,6 +27,7 @@ export class ApproveNewsComponent implements OnInit {
   newsletterRecordsDetails: any = [];
   newsCommentsRecords: any = [];
   private showCommentsNewsletterModal: any;
+  private showAddSuggestNewsletterModal: any;
   private showRelationsNewsletterModal: any;
   private showRelationsNewsletterModalDisease: any;
   private showRelationsNewsletterModalDrug: any;
@@ -36,6 +37,8 @@ export class ApproveNewsComponent implements OnInit {
 
   private modalRef: any;
   @ViewChild('showCommentsNewsletterModal', { static: false }) showCommentsNewsletterModal_active: ElementRef;
+  @ViewChild('showAddSuggestNewsletterModal', { static: false }) showAddSuggestNewsletterModal_active: ElementRef;
+
   @ViewChild('showRelationsNewsletterModal', { static: false }) showRelationsNewsletterModal_active: ElementRef;
   @ViewChild('showRelationsNewsletterModalDisease', { static: false }) showRelationsNewsletterModalDisease_active: ElementRef;
   @ViewChild('showRelationsNewsletterModalDrug', { static: false }) showRelationsNewsletterModalDrug_active: ElementRef;
@@ -188,9 +191,10 @@ export class ApproveNewsComponent implements OnInit {
           temps["url_title"] = (event.url != null) ? ('<a href="' + event.url + '" target="_blank">link</a>') : '-';
           temps["url"] = event.url;
           temps["show_comments"] = "<button class='btn btn-sm btn-primary'>Comments</button>";
+          temps["add_suggestion"] = "<button class='btn btn-sm btn-primary'>Suggest</button>";
 
-          // temps["show_relations"] = "<select name='metadata_choose' class='form-control'><option value='ta'>Metadata TA</option><option value='disease'>Metadata Disease</option><option value='company'>Metadata Company</option><option value='drug'>Metadata Drug</option><option value='gene'>Metadata Gene</option><option value='moa'>Metadata MOA</option></select>";
           temps["show_relations"] = "<ul id='meta_data' style='padding-left:0px;overflow: auto;max-height: 90px;'><li style='display:block;'><input type='radio' name='metadata' value ='ta'/>&nbsp;Attach TA </li><li style='display:block;'><input type='radio' name = 'metadata' value = 'disease' />&nbsp;Attach Disease </li><li style='display:block;'><input type='radio' name = 'metadata' value = 'drug' />&nbsp;Attach Drug</li><li style='display:block;'><input type='radio' name = 'metadata' value = 'company' />&nbsp;Attach Company</li><li style='display:block;'><input type='radio' name = 'metadata' value = 'gene' />&nbsp;Attach Gene</li><li style='display:block;'><input type='radio' name = 'metadata' value = 'moa' />&nbsp;Attach MOA</li></ul>";
+          // temps["show_relations"] = "<select name='metadata_choose' class='form-control'><option value='ta'>Metadata TA</option><option value='disease'>Metadata Disease</option><option value='company'>Metadata Company</option><option value='drug'>Metadata Drug</option><option value='gene'>Metadata Gene</option><option value='moa'>Metadata MOA</option></select>";
           //temps["show_relations"] = "<div class='btn-group'><button class='btn btn-danger btn-sm dropdown-toggle' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>High</button><div class='dropdown-menu'><a id='mediumpriority' class='dropdown-item' value='medium'>Medium</a><a class='dropdown-item' value='low'>Low</a></div></div>";
 
           // if (this.userType.user_type_id == 1 || this.userType.user_type_id == 3) {
@@ -220,14 +224,21 @@ export class ApproveNewsComponent implements OnInit {
               this.showCommentsNewsletter(field.id);
             }
 
+            ///////////// Add Suggestion ////////////
+            if ($element == "add_suggestion") {
+              this.modalRef = this.modalService.open(this.showAddSuggestNewsletterModal_active, { size: 'lg', keyboard: false, backdrop: 'static' });
+
+              this.newssModelObj.news_id = field.id;
+              this.addSuggestion(field.id, field.description);
+            }
+
             let metatagVal = jQuery('input:radio:checked').val();
             // let metatagVal = jQuery('select[name="metadata_choose"] option:selected').val();
-
             // jQuery('select[name="metadata_choose"]').on('change', function () {
             //   alert(jQuery(this).val());
             // });
-
             console.log("metatagVal", metatagVal);
+
             //TA Show
             if ($element == "show_relations" && metatagVal == 'ta') {
               this.showExistTA = false;
@@ -902,8 +913,41 @@ export class ApproveNewsComponent implements OnInit {
   }
   //////////////////------------------ 5. END MOA Section ----------------------------/////////////////////
 
+
+  //////////////////------------------ 1. START Add Suggestion at once ----------------------------/////////////////////
+  addSuggestion(newsId: any, newsText: any) {
+    this.loadingTa = true;
+    console.log("newsId: ", newsId);
+    console.log("newsText: ", newsText);
+
+    this.tasRecords = [];
+    // this.newsService.getCuratedUncuratedData({ catId: 1 }).subscribe(
+    this.newsService.getCuratedUncuratedData({ 'news_id': newsId, 'news_text': newsText }).subscribe(
+      data => {
+        this.result = data;
+
+        console.log("1: ", data);
+        console.log("2: ", this.result);
+
+        // if (this.result.tasRecords != "") {
+        //   this.tasRecords = this.result.tasRecords;
+        //   console.log("tasRecords: ", this.tasRecords);
+        // } else {
+        //   this.tasRecords = [{ 'name': "All list are attached" }];
+        // }
+      },
+      err => {
+        console.log(err.message);
+        this.loadingTa = false;
+      },
+      () => {
+        this.loadingTa = false;
+      }
+    );
+  }
+
   closePopupApproval() {
-    this.showCommentsNewsletterModal.close();
+    // this.showCommentsNewsletterModal.close();
   }
 
 }

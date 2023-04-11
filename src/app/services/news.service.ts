@@ -5,9 +5,12 @@ import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
 import * as moment from "moment";
 
+let auth_token = "e3eb581adb24fc310ffa4743b41afde3341ae9fc";
+
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 }
+
 @Injectable({
   providedIn: 'root'
 })
@@ -15,6 +18,10 @@ const httpOptions = {
 export class NewsService {
 
   private SERVER_URL: string = environment.SERVER_URL;
+  private SERVER_URL_OTHER: string = "http://150.136.91.243:8886/";
+  // private SERVER_URL_OTHER: string = "https://fitroz.in/getBrandNameLists/";
+
+
 
   constructor(private _http: HttpClient) { }
 
@@ -120,6 +127,32 @@ export class NewsService {
     return this._http.post<any>(this.SERVER_URL + 'saveNewsMoaRl/' + id, data, httpOptions).pipe(map((res: any) => {
       return res;
     }));
+  }
+
+
+  //////// Add Suggestion //////////////////
+  getCuratedUncuratedData(data: any): Observable<any> {
+
+    // const headers2 = new HttpHeaders({
+    //   'Content-Type': 'application/json',
+    //   Authorization: `OAuth2.0 ${auth_token}`,
+    // });
+
+    // let header = new HttpHeaders().set(
+    //   "Authorization",
+    //   localStorage.getItem("e3eb581adb24fc310ffa4743b41afde3341ae9fc")
+    // );
+
+    // const headers2 = new HttpHeaders().set('Authorization', `OAuth2.0 ${auth_token}`);
+
+    // const token = "e3eb581adb24fc310ffa4743b41afde3341ae9fc";
+    // const header = new Headers({ 'Authorization': `bearer ${token}` });
+    // const options: any = {
+    //   headers: header,
+    // };
+
+    console.log("data: ", data);
+    return this._http.post(this.SERVER_URL_OTHER + 'get_named_entities_news/', data);
   }
 
 
