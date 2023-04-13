@@ -963,7 +963,7 @@ export class ApproveNewsComponent implements OnInit {
             "orig_ne": "age-related macular degeneration"
           },
           {
-            "disease_id": 89,
+            "disease_id": 88,
             "disease_syn_id": 44252,
             "orig_ne": "retinal diseases"
           }
