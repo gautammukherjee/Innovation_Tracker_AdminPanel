@@ -398,7 +398,7 @@
 <!-- End Relations for Moa master lists -->
 
 
-<!-- Add Suggestion -->
+<!-- Add Suggestion Box -->
 <ng-template #showAddSuggestNewsletterModal let-c="close" let-d="dismiss">  
   <div class="loading-custom-comments" *ngIf="loadingComment"><span class="fa fa-spinner fa-spin"></span>&nbsp;Loading...</div>
   <div class="modal-header modal-lg" style="background: #32404E !important;color:#fff;">
@@ -408,14 +408,117 @@
           <span aria-hidden="true">&times;</span>
       </button>
   </div>
-  <div class="modal-body white_bg without_bord_rad">  
-      <div *ngFor="let newsCommentsRecord of newsCommentsRecords">
-        <div class="m-4">
-          <div class="alert alert-primary alert-dismissible fade show">
-            <p>{{newsCommentsRecord.description}}</p>
-            <span class="user-comments">Commented By: {{newsCommentsRecord.name}}</span>
-          </div>
-        </div>        
+
+  <div class="modal-body white_bg without_bord_rad">
+
+    <div class="loading-custom-comments" *ngIf="loadingRelations"><span class="fa fa-spinner fa-spin"></span>&nbsp;Loading...</div>
+    
+    <!--  Start For Existing Entity Curated -->
+      <div style="border: 2px solid #32404E;padding: 10px;background-color: azure; margin-bottom: 10px;">
+        <h4 style="background-color: #7d9750;padding: 7px;color: #fff;border-radius: 6px;">Entity exists in Database</h4>
+        <!--  For Existing Diseases -->
+        <div *ngIf="existsRecordsDiseases.length > 0">
+          <h5>Disease</h5>
+          <ul class="list-group" *ngFor="let existsRecordsDisease of existsRecordsDiseases">
+            <li class="list-group-item" style="background-color: #32404e;color: #fff;padding: 4px;margin-bottom: 5px;padding:10px;">{{existsRecordsDisease.orig_ne}}</li>        
+          </ul>
+          <hr/>
+        </div>      
+        <!--  For Existing Drug -->
+        <div *ngIf="existsRecordsDrugs.length > 0">
+          <h5>Drug</h5>
+          <ul class="list-group" *ngFor="let existsRecordsDrug of existsRecordsDrugs">
+            <li class="list-group-item" style="background-color: #32404e;color: #fff;padding: 4px;margin-bottom: 5px;padding:10px;">{{existsRecordsDrug.orig_ne}}</li>
+          </ul>
+          <hr/>
+        </div>      
+        <!--  For Existing Gene -->
+        <div *ngIf="existsRecordsGenes.length > 0">
+          <h5>Gene</h5>
+          <ul class="list-group" *ngFor="let existsRecordsGene of existsRecordsGenes">
+            <li class="list-group-item" style="background-color: #32404e;color: #fff;padding: 4px;margin-bottom: 5px;padding:10px;">&nbsp;&nbsp; {{existsRecordsGene.orig_ne}}</li>
+          </ul>
+          <hr/>
+        </div>      
+        <!--  For Existing Organizations -->
+        <div *ngIf="existsRecordsOrganizations.length > 0">
+          <h5>Organization</h5>
+          <ul class="list-group" *ngFor="let existsRecordsOrganization of existsRecordsOrganizations">
+            <li class="list-group-item" style="background-color: #32404e;color: #fff;padding: 4px;margin-bottom: 5px;padding:10px;">{{existsRecordsOrganization.orig_ne}}</li>
+          </ul>
+        </div>
+      
+        <div>
+          <div *ngIf="saveMessage" class="alert success-alert" style="width: 31%;margin: 2px 419px 0px 0px;float: right;">Successfully Attached</div>
+          <div *ngIf="!notSaveMessage" class="alert success-alert" style="width: 70%;margin: 2px 133px 0px 0px;float: right;">Id's are not exists in Master Lists for curated data</div>
+          <button type="submit" class="btn btn-primary" (click)="saveAllNewsRelation()">Attach</button>&nbsp;
+        </div>
       </div>
+    <!--  End For Existing Entity Curated -->
+    
+
+    <!--  Start for Not Existing Entity Uncurated -->
+    <div style="border: 2px solid #32404E;padding: 10px;background-color: beige;">
+      <h4 style="background-color: #d14a53;padding: 7px;color: #fff;border-radius: 6px;">Entity does not exists in Database</h4>
+      <!--  For Not Existing Diseases -->
+      <div *ngIf="notExistsRecordsDiseases.length > 0">
+        <h5>Disease</h5>
+        <div *ngFor="let notExistsRecordsDisease of notExistsRecordsDiseases; let i = index">
+            <div class="text-danger" style="width:50%; float:left;">&nbsp;&nbsp; {{notExistsRecordsDisease.orig_ne}}</div>
+            
+            <div style="margin-bottom:2px;">
+              <div *ngIf="notExistsRecordsDisease.isDisplayMessage" class="alert success-alert" style="width: 22%;text-align: center;margin-left: 370px;">Add and Attached</div>
+              <div class="loading" *ngIf="notExistsRecordsDisease.isLoading" style="padding:3px;"><span class="fa fa-spinner fa-spin"></span>&nbsp;Loading...</div>
+              <button type="submit" class="btn btn-warning" *ngIf="!notExistsRecordsDisease.isDisplayMessage && !notExistsRecordsDisease.isLoading" [value]="notExistsRecordsDisease.orig_ne" 
+              (click)="saveDiseaseNewsRelation($event, notExistsRecordsDisease); notExistsRecordsDisease.isLoading = true; notExistsRecordsDisease.isDisplayMessage = false;">Add and Attach</button>
+            </div>
+        </div>
+        <hr/>
+      </div>
+      
+      <!--  For Not Existing Drug -->
+      <div *ngIf="notExistsRecordsDrugs.length > 0">
+        <h5>Drug</h5>
+        <div *ngFor="let notExistsRecordsDrug of notExistsRecordsDrugs; let i = index">
+            <div class="text-danger" style="width:50%; float:left;">&nbsp;&nbsp; {{notExistsRecordsDrug.orig_ne}}</div>
+            <div style="margin-bottom:2px;">
+              <div *ngIf="notExistsRecordsDrug.isDisplayMessage" class="alert success-alert" style="width: 22%;text-align: center;margin-left: 370px;">Add and Attached</div>
+              <div class="loading" *ngIf="notExistsRecordsDrug.isLoading" style="padding:3px;"><span class="fa fa-spinner fa-spin"></span>&nbsp;Loading...</div>
+              <button type="submit" class="btn btn-warning" *ngIf="!notExistsRecordsDrug.isDisplayMessage && !notExistsRecordsDrug.isLoading" [value]="notExistsRecordsDrug.orig_ne" 
+              (click)="saveDrugNewsRelation($event, notExistsRecordsDrug); notExistsRecordsDrug.isLoading = true; notExistsRecordsDrug.isDisplayMessage = false;">Add and Attach</button>
+            </div>
+        </div>
+        <hr/>
+      </div>
+      <!--  For Not Existing Gene -->
+      <div *ngIf="notExistsRecordsGenes.length > 0">
+        <h5>Gene</h5>
+        <div *ngFor="let notExistsRecordsGene of notExistsRecordsGenes">
+          <div class="text-danger" style="width:50%; float:left;">&nbsp;&nbsp; {{notExistsRecordsGene.orig_ne}}</div>
+          <div style="margin-bottom:2px;">
+            <div *ngIf="notExistsRecordsGene.isDisplayMessage" class="alert success-alert" style="width: 22%;text-align: center;margin-left: 370px;">Add and Attached</div>
+            <div class="loading" *ngIf="notExistsRecordsGene.isLoading" style="padding:3px;"><span class="fa fa-spinner fa-spin"></span>&nbsp;Loading...</div>
+            <button type="submit" class="btn btn-warning" *ngIf="!notExistsRecordsGene.isDisplayMessage && !notExistsRecordsGene.isLoading" [value]="notExistsRecordsGene.orig_ne" 
+            (click)="saveGeneNewsRelation($event, notExistsRecordsGene); notExistsRecordsGene.isLoading = true; notExistsRecordsGene.isDisplayMessage = false;">Add and Attach</button>
+          </div>
+        </div>
+        <hr/>
+      </div>      
+      <!--  For Not Existing Organizations -->
+      <div *ngIf="notExistsRecordsOrganizations.length > 0">
+        <h5>Organization</h5>
+        <div *ngFor="let notExistsRecordsOrganization of notExistsRecordsOrganizations">
+          <div class="text-danger" style="width:50%; float:left;">&nbsp;&nbsp; {{notExistsRecordsOrganization.orig_ne}}</div>
+          <div style="margin-bottom:2px;">
+            <div *ngIf="notExistsRecordsOrganization.isDisplayMessage" class="alert success-alert" style="width: 22%;text-align: center;margin-left: 370px;">Add and Attached</div>
+            <div class="loading" *ngIf="notExistsRecordsOrganization.isLoading" style="padding:3px;"><span class="fa fa-spinner fa-spin"></span>&nbsp;Loading...</div>
+            <button type="submit" class="btn btn-warning" *ngIf="!notExistsRecordsOrganization.isDisplayMessage && !notExistsRecordsOrganization.isLoading" [value]="notExistsRecordsOrganization.orig_ne" 
+            (click)="saveOrgNewsRelation($event, notExistsRecordsOrganization); notExistsRecordsOrganization.isLoading = true; notExistsRecordsOrganization.isDisplayMessage = false;">Add and Attach</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--  End For Not Existing Entity Uncurated -->
+
   </div>
 </ng-template>

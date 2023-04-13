@@ -61,8 +61,27 @@ export class ApproveNewsComponent implements OnInit {
   loadingExistTa: boolean = false;
   showExistTA: boolean = false;
   tasRecords: any = [];
+  newsLetterReturnRecords: any = [];
+  selectedRow: Number;
+
+  // Exist Records
+  existsRecords: any = [];
+  existsRecordsDiseases: any = [];
+  existsRecordsDrugs: any = [];
+  existsRecordsGenes: any = [];
+  existsRecordsOrganizations: any = [];
+
+  // NOT Exist Records
+  notExistsRecords: any = [];
+  notExistsRecordsDiseases: any = [];
+  notExistsRecordsDrugs: any = [];
+  notExistsRecordsGenes: any = [];
+  notExistsRecordsOrganizations: any = [];
+
+
   tasExistRecords: any = [];
   saveMessage: boolean = false;
+  notSaveMessage: boolean = true;
 
   //for disease variables
   loadingRelationsDisease: boolean = false;
@@ -227,9 +246,9 @@ export class ApproveNewsComponent implements OnInit {
             ///////////// Add Suggestion ////////////
             if ($element == "add_suggestion") {
               this.modalRef = this.modalService.open(this.showAddSuggestNewsletterModal_active, { size: 'lg', keyboard: false, backdrop: 'static' });
-
               this.newssModelObj.news_id = field.id;
               this.addSuggestion(field.id, field.description);
+              this.saveMessage = false;
             }
 
             let metatagVal = jQuery('input:radio:checked').val();
@@ -920,32 +939,318 @@ export class ApproveNewsComponent implements OnInit {
     console.log("newsId: ", newsId);
     console.log("newsText: ", newsText);
 
-    let data = JSON.parse('{ "news_id": 1, "news_text": "newsText", "source": "angular" }')
-    this.tasRecords = [];
+    this.newsLetterReturnRecords = [];
     // this.newsService.getCuratedUncuratedData({ catId: 1 }).subscribe(
-    this.newsService.getCuratedUncuratedData(data).subscribe(
-      data => {
-        this.result = data;
 
-        console.log("1: ", data);
-        console.log("2: ", this.result);
 
-        // if (this.result.tasRecords != "") {
-        //   this.tasRecords = this.result.tasRecords;
-        //   console.log("tasRecords: ", this.tasRecords);
-        // } else {
-        //   this.tasRecords = [{ 'name': "All list are attached" }];
-        // }
+    let data = {
+      "news": "2",
+      "exist": {
+        "disease": [
+          {
+            "disease_id": 83,
+            "disease_syn_id": 35582,
+            "orig_ne": "neurodegenerative diseases"
+          },
+          {
+            "disease_id": 84,
+            "disease_syn_id": 30693,
+            "orig_ne": "macular degeneration"
+          },
+          {
+            "disease_id": 85,
+            "disease_syn_id": 30694,
+            "orig_ne": "age-related macular degeneration"
+          },
+          {
+            "disease_id": 89,
+            "disease_syn_id": 44252,
+            "orig_ne": "retinal diseases"
+          }
+        ],
+        "drug": [
+          {
+            "drug_id": 8,
+            "orig_ne": "neurodegenerative drug"
+          },
+          {
+            "drug_id": 9,
+            "orig_ne": "macular drug"
+          }
+        ],
+        "gene": [],
+        "organization": []
       },
+      "not_exist": {
+        "disease": [
+          {
+            "orig_ne": "AMD"
+          },
+          {
+            "orig_ne": "EIN"
+          },
+          {
+            "orig_ne": "MDimune"
+          }
+        ],
+        "drug": [
+          {
+            "orig_ne": "MDimune"
+          },
+          {
+            "orig_ne": "ANU"
+          },
+          {
+            "orig_ne": "MDimune Inc."
+          }
+        ],
+        "gene": [
+          {
+            "orig_ne": "gene1"
+          },
+          {
+            "orig_ne": "gene2"
+          },
+          {
+            "orig_ne": "gene3."
+          },
+          {
+            "orig_ne": "gene4."
+          },
+          {
+            "orig_ne": "gene5."
+          }
+        ],
+        "organization": [
+          {
+            "orig_ne": "Annexon Biosciences"
+          },
+          {
+            "orig_ne": "MDimune Inc."
+          },
+          {
+            "orig_ne": "CVR"
+          },
+          {
+            "orig_ne": "Oxurion"
+          },
+          {
+            "orig_ne": "Clear Vision Research"
+          },
+          {
+            "orig_ne": "EIN Presswire"
+          },
+          {
+            "orig_ne": "ANU"
+          },
+          {
+            "orig_ne": "Hanyang University"
+          },
+          {
+            "orig_ne": "the Clear Vision Research Lab"
+          },
+          {
+            "orig_ne": "MDimune"
+          },
+          {
+            "orig_ne": "CVR Lab"
+          },
+          {
+            "orig_ne": "The CVR Lab"
+          },
+          {
+            "orig_ne": "Beta Therapeutic"
+          },
+          {
+            "orig_ne": "the Australian National University"
+          }
+        ]
+      }
+    }
+
+    this.result = data;
+    // console.log("2: ", this.result);
+    if (this.result != "") {
+      this.newsLetterReturnRecords = this.result;
+      console.log("newsLetterReturnRecords: ", this.newsLetterReturnRecords);
+
+      //////////////// Exist Records ///////////////////
+      this.existsRecords = this.newsLetterReturnRecords.exist;
+      console.log("existsRecords: ", this.existsRecords);
+
+      //For Disease
+      this.existsRecordsDiseases = this.existsRecords.disease;
+      console.log("existsRecordsDiseases: ", this.existsRecordsDiseases);
+      //For Drug
+      this.existsRecordsDrugs = this.existsRecords.drug;
+      console.log("existsRecordsDrugs: ", this.existsRecordsDrugs);
+      //For Gene
+      this.existsRecordsGenes = this.existsRecords.gene;
+      console.log("existsRecordsGenes: ", this.existsRecordsGenes);
+      // organization
+      this.existsRecordsOrganizations = this.existsRecords.organization;
+      console.log("existsRecordsOrganization: ", this.existsRecordsOrganizations);
+
+
+      ////////////// Not Exists Records //////////
+      this.notExistsRecords = this.newsLetterReturnRecords.not_exist;
+      console.log("notExistsRecords: ", this.notExistsRecords);
+
+      //For Disease
+      this.notExistsRecordsDiseases = this.notExistsRecords.disease;
+      console.log("notExistsRecordsDiseases: ", this.notExistsRecordsDiseases);
+      //For Drug
+      this.notExistsRecordsDrugs = this.notExistsRecords.drug;
+      console.log("notExistsRecordsDrugs: ", this.notExistsRecordsDrugs);
+      //For Gene
+      this.notExistsRecordsGenes = this.notExistsRecords.gene;
+      console.log("notExistsRecordsGenes: ", this.notExistsRecordsGenes);
+      // organization
+      this.notExistsRecordsOrganizations = this.notExistsRecords.organization;
+      console.log("notExistsRecordsOrganizations: ", this.notExistsRecordsOrganizations);
+
+    } else {
+      this.newsLetterReturnRecords = [{ 'name': "All list are attached" }];
+    }
+
+
+  }
+
+  //1. Save unacurated Disease into Disease table and attached with News
+  saveDiseaseNewsRelation(e, attachement_row) {
+    this.loadingRelations = true;
+    console.log("values: ", e.target.value);
+
+    this.newsService.saveUnacuratedDisease({ 'disease_name': e.target.value }, this.newssModelObj.news_id).subscribe(res => {
+      let refCancel = document.getElementById('cancel');
+      let showMessage = document.getElementById('showMessage');
+      refCancel?.click();
+      this.result = res;
+
+      this.saveMessageDisease = this.result.diseaseAdded;
+      // console.log("messagess: ", this.saveMessageDisease);
+
+      attachement_row.isLoading = false;
+      attachement_row.isDisplayMessage = true;
+    },
       err => {
         console.log(err.message);
-        this.loadingTa = false;
+        this.loadingRelations = false;
       },
       () => {
-        this.loadingTa = false;
+        this.loadingRelations = false;
       }
     );
   }
+
+  //2. Save unacurated Drug into Drug table and attached with News
+  saveDrugNewsRelation(e, attachement_row) {
+    this.loadingRelations = true;
+    this.newsService.saveUnacuratedDrug({ 'drug_name': e.target.value }, this.newssModelObj.news_id).subscribe(res => {
+      let refCancel = document.getElementById('cancel');
+      let showMessage = document.getElementById('showMessage');
+      refCancel?.click();
+      this.result = res;
+
+      this.saveMessageDrug = this.result.drugAdded;
+      console.log("saveMessageDrug: ", this.saveMessageDrug);
+
+      attachement_row.isLoading = false;
+      attachement_row.isDisplayMessage = true;
+    },
+      err => {
+        console.log(err.message);
+        this.loadingRelations = false;
+      },
+      () => {
+        this.loadingRelations = false;
+      }
+    );
+  }
+
+  //3. Save unacurated Gene into Gene table and attached with News
+  saveGeneNewsRelation(e, attachement_row) {
+    this.loadingRelations = true;
+    this.newsService.saveUnacuratedGene({ 'gene_name': e.target.value }, this.newssModelObj.news_id).subscribe(res => {
+      let refCancel = document.getElementById('cancel');
+      let showMessage = document.getElementById('showMessage');
+      refCancel?.click();
+      this.result = res;
+
+      this.saveMessageGene = this.result.geneAdded;
+      console.log("saveMessageGene: ", this.saveMessageGene);
+
+      attachement_row.isLoading = false;
+      attachement_row.isDisplayMessage = true;
+    },
+      err => {
+        console.log(err.message);
+        this.loadingRelations = false;
+      },
+      () => {
+        this.loadingRelations = false;
+      }
+    );
+  }
+
+  //4. Save unacurated Organization into Company table and attached with News
+  saveOrgNewsRelation(e, attachement_row) {
+    this.loadingRelations = true;
+    this.newsService.saveUnacuratedOrg({ 'company_name': e.target.value }, this.newssModelObj.news_id).subscribe(res => {
+      let refCancel = document.getElementById('cancel');
+      let showMessage = document.getElementById('showMessage');
+      refCancel?.click();
+      this.result = res;
+
+      this.saveMessageCompany = this.result.orgAdded;
+      console.log("saveMessageCompany: ", this.saveMessageCompany);
+
+      attachement_row.isLoading = false;
+      attachement_row.isDisplayMessage = true;
+    },
+      err => {
+        console.log(err.message);
+        this.loadingRelations = false;
+      },
+      () => {
+        this.loadingRelations = false;
+      }
+    );
+  }
+
+  //5. All Entity like disease, drug, genes, companies are Attached with News
+  saveAllNewsRelation() {
+    console.log("heres: ", this.existsRecords);
+    this.loadingRelations = true;
+
+    // const selectedTAs = this.formValue.value.ta_ids.filter(n => n); // null and undefined values are clear from the array
+
+    this.newsService.saveAllEntityNewsRelation({ 'all_entity': this.existsRecords }, this.newssModelObj.news_id).subscribe(res => {
+      let refCancel = document.getElementById('cancel');
+      refCancel?.click();
+      //this.addFormNewsletterModal.close();
+      // this.formValue.reset();
+
+      this.result = res;
+      this.saveMessage = this.result.orgResult;
+      this.notSaveMessage = this.result.orgResult;
+      console.log("saveMessage: ", this.saveMessage);
+
+      // this.saveMessage = true;
+
+      // this.showListedTA(this.newssModelObj.news_id);
+      // this.showExistTARlt(this.newssModelObj.news_id);
+    },
+      err => {
+        console.log(err.message);
+        this.loadingRelations = false;
+      },
+      () => {
+        this.loadingRelations = false;
+      }
+    );
+  }
+  //////////////////------------------ 1. END TA Section ----------------------------/////////////////////
 
   closePopupApproval() {
     // this.showCommentsNewsletterModal.close();

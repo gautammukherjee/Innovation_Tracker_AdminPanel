@@ -18,10 +18,7 @@ const httpOptions = {
 export class NewsService {
 
   private SERVER_URL: string = environment.SERVER_URL;
-  private SERVER_URL_OTHER: string = "http://150.136.91.243:8886/";
-  // private SERVER_URL_OTHER: string = "https://fitroz.in/getBrandNameLists/";
-
-
+  private SERVER_URL_OTHER: string = "http://150.136.91.243:8889/";
 
   constructor(private _http: HttpClient) { }
 
@@ -151,8 +148,45 @@ export class NewsService {
     //   headers: header,
     // };
 
-    console.log("data: ", (data.news_text));
-    return this._http.post(this.SERVER_URL_OTHER + 'get_named_entities_news/', data);
+    console.log("datainservice: ", (data));
+    return this._http.post(this.SERVER_URL_OTHER + 'get_named_entities_news/', data, httpOptions).pipe(map((res: any) => {
+      return res;
+    }));
+  }
+
+  //1. Save unacurated disease into disease table and attached with News
+  saveUnacuratedDisease(data: any, id: number): Observable<any> {
+    return this._http.post<any>(this.SERVER_URL + 'saveUnacuratedDisease/' + id, data, httpOptions).pipe(map((res: any) => {
+      return res;
+    }));
+  }
+
+  //2. Save unacurated drug into drug table and attached with News
+  saveUnacuratedDrug(data: any, id: number): Observable<any> {
+    return this._http.post<any>(this.SERVER_URL + 'saveUnacuratedDrug/' + id, data, httpOptions).pipe(map((res: any) => {
+      return res;
+    }));
+  }
+
+  //3. Save unacurated Gene into Gene table and attached with News
+  saveUnacuratedGene(data: any, id: number): Observable<any> {
+    return this._http.post<any>(this.SERVER_URL + 'saveUnacuratedGene/' + id, data, httpOptions).pipe(map((res: any) => {
+      return res;
+    }));
+  }
+
+  //4. Save unacurated Organization into Company table and attached with News
+  saveUnacuratedOrg(data: any, id: number): Observable<any> {
+    return this._http.post<any>(this.SERVER_URL + 'saveUnacuratedOrg/' + id, data, httpOptions).pipe(map((res: any) => {
+      return res;
+    }));
+  }
+
+  //5. All Enities are Saved
+  saveAllEntityNewsRelation(data: any, id: number): Observable<any> {
+    return this._http.post<any>(this.SERVER_URL + 'saveAllEntityNewsRelation/' + id, data, httpOptions).pipe(map((res: any) => {
+      return res;
+    }));
   }
 
 
