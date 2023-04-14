@@ -58,6 +58,7 @@ export class ApproveNewsComponent implements OnInit {
   //for TA variables
   loadingRelations: boolean = false;
   loadingTa: boolean = false;
+  loadingSuggestion: boolean = false;
   loadingExistTa: boolean = false;
   showExistTA: boolean = false;
   tasRecords: any = [];
@@ -81,7 +82,9 @@ export class ApproveNewsComponent implements OnInit {
 
   tasExistRecords: any = [];
   saveMessage: boolean = false;
-  notSaveMessage: boolean = true;
+
+  saveMessageCurated: boolean = false;
+  notSaveMessageCurated: boolean = true;
 
   //for disease variables
   loadingRelationsDisease: boolean = false;
@@ -207,6 +210,7 @@ export class ApproveNewsComponent implements OnInit {
           temps["publication_date"] = this.datePipe.transform(event.publication_date, 'dd/MM/yyyy');
           temps["title"] = (event.title.length > 100) ? (event.title.substring(0, 100) + "...") : (event.title);
           temps["description"] = (event.description.length > 200) ? (event.description.substring(0, 200) + "...") : (event.description);
+          temps["description_send_api"] = event.description;
           temps["url_title"] = (event.url != null) ? ('<a href="' + event.url + '" target="_blank">link</a>') : '-';
           temps["url"] = event.url;
           temps["show_comments"] = "<button class='btn btn-sm btn-primary'>Comments</button>";
@@ -247,8 +251,20 @@ export class ApproveNewsComponent implements OnInit {
             if ($element == "add_suggestion") {
               this.modalRef = this.modalService.open(this.showAddSuggestNewsletterModal_active, { size: 'lg', keyboard: false, backdrop: 'static' });
               this.newssModelObj.news_id = field.id;
-              this.addSuggestion(field.id, field.description);
-              this.saveMessage = false;
+              this.addSuggestion(field.id, field.description_send_api);
+              this.saveMessageCurated = false;
+              this.notSaveMessageCurated = true;
+
+              this.existsRecordsDiseases = [];
+              this.existsRecordsDrugs = [];
+              this.existsRecordsGenes = [];
+              this.existsRecordsOrganizations = [];
+
+              this.notExistsRecordsDiseases = [];
+              this.notExistsRecordsDrugs = [];
+              this.notExistsRecordsGenes = [];
+              this.notExistsRecordsOrganizations = [];
+
             }
 
             let metatagVal = jQuery('input:radio:checked').val();
@@ -935,190 +951,199 @@ export class ApproveNewsComponent implements OnInit {
 
   //////////////////------------------ 1. START Add Suggestion at once ----------------------------/////////////////////
   addSuggestion(newsId: any, newsText: any) {
-    this.loadingTa = true;
-    console.log("newsId: ", newsId);
-    console.log("newsText: ", newsText);
+    this.loadingSuggestion = true;
+    // console.log("newsId: ", newsId);
+    // console.log("newsText: ", newsText);
 
     this.newsLetterReturnRecords = [];
     // this.newsService.getCuratedUncuratedData({ catId: 1 }).subscribe(
 
+    this.newsService.getCuratedUncuratedData({ news_id: newsId, news_text: newsText }).subscribe(
+      data => {
+        // this.result = data;
+        this.result = data;
+        // console.log("newsLetterReturnRecords22: ", this.result.newsLetterReturnRecords);
+        if (this.result.newsLetterReturnRecords != "") {
+          this.newsLetterReturnRecords = this.result.newsLetterReturnRecords;
+          console.log("newsLetterReturnRecords: ", this.newsLetterReturnRecords);
 
-    let data = {
-      "news": "2",
-      "exist": {
-        "disease": [
-          {
-            "disease_id": 83,
-            "disease_syn_id": 35582,
-            "orig_ne": "neurodegenerative diseases"
-          },
-          {
-            "disease_id": 84,
-            "disease_syn_id": 30693,
-            "orig_ne": "macular degeneration"
-          },
-          {
-            "disease_id": 85,
-            "disease_syn_id": 30694,
-            "orig_ne": "age-related macular degeneration"
-          },
-          {
-            "disease_id": 88,
-            "disease_syn_id": 44252,
-            "orig_ne": "retinal diseases"
-          }
-        ],
-        "drug": [
-          {
-            "drug_id": 8,
-            "orig_ne": "neurodegenerative drug"
-          },
-          {
-            "drug_id": 9,
-            "orig_ne": "macular drug"
-          }
-        ],
-        "gene": [],
-        "organization": []
+          //////////////// IF Exist Records ///////////////////
+          this.existsRecords = this.newsLetterReturnRecords.exist;
+          console.log("existsRecords: ", this.existsRecords);
+
+          //For Disease
+          this.existsRecordsDiseases = this.existsRecords.disease;
+          // console.log("existsRecordsDiseases: ", this.existsRecordsDiseases);
+          //For Drug
+          this.existsRecordsDrugs = this.existsRecords.drug;
+          // console.log("existsRecordsDrugs: ", this.existsRecordsDrugs);
+          //For Gene
+          this.existsRecordsGenes = this.existsRecords.gene;
+          // console.log("existsRecordsGenes: ", this.existsRecordsGenes);
+          // organization
+          this.existsRecordsOrganizations = this.existsRecords.organization;
+          // console.log("existsRecordsOrganization: ", this.existsRecordsOrganizations);
+
+
+          ////////////// ELSE Not Exists Records //////////
+          this.notExistsRecords = this.newsLetterReturnRecords.not_exist;
+          console.log("notExistsRecords: ", this.notExistsRecords);
+
+          //For Disease
+          this.notExistsRecordsDiseases = this.notExistsRecords.disease;
+          // console.log("notExistsRecordsDiseases: ", this.notExistsRecordsDiseases);
+          //For Drug
+          this.notExistsRecordsDrugs = this.notExistsRecords.drug;
+          // console.log("notExistsRecordsDrugs: ", this.notExistsRecordsDrugs);
+          //For Gene
+          this.notExistsRecordsGenes = this.notExistsRecords.gene;
+          // console.log("notExistsRecordsGenes: ", this.notExistsRecordsGenes);
+          // organization
+          this.notExistsRecordsOrganizations = this.notExistsRecords.organization;
+          // console.log("notExistsRecordsOrganizations: ", this.notExistsRecordsOrganizations);
+        } else {
+          this.newsLetterReturnRecords = [{ 'name': "no any results found" }];
+        }
       },
-      "not_exist": {
-        "disease": [
-          {
-            "orig_ne": "AMD"
-          },
-          {
-            "orig_ne": "EIN"
-          },
-          {
-            "orig_ne": "MDimune"
-          }
-        ],
-        "drug": [
-          {
-            "orig_ne": "MDimune"
-          },
-          {
-            "orig_ne": "ANU"
-          },
-          {
-            "orig_ne": "MDimune Inc."
-          }
-        ],
-        "gene": [
-          {
-            "orig_ne": "gene1"
-          },
-          {
-            "orig_ne": "gene2"
-          },
-          {
-            "orig_ne": "gene3."
-          },
-          {
-            "orig_ne": "gene4."
-          },
-          {
-            "orig_ne": "gene5."
-          }
-        ],
-        "organization": [
-          {
-            "orig_ne": "Annexon Biosciences"
-          },
-          {
-            "orig_ne": "MDimune Inc."
-          },
-          {
-            "orig_ne": "CVR"
-          },
-          {
-            "orig_ne": "Oxurion"
-          },
-          {
-            "orig_ne": "Clear Vision Research"
-          },
-          {
-            "orig_ne": "EIN Presswire"
-          },
-          {
-            "orig_ne": "ANU"
-          },
-          {
-            "orig_ne": "Hanyang University"
-          },
-          {
-            "orig_ne": "the Clear Vision Research Lab"
-          },
-          {
-            "orig_ne": "MDimune"
-          },
-          {
-            "orig_ne": "CVR Lab"
-          },
-          {
-            "orig_ne": "The CVR Lab"
-          },
-          {
-            "orig_ne": "Beta Therapeutic"
-          },
-          {
-            "orig_ne": "the Australian National University"
-          }
-        ]
+      err => {
+        console.log(err.message);
+        this.loadingSuggestion = false;
+      },
+      () => {
+        this.loadingSuggestion = false;
       }
-    }
+    )
 
-    this.result = data;
-    // console.log("2: ", this.result);
-    if (this.result != "") {
-      this.newsLetterReturnRecords = this.result;
-      console.log("newsLetterReturnRecords: ", this.newsLetterReturnRecords);
-
-      //////////////// Exist Records ///////////////////
-      this.existsRecords = this.newsLetterReturnRecords.exist;
-      console.log("existsRecords: ", this.existsRecords);
-
-      //For Disease
-      this.existsRecordsDiseases = this.existsRecords.disease;
-      console.log("existsRecordsDiseases: ", this.existsRecordsDiseases);
-      //For Drug
-      this.existsRecordsDrugs = this.existsRecords.drug;
-      console.log("existsRecordsDrugs: ", this.existsRecordsDrugs);
-      //For Gene
-      this.existsRecordsGenes = this.existsRecords.gene;
-      console.log("existsRecordsGenes: ", this.existsRecordsGenes);
-      // organization
-      this.existsRecordsOrganizations = this.existsRecords.organization;
-      console.log("existsRecordsOrganization: ", this.existsRecordsOrganizations);
-
-
-      ////////////// Not Exists Records //////////
-      this.notExistsRecords = this.newsLetterReturnRecords.not_exist;
-      console.log("notExistsRecords: ", this.notExistsRecords);
-
-      //For Disease
-      this.notExistsRecordsDiseases = this.notExistsRecords.disease;
-      console.log("notExistsRecordsDiseases: ", this.notExistsRecordsDiseases);
-      //For Drug
-      this.notExistsRecordsDrugs = this.notExistsRecords.drug;
-      console.log("notExistsRecordsDrugs: ", this.notExistsRecordsDrugs);
-      //For Gene
-      this.notExistsRecordsGenes = this.notExistsRecords.gene;
-      console.log("notExistsRecordsGenes: ", this.notExistsRecordsGenes);
-      // organization
-      this.notExistsRecordsOrganizations = this.notExistsRecords.organization;
-      console.log("notExistsRecordsOrganizations: ", this.notExistsRecordsOrganizations);
-
-    } else {
-      this.newsLetterReturnRecords = [{ 'name': "All list are attached" }];
-    }
-
+    // let data = {
+    //   "news": "2",
+    //   "exist": {
+    //     "disease": [
+    //       {
+    //         "disease_id": 83,
+    //         "disease_syn_id": 35582,
+    //         "orig_ne": "neurodegenerative diseases"
+    //       },
+    //       {
+    //         "disease_id": 84,
+    //         "disease_syn_id": 30693,
+    //         "orig_ne": "macular degeneration"
+    //       },
+    //       {
+    //         "disease_id": 85,
+    //         "disease_syn_id": 30694,
+    //         "orig_ne": "age-related macular degeneration"
+    //       },
+    //       {
+    //         "disease_id": 88,
+    //         "disease_syn_id": 44252,
+    //         "orig_ne": "retinal diseases"
+    //       }
+    //     ],
+    //     "drug": [
+    //       {
+    //         "drug_id": 8,
+    //         "orig_ne": "neurodegenerative drug"
+    //       },
+    //       {
+    //         "drug_id": 9,
+    //         "orig_ne": "macular drug"
+    //       }
+    //     ],
+    //     "gene": [],
+    //     "organization": []
+    //   },
+    //   "not_exist": {
+    //     "disease": [
+    //       {
+    //         "orig_ne": "AMD"
+    //       },
+    //       {
+    //         "orig_ne": "EIN"
+    //       },
+    //       {
+    //         "orig_ne": "MDimune"
+    //       }
+    //     ],
+    //     "drug": [
+    //       {
+    //         "orig_ne": "MDimune"
+    //       },
+    //       {
+    //         "orig_ne": "ANU"
+    //       },
+    //       {
+    //         "orig_ne": "MDimune Inc."
+    //       }
+    //     ],
+    //     "gene": [
+    //       {
+    //         "orig_ne": "gene1"
+    //       },
+    //       {
+    //         "orig_ne": "gene2"
+    //       },
+    //       {
+    //         "orig_ne": "gene3."
+    //       },
+    //       {
+    //         "orig_ne": "gene4."
+    //       },
+    //       {
+    //         "orig_ne": "gene5."
+    //       }
+    //     ],
+    //     "organization": [
+    //       {
+    //         "orig_ne": "Annexon Biosciences"
+    //       },
+    //       {
+    //         "orig_ne": "MDimune Inc."
+    //       },
+    //       {
+    //         "orig_ne": "CVR"
+    //       },
+    //       {
+    //         "orig_ne": "Oxurion"
+    //       },
+    //       {
+    //         "orig_ne": "Clear Vision Research"
+    //       },
+    //       {
+    //         "orig_ne": "EIN Presswire"
+    //       },
+    //       {
+    //         "orig_ne": "ANU"
+    //       },
+    //       {
+    //         "orig_ne": "Hanyang University"
+    //       },
+    //       {
+    //         "orig_ne": "the Clear Vision Research Lab"
+    //       },
+    //       {
+    //         "orig_ne": "MDimune"
+    //       },
+    //       {
+    //         "orig_ne": "CVR Lab"
+    //       },
+    //       {
+    //         "orig_ne": "The CVR Lab"
+    //       },
+    //       {
+    //         "orig_ne": "Beta Therapeutic"
+    //       },
+    //       {
+    //         "orig_ne": "the Australian National University"
+    //       }
+    //     ]
+    //   }
+    // }
 
   }
 
   //1. Save unacurated Disease into Disease table and attached with News
   saveDiseaseNewsRelation(e, attachement_row) {
-    this.loadingRelations = true;
+    // this.loadingRelations = true;
     console.log("values: ", e.target.value);
 
     this.newsService.saveUnacuratedDisease({ 'disease_name': e.target.value }, this.newssModelObj.news_id).subscribe(res => {
@@ -1135,17 +1160,17 @@ export class ApproveNewsComponent implements OnInit {
     },
       err => {
         console.log(err.message);
-        this.loadingRelations = false;
+        // this.loadingRelations = false;
       },
       () => {
-        this.loadingRelations = false;
+        // this.loadingRelations = false;
       }
     );
   }
 
   //2. Save unacurated Drug into Drug table and attached with News
   saveDrugNewsRelation(e, attachement_row) {
-    this.loadingRelations = true;
+    // this.loadingRelations = true;
     this.newsService.saveUnacuratedDrug({ 'drug_name': e.target.value }, this.newssModelObj.news_id).subscribe(res => {
       let refCancel = document.getElementById('cancel');
       let showMessage = document.getElementById('showMessage');
@@ -1160,17 +1185,17 @@ export class ApproveNewsComponent implements OnInit {
     },
       err => {
         console.log(err.message);
-        this.loadingRelations = false;
+        // this.loadingRelations = false;
       },
       () => {
-        this.loadingRelations = false;
+        // this.loadingRelations = false;
       }
     );
   }
 
   //3. Save unacurated Gene into Gene table and attached with News
   saveGeneNewsRelation(e, attachement_row) {
-    this.loadingRelations = true;
+    // this.loadingRelations = true;
     this.newsService.saveUnacuratedGene({ 'gene_name': e.target.value }, this.newssModelObj.news_id).subscribe(res => {
       let refCancel = document.getElementById('cancel');
       let showMessage = document.getElementById('showMessage');
@@ -1185,17 +1210,17 @@ export class ApproveNewsComponent implements OnInit {
     },
       err => {
         console.log(err.message);
-        this.loadingRelations = false;
+        // this.loadingRelations = false;
       },
       () => {
-        this.loadingRelations = false;
+        // this.loadingRelations = false;
       }
     );
   }
 
   //4. Save unacurated Organization into Company table and attached with News
   saveOrgNewsRelation(e, attachement_row) {
-    this.loadingRelations = true;
+    // this.loadingRelations = true;
     this.newsService.saveUnacuratedOrg({ 'company_name': e.target.value }, this.newssModelObj.news_id).subscribe(res => {
       let refCancel = document.getElementById('cancel');
       let showMessage = document.getElementById('showMessage');
@@ -1210,10 +1235,10 @@ export class ApproveNewsComponent implements OnInit {
     },
       err => {
         console.log(err.message);
-        this.loadingRelations = false;
+        // this.loadingRelations = false;
       },
       () => {
-        this.loadingRelations = false;
+        // this.loadingRelations = false;
       }
     );
   }
@@ -1232,9 +1257,9 @@ export class ApproveNewsComponent implements OnInit {
       // this.formValue.reset();
 
       this.result = res;
-      this.saveMessage = this.result.orgResult;
-      this.notSaveMessage = this.result.orgResult;
-      console.log("saveMessage: ", this.saveMessage);
+      this.saveMessageCurated = this.result.orgResult;
+      this.notSaveMessageCurated = this.result.orgResult;
+      console.log("saveMessageCurated: ", this.saveMessageCurated);
 
       // this.saveMessage = true;
 

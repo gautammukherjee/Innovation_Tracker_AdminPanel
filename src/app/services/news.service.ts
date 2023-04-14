@@ -148,8 +148,11 @@ export class NewsService {
     //   headers: header,
     // };
 
-    console.log("datainservice: ", (data));
-    return this._http.post(this.SERVER_URL_OTHER + 'get_named_entities_news/', data, httpOptions).pipe(map((res: any) => {
+    // return this._http.post(this.SERVER_URL_OTHER + 'get_named_entities_news/', data, httpOptions).pipe(map((res: any) => {
+    //   return res;
+    // }));
+
+    return this._http.post(this.SERVER_URL + 'get_named_entities_news/', data, httpOptions).pipe(map((res: any) => {
       return res;
     }));
   }

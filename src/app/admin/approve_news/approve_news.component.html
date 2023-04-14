@@ -400,7 +400,7 @@
 
 <!-- Add Suggestion Box -->
 <ng-template #showAddSuggestNewsletterModal let-c="close" let-d="dismiss">  
-  <div class="loading-custom-comments" *ngIf="loadingComment"><span class="fa fa-spinner fa-spin"></span>&nbsp;Loading...</div>
+  <div class="loading-custom-suggestion" *ngIf="loadingSuggestion"></div>
   <div class="modal-header modal-lg" style="background: #32404E !important;color:#fff;">
       <h4 class="modal-title">{{newsHeading}}</h4>
       &nbsp;
@@ -409,11 +409,12 @@
       </button>
   </div>
 
-  <div class="modal-body white_bg without_bord_rad">
+  <div class="modal-body white_bg without_bord_rad" style="min-height: 230px;">
 
-    <div class="loading-custom-comments" *ngIf="loadingRelations"><span class="fa fa-spinner fa-spin"></span>&nbsp;Loading...</div>
+    <div class="loading-custom-suggestion" *ngIf="loadingRelations"></div>
     
-    <!--  Start For Existing Entity Curated -->
+    <!--  ////////////////// Start For Existing Entity Curated ///////////////////////// -->
+      <!--  <div style="border: 2px solid #32404E;padding: 10px;background-color: azure; margin-bottom: 10px;" *ngIf="existsRecordsDiseases.length > 0 || existsRecordsDrugs.length > 0 || existsRecordsGenes.length > 0 || existsRecordsOrganizations.length > 0">-->
       <div style="border: 2px solid #32404E;padding: 10px;background-color: azure; margin-bottom: 10px;">
         <h4 style="background-color: #7d9750;padding: 7px;color: #fff;border-radius: 6px;">Entity exists in Database</h4>
         <!--  For Existing Diseases -->
@@ -449,15 +450,15 @@
         </div>
       
         <div>
-          <div *ngIf="saveMessage" class="alert success-alert" style="width: 31%;margin: 2px 419px 0px 0px;float: right;">Successfully Attached</div>
-          <div *ngIf="!notSaveMessage" class="alert success-alert" style="width: 70%;margin: 2px 133px 0px 0px;float: right;">Id's are not exists in Master Lists for curated data</div>
-          <button type="submit" class="btn btn-primary" (click)="saveAllNewsRelation()">Attach</button>&nbsp;
+          <div *ngIf="saveMessageCurated" class="alert success-alert" style="width: 31%;margin: 2px 419px 0px 0px;float: right;">Successfully Attached</div>
+          <div *ngIf="!notSaveMessageCurated && existsRecordsDiseases.length > 0 || existsRecordsDrugs.length > 0 || existsRecordsGenes.length > 0 || existsRecordsOrganizations.length > 0" class="alert success-alert" style="width: 70%;margin: 2px 133px 0px 0px;float: right;">Id's are not exists in Master Lists for curated data</div>
+          <button type="submit" class="btn btn-primary" (click)="saveAllNewsRelation()" *ngIf="existsRecordsDiseases.length > 0 || existsRecordsDrugs.length > 0 || existsRecordsGenes.length > 0 || existsRecordsOrganizations.length > 0">Attach</button>&nbsp;
         </div>
       </div>
-    <!--  End For Existing Entity Curated -->
+    <!--  /////////////// End For Existing Entity Curated ////////////////////////// -->
     
-
-    <!--  Start for Not Existing Entity Uncurated -->
+    <!--  /////////////////// Start for Not Existing Entity Uncurated /////////////////////// -->
+    <!--<div style="border: 2px solid #32404E;padding: 10px;background-color: beige;" *ngIf="notExistsRecordsDiseases.length > 0 || notExistsRecordsDrugs.length > 0 || notExistsRecordsGenes.length > 0 || notExistsRecordsOrganizations.length > 0">-->
     <div style="border: 2px solid #32404E;padding: 10px;background-color: beige;">
       <h4 style="background-color: #d14a53;padding: 7px;color: #fff;border-radius: 6px;">Entity does not exists in Database</h4>
       <!--  For Not Existing Diseases -->
@@ -481,6 +482,7 @@
         <h5>Drug</h5>
         <div *ngFor="let notExistsRecordsDrug of notExistsRecordsDrugs; let i = index">
             <div class="text-danger" style="width:50%; float:left;">&nbsp;&nbsp; {{notExistsRecordsDrug.orig_ne}}</div>
+            
             <div style="margin-bottom:2px;">
               <div *ngIf="notExistsRecordsDrug.isDisplayMessage" class="alert success-alert" style="width: 22%;text-align: center;margin-left: 370px;">Add and Attached</div>
               <div class="loading" *ngIf="notExistsRecordsDrug.isLoading" style="padding:3px;"><span class="fa fa-spinner fa-spin"></span>&nbsp;Loading...</div>
@@ -518,7 +520,8 @@
         </div>
       </div>
     </div>
-    <!--  End For Not Existing Entity Uncurated -->
+    <!--  ///////////////////////// End For Not Existing Entity Uncurated ///////////////////// -->
 
   </div>
+
 </ng-template>
