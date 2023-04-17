@@ -148,13 +148,13 @@ export class NewsService {
     //   headers: header,
     // };
 
-    // return this._http.post(this.SERVER_URL_OTHER + 'get_named_entities_news/', data, httpOptions).pipe(map((res: any) => {
-    //   return res;
-    // }));
-
-    return this._http.post(this.SERVER_URL + 'get_named_entities_news/', data, httpOptions).pipe(map((res: any) => {
+    return this._http.post(this.SERVER_URL_OTHER + 'get_named_entities_news/', data, httpOptions).pipe(map((res: any) => {
       return res;
     }));
+
+    // return this._http.post(this.SERVER_URL + 'get_named_entities_news/', data, httpOptions).pipe(map((res: any) => {
+    //   return res;
+    // }));
   }
 
   //1. Save unacurated disease into disease table and attached with News

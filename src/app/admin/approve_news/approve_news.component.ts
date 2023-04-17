@@ -962,9 +962,9 @@ export class ApproveNewsComponent implements OnInit {
       data => {
         // this.result = data;
         this.result = data;
-        // console.log("newsLetterReturnRecords22: ", this.result.newsLetterReturnRecords);
-        if (this.result.newsLetterReturnRecords != "") {
-          this.newsLetterReturnRecords = this.result.newsLetterReturnRecords;
+        console.log("newsLetterReturnRecords22: ", this.result);
+        if (this.result != "") {
+          this.newsLetterReturnRecords = this.result;
           console.log("newsLetterReturnRecords: ", this.newsLetterReturnRecords);
 
           //////////////// IF Exist Records ///////////////////
