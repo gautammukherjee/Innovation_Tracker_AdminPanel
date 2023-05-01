@@ -103,7 +103,7 @@ export class NewslettersComponent implements OnInit {
           //temps["edit"] = "<button class='btn btn-sm btn-primary'>Edit</button>";          
           temps["approve"] = "<button class='btn btn-sm btn-success'>Approve</button>";
           temps["disapprove"] = "<button class='btn btn-sm btn-danger'>Disapprove</button>";
-          //temps["delete"] = "<button class='btn btn-sm btn-danger'>Delete</button>";
+          temps["delete"] = "<button class='btn btn-sm btn-danger'>Delete</button>";
           temps["show_comments"] = "<button class='btn btn-sm btn-primary'>Comments</button>";
           i++;
           this.newsletterRecordsDetails.push(temps);
@@ -142,12 +142,12 @@ export class NewslettersComponent implements OnInit {
             }
 
             //permanent delete
-            // if ($element == "delete") {
-            //   var result = confirm("Are you sure to permanent delete this Newsletter?");
-            //   if (result) {
-            //     this.deleteNewsletter(field.id);
-            //   }
-            // }
+            if ($element == "delete") {
+              var result = confirm("Are you sure to permanent delete this Newsletter?");
+              if (result) {
+                this.deleteNewsletter(field.id);
+              }
+            }
 
             //edit
             // if ($element == "edit") {
@@ -270,20 +270,20 @@ export class NewslettersComponent implements OnInit {
   //   );
   // }
 
-  // deleteNewsletter(event: any) {
-  //   this.loadingDel = true;
-  //   return this.newsService.deleteNewsletter(event).subscribe(res => {
-  //   },
-  //     err => {
-  //       console.log(err.message);
-  //       this.loadingDel = false;
-  //     },
-  //     () => {
-  //       this.showAllNewsletterLists();
-  //       this.loadingDel = false;
-  //     }
-  //   );
-  // }
+  deleteNewsletter(event: any) {
+    this.loadingDel = true;
+    return this.newsService.deleteNewsletter(event).subscribe(res => {
+    },
+      err => {
+        console.log(err.message);
+        this.loadingDel = false;
+      },
+      () => {
+        this.showAllNewsletterLists();
+        this.loadingDel = false;
+      }
+    );
+  }
 
   approvedMultipleNewsletter() {
     this.showApprove = true;
