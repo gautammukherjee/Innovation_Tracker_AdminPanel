@@ -43,6 +43,8 @@ export class NewslettersComponent implements OnInit {
   showDisapprove !: boolean;
   showUpdateDate: Date;
   userType: any;
+  showAdd = true;
+  showUpdate = false;
 
   formValue !: FormGroup;
   newssModelObj: NewssModel = new NewssModel();
@@ -98,12 +100,13 @@ export class NewslettersComponent implements OnInit {
           temps["publication_date"] = this.datePipe.transform(event.publication_date, 'dd/MM/yyyy');
           temps["title"] = (event.title.length > 100) ? (event.title.substring(0, 100) + "...") : (event.title);
           temps["description"] = (event.description.length > 200) ? (event.description.substring(0, 200) + "...") : (event.description);
+          temps["description_complete"] = event.description;
           temps["url_title"] = (event.url != null) ? ('<a href="' + event.url + '" target="_blank">link</a>') : '-';
           temps["url"] = event.url;
-          //temps["edit"] = "<button class='btn btn-sm btn-primary'>Edit</button>";          
+          temps["edit"] = "<button class='btn btn-sm btn-primary'>Edit</button>";
           temps["approve"] = "<button class='btn btn-sm btn-success'>Approve</button>";
           temps["disapprove"] = "<button class='btn btn-sm btn-danger'>Disapprove</button>";
-          temps["delete"] = "<button class='btn btn-sm btn-danger'>Delete</button>";
+          // temps["delete"] = "<button class='btn btn-sm btn-danger'>Delete</button>";
           temps["show_comments"] = "<button class='btn btn-sm btn-primary'>Comments</button>";
           i++;
           this.newsletterRecordsDetails.push(temps);
@@ -150,17 +153,25 @@ export class NewslettersComponent implements OnInit {
             }
 
             //edit
-            // if ($element == "edit") {
-            //   console.log("field: ", field);
-            //   this.modalRef = this.modalService.open(this.addFormNewsletterModal_edit, { size: 'lg', keyboard: false, backdrop: 'static' });
-            //   this.showAdd = false;
-            //   this.showUpdate = true;
-            //   this.newssModelObj.news_id = field.id;
+            if ($element == "edit") {
+              console.log("field: ", field);
+              this.modalRef = this.modalService.open(this.addFormNewsletterModal_edit, { size: 'lg', keyboard: false, backdrop: 'static' });
+              this.showAdd = false;
+              this.showUpdate = true;
+              this.newssModelObj.news_id = field.id;
 
-            //   this.formValue.controls['title'].setValue(field.title);
-            //   this.formValue.controls['description'].setValue(field.description);
-            //   this.formValue.controls['url'].setValue(field.url);
-            // }
+              this.formValue.controls['title'].setValue(field.title);
+              this.formValue.controls['description'].setValue(field.description_complete);
+              this.formValue.controls['url'].setValue(field.url);
+
+              // let dateFmt = field.publication_date.split('/');
+              // let combinedDate = dateFmt[1] + "-" + dateFmt[0] + "-" + dateFmt[2];
+              // console.log("combinedDate: ", combinedDate);
+              // this.publication_date = combinedDate;
+              // this.formValue.controls['publication_date'].setValue(field.publication_date);
+
+              // this.formValue.controls['comments'].setValue(field.comments);
+            }
           }.bind(this),
         });
         jQuery('#showNewsletterLists').bootstrapTable("load", this.newsletterRecordsDetails);
@@ -185,8 +196,8 @@ export class NewslettersComponent implements OnInit {
   addNewsletterPopup() {
     this.modalRef = this.modalService.open(this.addFormNewsletterModal_edit, { size: 'lg', keyboard: false, backdrop: 'static' });
     this.formValue.reset();
-    // this.showAdd = true;
-    // this.showUpdate = false;
+    this.showAdd = true;
+    this.showUpdate = false;
   }
 
   closePopup() {
@@ -207,7 +218,7 @@ export class NewslettersComponent implements OnInit {
 
     let pubDate: any = (this.formValue.value.publication_date.year) + '-' + (this.formValue.value.publication_date.month) + '-' + (this.formValue.value.publication_date.day);
     this.newssModelObj.publication_date = pubDate;
-    console.log("tot: ", this.newssModelObj);
+    // console.log("tot: ", this.newssModelObj);
 
     this.newsService.addNewsletter(this.newssModelObj)
       .subscribe(res => {
@@ -228,32 +239,39 @@ export class NewslettersComponent implements OnInit {
       );
   }
 
-  // updateNewsletterSubmit() {
-  //   this.loadingEdit = true;
-  //   this.newssModelObj.title = this.formValue.value.title;
-  //   this.newssModelObj.description = this.formValue.value.description;
-  //   this.newssModelObj.url = this.formValue.value.url;
-  //   // this.newssModelObj.publication_date = this.formValue.value.publication_date;
+  updateNewsletterSubmit() {
 
-  //   let pubDate: any = (this.formValue.value.publication_date.year) + '-' + (this.formValue.value.publication_date.month) + '-' + (this.formValue.value.publication_date.day);
-  //   this.newssModelObj.publication_date = pubDate;
+    this.loadingEdit = true;
+    this.newssModelObj.title = this.formValue.value.title;
+    this.newssModelObj.description = this.formValue.value.description;
+    this.newssModelObj.url = this.formValue.value.url;
+    // this.newssModelObj.publication_date = this.formValue.value.publication_date;
+    // this.newssModelObj.comments = this.formValue.value.comments;
 
-  //   this.newsService.updateNewsletter(this.newssModelObj, this.newssModelObj.news_id).subscribe(res => {
-  //     let refCancel = document.getElementById('cancel');
-  //     refCancel?.click();
-  //     //this.addFormNewsletterModal.close();
-  //     this.formValue.reset();
-  //     this.showAllNewsletterLists();
-  //   },
-  //     err => {
-  //       console.log(err.message);
-  //       this.loadingEdit = false;
-  //     },
-  //     () => {
-  //       this.loadingEdit = false;
-  //     }
-  //   );
-  // }
+    // console.log("datesubmit: ", this.formValue.value.publication_date);
+
+    // let dateFmtSubmit = this.formValue.value.publication_date.split('-');
+    // let combinedDateSubmit = dateFmtSubmit[2] + "-" + dateFmtSubmit[0] + "-" + dateFmtSubmit[1];
+    // console.log("combinedDateSubmit: ", combinedDateSubmit);
+    // let pubDate: any = (this.formValue.value.publication_date.year) + '-' + (this.formValue.value.publication_date.month) + '-' + (this.formValue.value.publication_date.day);
+    // this.newssModelObj.publication_date = pubDate;
+
+    this.newsService.updateNewsletter(this.newssModelObj, this.newssModelObj.news_id).subscribe(res => {
+      let refCancel = document.getElementById('cancel');
+      refCancel?.click();
+      //this.addFormNewsletterModal.close();
+      this.formValue.reset();
+      this.showAllNewsletterLists();
+    },
+      err => {
+        console.log(err.message);
+        this.loadingEdit = false;
+      },
+      () => {
+        this.loadingEdit = false;
+      }
+    );
+  }
 
   // trashNewsletter(event: any) {
   //   this.loadingDel = true;
