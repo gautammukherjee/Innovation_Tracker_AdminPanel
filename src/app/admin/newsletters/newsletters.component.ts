@@ -164,12 +164,12 @@ export class NewslettersComponent implements OnInit {
               this.formValue.controls['description'].setValue(field.description_complete);
               this.formValue.controls['url'].setValue(field.url);
 
-              // let dateFmt = field.publication_date.split('/');
-              // let combinedDate = dateFmt[1] + "-" + dateFmt[0] + "-" + dateFmt[2];
-              // console.log("combinedDate: ", combinedDate);
-              // this.publication_date = combinedDate;
-              // this.formValue.controls['publication_date'].setValue(field.publication_date);
+              let dateFmt = field.publication_date.split('/');
+              let combinedDate = dateFmt[1] + "-" + dateFmt[0] + "-" + dateFmt[2];
+              console.log("combinedDate: ", combinedDate);
+              this.publication_date = combinedDate;
 
+              // this.formValue.controls['publication_date'].setValue(field.publication_date);
               // this.formValue.controls['comments'].setValue(field.comments);
             }
           }.bind(this),
@@ -253,8 +253,9 @@ export class NewslettersComponent implements OnInit {
     // let dateFmtSubmit = this.formValue.value.publication_date.split('-');
     // let combinedDateSubmit = dateFmtSubmit[2] + "-" + dateFmtSubmit[0] + "-" + dateFmtSubmit[1];
     // console.log("combinedDateSubmit: ", combinedDateSubmit);
-    // let pubDate: any = (this.formValue.value.publication_date.year) + '-' + (this.formValue.value.publication_date.month) + '-' + (this.formValue.value.publication_date.day);
-    // this.newssModelObj.publication_date = pubDate;
+
+    let pubDate: any = (this.formValue.value.publication_date.year) + '-' + (this.formValue.value.publication_date.month) + '-' + (this.formValue.value.publication_date.day);
+    this.newssModelObj.publication_date = pubDate;
 
     this.newsService.updateNewsletter(this.newssModelObj, this.newssModelObj.news_id).subscribe(res => {
       let refCancel = document.getElementById('cancel');
