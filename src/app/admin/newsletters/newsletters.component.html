@@ -92,8 +92,8 @@
             <!--<textarea type="text" formControlName="description" class="form-control" id="exampleInputPassword1"></textarea>-->
           </div>
 
-          <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Publication Date <span *ngIf="showUpdate">&nbsp;({{publication_date}})</span></label><br/>
+          <div class="mb-3" *ngIf="showAdd">
+            <label for="exampleInputEmail1" class="form-label">Publication Date </label><br/>
             <!--<input type="text" formControlName="publication_date" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">-->
 
             <span style="float:left;">
