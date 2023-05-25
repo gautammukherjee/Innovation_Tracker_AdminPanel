@@ -30,6 +30,7 @@
                                     <th data-field="publication_date" data-sortable="true" data-visible="true">Date</th>
                                     <th data-field="title" data-sortable="true" width="20%">Title</th>
                                     <th data-field="description" data-sortable="true" width="40%">Description</th>
+                                    <th data-field="news_type_id" data-sortable="true" width="40%">News Type</th>
                                     <th data-field="url_title" data-sortable="true" width="10%">URL</th>                                    
                                     <!--<th data-field="user_name" data-sortable="true" width="10%">Added By</th>-->
                                     <th data-field="approve" width="10%" *ngIf="(userType.user_type_id==1 || userType.user_type_id==3)">Approve</th>
@@ -62,7 +63,7 @@
     <div class="modal-body white_bg without_bord_rad">  
         <form #newsletterForm="ngForm" [formGroup]="formValue">
           <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Ttitle</label>
+            <label for="exampleInputEmail1" class="form-label">Title</label>
             <input type="text" formControlName="title" required class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
             <small id="passHelp" class="form-text text-danger"
                 *ngIf="newsletterForm.form.controls.title?.errors?.required && newsletterForm.form.controls.title?.touched">
@@ -90,6 +91,19 @@
                 }"
                 ></editor>
             <!--<textarea type="text" formControlName="description" class="form-control" id="exampleInputPassword1"></textarea>-->
+          </div>
+
+          <div class="mb-3">
+            <div *ngIf="loadingNType"><span class="fa fa-spinner fa-spin"></span>&nbsp;Loading...</div>
+            <label for="exampleInputPassword1" class="form-label">News Type</label>
+            <select class="form-control" formControlName="news_type_id" id="news_type_id" required>
+                <option value="null" disabled>News Type</option>
+                <option *ngFor="let newsTypeRecord of newsTypeRecords; let i = index" [value]="newsTypeRecords[i].news_type_id" selected>{{ newsTypeRecord.name }}</option>
+            </select>
+            <small id="passHelp" class="form-text text-danger"
+                *ngIf="newsletterForm.form.controls.news_type_id?.errors?.required && newsletterForm.form.controls.news_type_id?.touched">
+                News Type is required!
+            </small>
           </div>
 
           <div class="mb-3" *ngIf="showAdd">

@@ -192,5 +192,9 @@ export class NewsService {
     }));
   }
 
+  getNewsTypes(): Observable<any> {
+    return this._http.get(this.SERVER_URL + 'getNewsTypes', httpOptions);
+  }
+
 
 }

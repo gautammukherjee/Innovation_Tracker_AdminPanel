@@ -17,6 +17,7 @@ declare var jQuery: any;
 export class NewslettersComponent implements OnInit {
   result: any = [];
   newsletterRecords: any = [];
+  newsTypeRecords: any = [];
   newsletterRecordsDetails: any = [];
   newsCommentsRecords: any = [];
   private addFormNewsletterModal: any;
@@ -31,6 +32,7 @@ export class NewslettersComponent implements OnInit {
   loadingDel = false;
   loadingAdd = false;
   loadingEdit = false;
+  loadingNType = false;
   loadingComment = false;
   params;
   layout: any = {};
@@ -60,6 +62,7 @@ export class NewslettersComponent implements OnInit {
     console.log("utype: ", this.userType);
 
     this.formValue = this.formBuilder.group({
+      news_type_id: [''],
       publication_date: [''],
       title: [''],
       description: [''],
@@ -103,6 +106,7 @@ export class NewslettersComponent implements OnInit {
           temps["description_complete"] = event.description;
           temps["url_title"] = (event.url != null) ? ('<a href="' + event.url + '" target="_blank">link</a>') : '-';
           temps["url"] = event.url;
+          temps["news_type_id"] = (event.news_type_id == 1 ? 'Innovation' : 'News');
           temps["edit"] = "<button class='btn btn-sm btn-primary'>Edit</button>";
           temps["approve"] = "<button class='btn btn-sm btn-success'>Approve</button>";
           temps["disapprove"] = "<button class='btn btn-sm btn-danger'>Disapprove</button>";
@@ -162,6 +166,7 @@ export class NewslettersComponent implements OnInit {
 
               this.formValue.controls['title'].setValue(field.title);
               this.formValue.controls['description'].setValue(field.description_complete);
+              this.formValue.controls['news_type_id'].setValue(field.news_type_id);
               this.formValue.controls['url'].setValue(field.url);
 
               // let dateFmt = field.publication_date.split('/');
@@ -198,6 +203,22 @@ export class NewslettersComponent implements OnInit {
     this.formValue.reset();
     this.showAdd = true;
     this.showUpdate = false;
+
+    this.loadingNType = true;
+    //show the company type
+    this.newsService.getNewsTypes().subscribe(
+      data => {
+        this.result = data;
+        this.newsTypeRecords = this.result.newsTypeRecords;
+        // console.log("newsTypeRecords: ", this.newsTypeRecords);
+      },
+      err => {
+        console.log(err.message);
+        this.loadingNType = false;
+      },
+      () => {
+        this.loadingNType = false;
+      });
   }
 
   closePopup() {
@@ -213,6 +234,7 @@ export class NewslettersComponent implements OnInit {
     this.loadingAdd = true;
     this.newssModelObj.title = this.formValue.value.title;
     this.newssModelObj.description = this.formValue.value.description;
+    this.newssModelObj.news_type_id = this.formValue.value.news_type_id;
     this.newssModelObj.url = this.formValue.value.url;
     this.newssModelObj.comments = this.formValue.value.comments;
 
@@ -244,6 +266,7 @@ export class NewslettersComponent implements OnInit {
     this.loadingEdit = true;
     this.newssModelObj.title = this.formValue.value.title;
     this.newssModelObj.description = this.formValue.value.description;
+    this.newssModelObj.news_type_id = this.formValue.value.news_type_id;
     this.newssModelObj.url = this.formValue.value.url;
     // this.newssModelObj.publication_date = this.formValue.value.publication_date;
     // this.newssModelObj.comments = this.formValue.value.comments;
