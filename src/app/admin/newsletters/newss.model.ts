@@ -1,7 +1,7 @@
 export class NewssModel {
     news_id: number = 0;
     user_id: number = 0;
-    news_type_id: any;
+    news_type_id: number = 0;
     publication_date: Date;
     title: string = '';
     description: string = '';

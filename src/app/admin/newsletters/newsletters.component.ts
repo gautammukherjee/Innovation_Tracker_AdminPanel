@@ -79,6 +79,22 @@ export class NewslettersComponent implements OnInit {
     this.publication_date = (new Date()).getMonth() + 1 + "-" + (new Date()).getDate() + "-" + (new Date()).getFullYear();
     console.log("this.publication_date: ", this.publication_date);
 
+    this.loadingNType = true;
+    //show the company type
+    this.newsService.getNewsTypes().subscribe(
+      data => {
+        this.result = data;
+        this.newsTypeRecords = this.result.newsTypeRecords;
+        console.log("newsTypeRecordss: ", this.newsTypeRecords);
+      },
+      err => {
+        console.log(err.message);
+        this.loadingNType = false;
+      },
+      () => {
+        this.loadingNType = false;
+      });
+
     this.showAllNewsletterLists();
   }
 
@@ -106,7 +122,9 @@ export class NewslettersComponent implements OnInit {
           temps["description_complete"] = event.description;
           temps["url_title"] = (event.url != null) ? ('<a href="' + event.url + '" target="_blank">link</a>') : '-';
           temps["url"] = event.url;
-          temps["news_type_id"] = (event.news_type_id == 1 ? 'Innovation' : 'News');
+          // temps["news_type_id"] = (event.news_type_id == 1 ? 'Innovation' : 'News');
+          temps["news_type_id"] = event.news_type_id;
+          temps["nt_name"] = event.nt_name;
           temps["edit"] = "<button class='btn btn-sm btn-primary'>Edit</button>";
           temps["approve"] = "<button class='btn btn-sm btn-success'>Approve</button>";
           temps["disapprove"] = "<button class='btn btn-sm btn-danger'>Disapprove</button>";

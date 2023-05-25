@@ -122,6 +122,7 @@ export class CompaniesComponent implements OnInit {
             }
             //edit
             if ($element == "edit") {
+              console.log("field: ", field);
               this.modalRef = this.modalService.open(this.addFormCompanyModal_edit, { size: 'lg', keyboard: false, backdrop: 'static' });
               this.showAdd = false;
               this.showUpdate = true;
